@@ -1,11 +1,11 @@
 ##
 ## 							
-## Nederlands Vertaalbestand (Architect 2.0)		
+## Nederlands Vertaalbestand (ArchLabs 2.0)		
 ##								
 ##
-## Written by Carl Duff (15-Feb-2016)
+## Ontwerp: Carl Duff (27-Feb-2016)
 ##
-##
+#Vertalers: Erwin Crepieux
 
 # Generic
 _UseSpaceBar="Gebruik de [spatietoets] om opties in de lijst te (de)selecteren."
@@ -13,7 +13,7 @@ _AlreadyInst="Reeds geïnstalleerd maar nog niet actief:"
 _All="Alle"
 _Done="Klaar"
 _PlsWaitBody="\nEven geduld aub...\n\n"
-_PassReEntBody="\nHerhaal het wachtwoord"
+_PassNUsrBody2="\nHerhaal het wachtwoord"
 _ErrTitle="Fout"
 _PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
 
@@ -47,7 +47,7 @@ _AutoPartBody3="Indien je SWAP wenst te gebruiken, selecteer de 'Swap File' opti
 
 #Foutmeldingen. Alle andere worden door BASH gegenereerd.
 _ErrNoMount="\nPartitie(s) moet(en) eerst worden aangekoppeld\n\n"
-_ErrNoBase="\nHet Arch basissysteem moet eerst worden geïnstalleerd.\n\n"
+_ErrNoBase="\nHet ArchLabs basissysteem moet eerst worden geïnstalleerd.\n\n"
 _ErrNoKernel="\nEr moet ten minste één kernel (linux of linux-lts) worden geselecteer.\n\n"
 
 # Vbox Installaties
@@ -74,7 +74,7 @@ _LuksEncryptAdv="Bepaal de sleutelgrootte en Cypher"
 _LuksEncryptBody="\nSelecteer een partitie om te versleutelen."
 _LuksEncruptSucc="\nKlaar! Geopend en klaar voor LVM (aanbevolen) of rechtstreekse aankoppeling.\n"
 _LuksPartErrBody="\nEr zijn minimum twee partities nodig om te kunnen versleutelen:\n\n1. Root (/) - standaard-of LVM partitie-types.\n\n2. Boot (/boot of /boot/efi) - alleen standaard partitietypes  (behalve LVM waar men BIOS Grub gebruikt).\n"
-_SelLuksRootBody="\nSelecteer de ROOT (/) partitie die moet worden versleuteld. Dit is waar Arch zal worden geïnstalleerd.\n\n"
+_SelLuksRootBody="\nSelecteer de ROOT (/) partitie die moet worden versleuteld. Dit is waar ArchLabs zal worden geïnstalleerd.\n\n"
 _LuksPassBody="\nGeef een wachtwoord in om de partitie te versleutelen. Dit mag niet hetzelfde zijn als het Root-wachtwoord of uw gebruikerswachtwoord.\n"
 _LuksWaitBody="\nAanmaken van een versleutelde Root partitie:"
 _LuksWaitBody2="Gebruikt opslagmedium of volume:"
@@ -190,7 +190,7 @@ _WarnMount2="optie te vinden bovenaan in het systeem menubestand.\n\nVerzeker u 
 
 # Selecteer Opslagmedium (installatie)
 _DevSelTitle="Selecteer Opslagmedium"
-_DevSelBody="\nOpslagmedia (/dev) zijn de beschikbare en beschrijfbare harde schijven en USB-sticks. De eerste is /sda, de tweede /sdb, en zo verder.\n\nWanneer er een USB-stick gebruikt wordt om Architect op te starten zal deze ook op deze lijst voorkomen!"
+_DevSelBody="\nOpslagmedia (/dev) zijn de beschikbare en beschrijfbare harde schijven en USB-sticks. De eerste is /sda, de tweede /sdb, en zo verder.\n\nWanneer er een USB-stick gebruikt wordt om ArchLabs op te starten zal deze ook op deze lijst voorkomen!"
 
 # Partitionering
 _PartToolTitle="Partities instellen"
@@ -209,7 +209,7 @@ _FSBody="\nExt4 is hier aanbevolen. Niet alle bestandsystemen zijn geschikt voor
 _FSSkip="Sla over / Geen" 
 
 # Selecteer Root
-_SelRootBody="\nSelecteer de ROOT Partitie. Dit is waar Arch zal worden geïnstalleerd."
+_SelRootBody="\nSelecteer de ROOT Partitie. Dit is waar ArchLabs zal worden geïnstalleerd."
 
 # Selecteer SWAP
 _SelSwpBody="\nSelecteer de SWAP Partitie. Bij gebruik van SWAP, zal deze even groot ingesteld worden als de hoeveelheid RAM."
@@ -238,7 +238,7 @@ _ExtErrBody="\nPartitie kan niet worden aangekoppeld wegens een probleem met de 
 # Installeer Basissysteem
 _InstBseTitle="Installeer Basissysteem"
 _InstBseBody="\nStandaard: Aanbevolen voor beginners. Keuze tot twee kernels (linux en linux-lts) en optioneel kunnen de base-devel pakket groep. sudo, btrfs-progs, f2fs-tools ook worden geïnstalleerd.\n\nGevorderden: Keuze tot vier kernels (linux, lts, grsec, zen) en controle over individuele base en base-devel pakketten. Bijkomende configuratie van vgrsec en zen kan nodig zijn voor Virtualbox en NVIDIA.\n\nNOTE: Tenzij er reeds een kernel geïnstalleerd is, moet er tenminste een kernel worden geselecteerd."
-_InstStandBseBody="\nDe base package group zal automatisch worden geïnstalleerd. The base-devel package group is nodig voor de Arch User Repository (AUR).\n\n"
+_InstStandBseBody="\nDe base package group zal automatisch worden geïnstalleerd. The base-devel package group is nodig voor de ArchLabs User Repository (AUR).\n\n"
 _InstStandBase="Standaard Installatie"
 _InstAdvBase="Geadvanceerde Installatie"
 _InstAdvBseBody="\nWAARSCHUWING: Dit is enkel voor ervaren gebruikers. Nieuwere gebruikers gebruiken best de 'standaard' installatie optie."
@@ -296,7 +296,7 @@ _InstNMErrBody="\nNetwerk manager werd geïnstalleerd en ingeschakeld.\n\n"
 
 # Welkom
 _WelTitle="Welkom bij"
-_WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de Arch repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
+_WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de ArchLabs repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
 
 #Voorbereidings Menu
 _PrepMenuTitle="Voorbereiding  Installatieproces"
@@ -362,7 +362,7 @@ _InstMulCust="Installeer gewone pakketten"
 _InstMulCodBody="GStreamer is een pipeline-gebaseerd multimedia-raamwerk. De eerste twee opties zijn de huidige en legacy (gstreamer0.10) pakketgroepen. Xine wordt ook vermeld.\n\n"
 
 # Gewenste Pakketten Box
-_InstMulCustBody="\nGeef de pakketnamen op, met tussenspaties, die je wil installeren uit de Arch repositories. Het is niet nodig het pacstrap (of ander) commando te gebruiken. Het is noodzakelijk om de namen van pakketten correct op te geven.\n\nBijvoorbeeld: om Firefox, VLC, en HTop te installeren: firefox vlc htop\n"
+_InstMulCustBody="\nGeef de pakketnamen op, met tussenspaties, die je wil installeren uit de ArchLabs repositories. Het is niet nodig het pacstrap (of ander) commando te gebruiken. Het is noodzakelijk om de namen van pakketten correct op te geven.\n\nBijvoorbeeld: om Firefox, VLC, en HTop te installeren: firefox vlc htop\n"
 
 # Hoofd Menu
 _MMTitle="Hoofd Menu"

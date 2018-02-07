@@ -1,6 +1,6 @@
 ##
 ## 							
-## Angol nyelvi fájl (Architect 2.0)		
+## Angol nyelvi fájl (ArchLabs 2.0)		
 ##								
 ##
 ## Írta Carl Duff (27-Feb-2016)
@@ -47,7 +47,7 @@ _AutoPartBody3="Ha használni akarsz cserefájlt, válaszd a 'Swap File' lehető
 
 # Hibaüzenetek. Az összes többi létre lesz hozva a BASH által.
 _ErrNoMount="\nA partíciót (partíciókat) csatold először.\n\n"
-_ErrNoBase="\nAz 'Arch base'-t kell először telepíteni.\n\n"
+_ErrNoBase="\nAz 'ArchLabs base'-t kell először telepíteni.\n\n"
 _ErrNoKernel="\nLegalább egy kernelt (linux vagy linux-lts) kell választanod.\n\n"
 
 # Vbox telepítés
@@ -74,7 +74,7 @@ _LuksEncryptAdv="Határozd meg a kulcs méretét és a rejtjelezés típusát"
 _LuksEncryptBody="\nVálaszd ki a titkosítandó partíciót."
 _LuksEncruptSucc="\nKész! Kinyílt, és kész az LVM (ajánlott) vagy direkt csatolásra.\n"
 _LuksPartErrBody="\nMinimum kettő partícióra van szükség a titkosításhoz:\n\n1. Root (/) - normál vagy lvm partíció.\n\n2. Boot (/boot or /boot/efi) - csak normál partíció (kivéve lvm-nél ha BIOS Grub-ot használsz).\n"
-_SelLuksRootBody="\nVálaszd a gyökér (/) partíciót titkosításra. Ez az, ahová az Arch lesz telepítve.\n\n"
+_SelLuksRootBody="\nVálaszd a gyökér (/) partíciót titkosításra. Ez az, ahová az ArchLabs lesz telepítve.\n\n"
 _LuksPassBody="\nAdj meg egy jelszót a partíció titkosításához, illetve a titkosítás feloldásához. Ez nem egyezhet sem a rendszergazda, sem a felhasználói jelszóval.\n"
 _LuksWaitBody="\nTitkosított gyökér partíció létrehozása:"
 _LuksWaitBody2="Használt eszköz vagy kötet:"
@@ -209,7 +209,7 @@ _FSBody="\nExt4 az ajánlott. Nem minden fájlrendszer alkalmas  Root vagy Boot 
 _FSSkip="Kihagyás / egyik sem" 
 
 # Gyökérpartíció (ROOT) kiválasztása
-_SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az Archot telepítjük."
+_SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az ArchLabsot telepítjük."
 
 # Cserepartíció (SWAP) kiválasztása
 _SelSwpBody="\nVálassz cserepartíciót (SWAP). Ha lapozófájlt használsz ezzel létrejön a RAMmal azonos méretű cserefájl."
@@ -238,7 +238,7 @@ _ExtErrBody="\nA partíció nem csatolható a csatolási pont nevének hibája m
 # Alaptelepítés
 _InstBseTitle="Alaptelepítés"
 _InstBseBody="\nSzabvány: a kezdőknek ajánlott. Válassz két kernelt (linux and linux-lts) és lehetőséged van a 'base-devel' csomagcsoport kiválasztására. A 'sudo, btrfs-progs, f2fs-tools' csomagok is telepítve lesznek.\n\nHaladó: Válassz ki legfeljebb négy kernelt (linux, lts, grsec, zen) és egyedi választással a 'base' és 'base-devel' csomagokat. A  'grsec' és 'zen' kerneleknél további konfigurációra lehet szükség, lehetséges szükséges lesz a 'Virtualbox' és NVIDIA.\n\nMegjegyzés: Ha nincs még telepítve, akkor legalább egy kernelt kell választani"
-_InstStandBseBody="\nA  'base' csomagcsoport automatikusan feltelepül. A 'base-devel'  csomagcsoportnak szükséges az Arch User Repository (AUR) használata.\n\n"
+_InstStandBseBody="\nA  'base' csomagcsoport automatikusan feltelepül. A 'base-devel'  csomagcsoportnak szükséges az ArchLabs User Repository (AUR) használata.\n\n"
 _InstStandBase="Szabvány telepítés"
 _InstAdvBase="Haladó telepítés"
 _InstAdvBseBody="\nFigyelem: Ez csak tapasztalt felhasználók részére ajánlott. Újabb felhasználók használják a szabvány telepítési módot."
@@ -362,11 +362,11 @@ _InstMulCust="Egyéni csomagok telepítése"
 _InstMulCodBody="A 'gStreamer' egy csővezeték-alapú multimédiás keretrendszer. Az első két lehetőség a jelenlegi, és a korábbi  (gstreamer0.10) csomag csoportok. A 'xine' is a listán szerepel.\n\n"
 
 # Egyéni csomagok doboza
-_InstMulCustBody="\nSzóközzel elválasztva adja meg az Arch tárolókból telepítendő csomagok nevét. Nem szükséges beírni a 'pacstrap'-ot, vagy egyéb parancsot. Csak a csomag nevét adjad meg helyesen. Például a Firefox, VLC, Htop telepítéséhez: firefox vlc htop\n"
+_InstMulCustBody="\nSzóközzel elválasztva adja meg az ArchLabs tárolókból telepítendő csomagok nevét. Nem szükséges beírni a 'pacstrap'-ot, vagy egyéb parancsot. Csak a csomag nevét adjad meg helyesen. Például a Firefox, VLC, Htop telepítéséhez: firefox vlc htop\n"
 
 # Főmenü
 _MMTitle="Főmenü"
-_MMBody="\nMinden szükséges lépést követned kell a telepítés érdekében. A 4-8. lépés csak választható. Miután elkészültél, válaszd a 'Kész' gombot a telepítés befejezéséhez.\n"
+_MMBody="\nMinden szükséges lépést követned kell a telepítés érdekében. Miután elkészültél, válaszd a 'Kész' gombot a telepítés befejezéséhez.\n"
 
 # Telepítő bezárása
 _CloseInstBody="Bezárod a telepítőt?"

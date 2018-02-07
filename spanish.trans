@@ -1,6 +1,6 @@
 ##
 ## 							
-## Archivo de traducción al español (Architect 2.0)		
+## ArchLabsivo de traducción al español (ArchLabs 2.0)		
 ##								
 ##
 ## Texto original de Carl Duff (27-Feb-2016)
@@ -43,11 +43,11 @@ _btrfsMntConfBody="Confirme las siguientes opciones de montaje:\n\n"
 # Autopartición
 _AutoPartBody1="Aviso: TODA la información en "
 _AutoPartBody2="será eliminada por completo.\n\nPrimero se creará una partición de arranque de 512MB, seguida por una segunda partición (raíz o '/') que utilizará todo el espacio restante."
-_AutoPartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción 'Archivo SWAP' durante el montaje.\n\n¿Desea continuar?"
+_AutoPartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción 'ArchLabsivo SWAP' durante el montaje.\n\n¿Desea continuar?"
 
 # Mensajes de Error. Todos los demás son generados por BASH.
 _ErrNoMount="\nPrimero se debe/n montar la/s partición/es.\n\n"
-_ErrNoBase="\nPrimero se debe instalar el sistema base de Arch.\n\n"
+_ErrNoBase="\nPrimero se debe instalar el sistema base de ArchLabs.\n\n"
 _ErrNoKernel="\nSe debe seleccionar al menos un núcleo (linux o iinux-lts).\n\n"
 
 # Instalaciones de Vbox
@@ -74,7 +74,7 @@ _LuksEncryptAdv="Establecer cifrado y tamaño de la clave"
 _LuksEncryptBody="\nSeleccione una partición para encriptar."
 _LuksEncruptSucc="\n¡Listo! Abierto y listo para LVM (recomendado) o montaje directo.\n"
 _LuksPartErrBody="\nSe requiere un mínimo de dos particiones para la encriptación:\n\n1. Raíz (/) - tipos de partición estándar o LVM.\n\n2. Arranque (/boot o /boot/efi) - sólo tipos de partición estándar (excepto LVM cuando se utiliza Grub BIOS).\n"
-_SelLuksRootBody="\nSeleccione la partición RAÍZ (/) para encriptar. Aquí es donde se instalará Arch.\n\n"
+_SelLuksRootBody="\nSeleccione la partición RAÍZ (/) para encriptar. Aquí es donde se instalará ArchLabs.\n\n"
 _LuksPassBody="\nIntroduzca una contraseña para des/encriptar la partición. Ésta no debería ser la misma que las contraseñas de superusuario o de usuario normal.\n"
 _LuksWaitBody="\nCreando partición raíz encriptada:"
 _LuksWaitBody2="Dispositivo o volumen en uso:"
@@ -190,7 +190,7 @@ _WarnMount2="listada al principio del menú de sistemas de archivos.\n\nAsegúre
 
 # Seleccionar dispositivo (instalación)
 _DevSelTitle="Seleccionar dispositivo"
-_DevSelBody="\nLos dispositivos (/dev) son los discos duros y unidades USB disponibles para la instalación. El primero es /sda, el segundo es /sdb, y así sucesivamente.\n\nSi se está utilizando una memoria USB para ejecutar Architect, ¡tenga cuidado porque también saldrá en la lista!"
+_DevSelBody="\nLos dispositivos (/dev) son los discos duros y unidades USB disponibles para la instalación. El primero es /sda, el segundo es /sdb, y así sucesivamente.\n\nSi se está utilizando una memoria USB para ejecutar ArchLabs, ¡tenga cuidado porque también saldrá en la lista!"
 
 # Herramienta de particionado
 _PartToolTitle="Herramienta de particionado"
@@ -209,12 +209,12 @@ _FSBody="\nSe recomienda el sistema de archivos Ext4. No todos los sistemas de a
 _FSSkip="Saltar / Ninguno" 
 
 # Seleccionar raíz
-_SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará Arch."
+_SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará ArchLabs."
 
 # Seleccionar SWAP
 _SelSwpBody="\nSeleccione la partición SWAP. Si va a usar un archivo SWAP, se creará con un tamaño igual al de la memoria RAM del equipo."
 _SelSwpNone="Ninguno"
-_SelSwpFile="Archivo SWAP"
+_SelSwpFile="ArchLabsivo SWAP"
 
 # Seleccionar UEFI
 _SelUefiBody="\nSeleccione la partición UEFI. Ésta es una partición especial para arrancar los sistemas UEFI."
@@ -238,7 +238,7 @@ _ExtErrBody="\nLa partición no se puede montar debido a un problema con el nomb
 # Instalar sistema base
 _InstBseTitle="Instalar sistema base"
 _InstBseBody="\nEstándar: Recomendado para principiantes. Elija hasta dos núcleos (linux y linux-lts) y opcionalmente el grupo de paquetes 'base-devel'. También se instalará sudo, btrfs-progs y f2fs-tools.\n\nAvanzado: Elija hasta cuatro núcleos (linux, lts, grsec, zen) y controle de forma individual los paquetes de 'base' y 'base-devel'. VirtualBox y NVIDIA pueden requerir configuración adicional con grsec y zen.\n\nNOTA: A menos que ya esté instalado, se necesita seleccionar al menos un núcleo."
-_InstStandBseBody="\nSe instalará de forma automática el grupo de paquetes 'base'. El grupo de paquetes 'base-devel' es necesario para poder usar el Arch User Repository (AUR).\n\n"
+_InstStandBseBody="\nSe instalará de forma automática el grupo de paquetes 'base'. El grupo de paquetes 'base-devel' es necesario para poder usar el ArchLabs User Repository (AUR).\n\n"
 _InstStandBase="Instalación estándar"
 _InstAdvBase="Instalación avanzada"
 _InstAdvBseBody="\nAVISO: Ésto es sólo para usuarios experimentados. Los usuarios novatos deberían utilizar la opción de instalación estándar."
@@ -256,7 +256,7 @@ _InstUefiBtBody="\nsystemd-boot requiere /boot. Grub funcionará en cualquier pu
 _SetBootDefBody="\nAlgunos firmwares UEFI podrían no detectar el gestor de arranque a menos que sea establecido como predeterminado, copiando su EFISTUB (archivo de arranque) a"
 _SetBootDefBody2="y renombrándolo a bootx64.efi.\n\nSe recomienda hacer esto a menos que ya se esté usando un gestor de arranque predeterminado, o si se quieren usar varios gestores de arranque.\n\n¿Establecer gestor de arranque como el predeterminado?\n\n"
 
-# Archivo EFI ajustado para GRUB
+# ArchLabsivo EFI ajustado para GRUB
 _SetDefDoneBody="ha sido definido como el gestor de arranque predeterminado.\n\n"
 
 # Menú de tarjetas gráficas
@@ -296,7 +296,7 @@ _InstNMErrBody="\nSe ha instalado y activado el administrador de conexiones.\n\n
 
 # Bienvenido
 _WelTitle="Bienvenido a"
-_WelBody="\nEste instalador descargará los paquetes más recientes de los repositorios de Arch. Sólo se realiza la configuración mínima necesaria.\n\nOPCIONES DE MENÚ: Seleccione pulsando el número de opción o usando las teclas flecha arriba/flecha abajo antes de pulsar [Intro] para confirmar. Cambie entre distintos botones con la tecla [Tabulador] o las teclas flecha izquierda/derecha antes de pulsar [Intro] para confirmar. Se puede navegar por listas largas utilizando las teclas [Re Pág] y [Av Pág], o bien pulsando la primera letra de la opción deseada.\n\nOPCIONES DE CONFIGURACIÓN Y PAQUETES: Los paquetes por defecto en las listas de verificación estarán premarcados. Utilice la tecla [BarraEspaciadora] para des/marcar."
+_WelBody="\nEste instalador descargará los paquetes más recientes de los repositorios de ArchLabs. Sólo se realiza la configuración mínima necesaria.\n\nOPCIONES DE MENÚ: Seleccione pulsando el número de opción o usando las teclas flecha arriba/flecha abajo antes de pulsar [Intro] para confirmar. Cambie entre distintos botones con la tecla [Tabulador] o las teclas flecha izquierda/derecha antes de pulsar [Intro] para confirmar. Se puede navegar por listas largas utilizando las teclas [Re Pág] y [Av Pág], o bien pulsando la primera letra de la opción deseada.\n\nOPCIONES DE CONFIGURACIÓN Y PAQUETES: Los paquetes por defecto en las listas de verificación estarán premarcados. Utilice la tecla [BarraEspaciadora] para des/marcar."
 
 # Menú de preparación
 _PrepMenuTitle="Preparar instalación"
@@ -362,11 +362,11 @@ _InstMulCust="Instalar paquetes personalizados"
 _InstMulCodBody="GStreamer es un framework multimedia basado en canales. Las primeras dos opciones son los grupos de paquetes actual y 'legacy' (gstreamer0.10), respectivamente. También está disponible Xine.\n\n"
 
 # Caja de paquetes personalizados
-_InstMulCustBody="\nIntroduzca los nombres de los paquetes a instalar de los repositorios de Arch, separados por espacios. No es necesario especificar el comando 'pacstrap' u otro cualquiera. Es necesario especificar los nombres correctos de los paquetes.\n\nPor ejemplo, para instalar Firefox, VLC y Htop: firefox vlc htop\n"
+_InstMulCustBody="\nIntroduzca los nombres de los paquetes a instalar de los repositorios de ArchLabs, separados por espacios. No es necesario especificar el comando 'pacstrap' u otro cualquiera. Es necesario especificar los nombres correctos de los paquetes.\n\nPor ejemplo, para instalar Firefox, VLC y Htop: firefox vlc htop\n"
 
 # Menú principal
 _MMTitle="Menú principal"
-_MMBody="\nCada paso se ha de seguir en ESTRICTO ORDEN. Los pasos 4 a 8 son opcionales. Una vez que haya terminado, seleccione 'Finalizar' para terminar la instalación correctamente.\n"
+_MMBody="\nCada paso se ha de seguir en ESTRICTO ORDEN. Una vez que haya terminado, seleccione 'Finalizar' para terminar la instalación correctamente.\n"
 
 # Cerrar instalador
 _CloseInstBody="¿Desea cerrar el instalador?"

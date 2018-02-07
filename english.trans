@@ -1,11 +1,160 @@
 ##
-## 							
-## English Translation File		
-##								
+##
+## English Translation File
+##
 ##
 ## Written by Carl Duff (15-Feb-2016)
 ##
 ##
+
+# Welcome
+_WelTitle="Welcome to"
+_WelBody="\nThis is the ArchLabs Installer.\n\nWith minimal configuration it will unpack and setup ArchLabs on your system\n\nMenu Navigation: \nSelect by pressing the option number or by using the up/down arrow keys before pressing [enter] to confirm. Switch between buttons by using [Tab] or the left/right arrow keys before pressing [enter] to confirm. Long lists can be navigated using the [pg up] and [pg down] keys, and/or by pressing the first letter of the desired option.\n\nUse the [Spacebar] to de/select."
+
+# Preparation Menu
+_PrepMenuTitle="Prepare Installation"
+_PrepMenuBody="\nThe console keyboard layout will be used for\nboth the installer and the installed system.\n"
+_PrepKBLayout="Set Desktop Keyboard Layout"
+_PrepMirror="Configure Installer Mirrorlist"
+_PrepPartDisk="Partition Disk"
+_PrepMntPart="Mount Partitions"
+_Back="Back"
+
+# Install Base
+_InstBseTitle="Install ArchLabs Base"
+
+# Install Base Menu
+_InstBsMenuTitle="Install ArchLabs Base"
+_InstBseMenuBody="\nThis will unpack and install\nArchLabs Base on your system."
+_InstBse="Unpack Sysytem Base"
+_InstBootldr="Install Grub"
+_MMRunMkinit="Run Mkinitcpio"
+
+# Configure Base Menu
+_ConfBseMenuTitle="Configure ArchLabs Base"
+_ConfBseBody="\nConfigure required settings to continue installation"
+_ConfBseFstab="Generate FSTAB"
+_ConfBseHost="Set System Hostname"
+_ConfBseTimeHC="Set Timezone and Clock"
+_ConfBseSysLoc="Set System Locale"
+_ConfUsrRoot="Set Root Password"
+_ConfUsrNew="Add New User(s)"
+
+# Main Menu
+_MMTitle="Main Menu"
+_MMBody="\nEach step must be followed IN ORDER. Once complete, select 'Done' to properly finalize the installation.\n"
+
+# Select Config Files
+_SeeConfOptTitle="Review Config Files"
+_SeeConfOptBody="\nSelect any file listed below to be reviewed or amended.\n"
+_SeeConfErrBody="\nFile does not exist.\n\n"
+
+# Close Installer
+_CloseInstBody="Close the Installer?\n\nRebooting if installation was successful"
+
+# BIOS Bootloader
+_InstBiosBtTitle="Install Grub Bootloader"
+_InstBiosBtBody="\nGrub2 works with either mountpoint"
+
+# UEFI Bootloader
+_InstUefiBtTitle="Install Grub Bootloader"
+_InstUefiBtBody="\nGrub works with either mountpoint"
+_SetBootDefBody="\nSome UEFI firmware may not detect the bootloader unless it is set as default by copying its efi stub to"
+_SetBootDefBody2="and renaming it to bootx64.efi.\n\nIt is recommended to do so unless already using a default bootloader, or where intending to use multiple bootloaders.\n\nSet bootloader as default?\n\n"
+_SetDefDoneBody="has been set as the default bootloader.\n\n"
+
+
+# Set Keymap (vconsole)
+_VCKeymapTitle="Set Virtual Console"
+_VCKeymapBody="\nA virtual console is a shell prompt in a non-graphical environment. Its keymap is independent of a desktop environment / terminal."
+
+# Set Xkbmap (environment)
+_XkbmapBody="\nSelect Desktop Environment Keymap."
+
+# Set Locale
+_localeBody="Locales determine the languages displayed, time and date formats, etc.\n\nThe format is language_COUNTRY (e.g. en_US is english, United States; en_GB is english, Great Britain)."
+
+# Set Timezone
+_TimeZBody="\nThe time zone is used to correctly set your system clock."
+_TimeSubZBody="\nSelect the city nearest to you."
+_TimeZQ="\nSet Time Zone as"
+
+# Set Hardware Clock
+_HwCBody="\nUTC is the universal time standard, and is recommended unless dual-booting with Windows."
+
+# Generate FSTAB
+_FstabBody="\nThe FSTAB file (File System TABle) sets what storage devices and partitions are to be mounted, and how they are to be used.\n\nUUID (Universally Unique IDentifier) is recommended.\n\nIf no labels were set for the partitions earlier, device names will be used for the label option."
+_FstabErr="\nThe Part UUID option is only for UEFI/GPT installations.\n\n"
+_FstabDevName="Device Name"
+_FstabDevLabel="Device Label"
+_FstabDevUUID="Device UUID"
+_FstabDevPtUUID="UEFI Part UUID"
+
+# Set Hostname
+_HostNameBody="\nThe hostname is used to identify the system on a network.\n\nIt is restricted to alphanumeric characters, can contain a hyphen (-) - but not at the start or end - and must be no longer than 63 characters.\n"
+
+# Set Root Password
+_PassRtBody="\nEnter Root password\n\n"
+_PassRtBody2="\nRe-enter Root password\n\n"
+
+# Create New User
+_NUsrTitle="Create New User"
+_NUsrBody="\nEnter the user name. Letters MUST be lower case.\n"
+
+# Username Error
+_NUsrErrTitle="User Name Error"
+_NUsrErrBody="\nAn incorrect user name was entered. Please try again.\n\n"
+
+# Set User
+_PassNUsrBody="\nEnter password for"
+_NUsrSetBody="\nCreating User and setting groups...\n\n"
+
+# Mounting (Partitions)
+_MntStatusTitle="Mount Status"
+_MntStatusSucc="\nMount Successful!\n\n"
+_MntStatusFail="\nMount Failed!\n\n"
+_WarnMount1="\nIMPORTANT: Partitions can be mounted without formatting them by selecting the"
+_WarnMount2="option listed at the top of the file system menu.\n\nEnsure the correct choices for mounting and formatting are made as no warnings will be provided, with the exception of the EFI boot partition.\n\n"
+
+# Select Device (installation)
+_DevSelTitle="Select Device"
+_DevSelBody="\nDevices (/dev/) are available hard-disks and USB-sticks to install on. The first is /sda, the second /sdb, and so on.\n\nWhen using a USB-stick to boot ArchLabs, be careful it will also be listed!"
+
+# Partitioning Tool
+_PartToolTitle="Partitioning Tool"
+_PartToolBody="\nAn automatic partitioning option is available for beginners. Otherwise, cfdisk is recomended for BIOS, parted for UEFI.\n\nDO NOT select a UEFI/GPT-only partitioning tool for a BIOS/MBR system as this could cause serious problems, including an unbootable installation."
+_PartOptAuto="Automatic Partitioning"
+_PartOptWipe="Securely Wipe Device (optional)"
+_AutoPartWipeBody1="\nWARNING: ALL data on"
+_AutoPartWipeBody2="will be destroyed using the command 'wipe -Ifre'. This process may also take a long time depending on the size of the device.\n\nDo you wish to continue?\n"
+
+# Partitioning Error
+_PartErrBody="\nBIOS systems require a minmum of one partition (ROOT).\n\nUEFI systems require a minimum of two partitions (ROOT and EFI).\n\n"
+
+# File System
+_FSTitle="Choose Filesystem"
+_FSBody="\nExt4 is recommended.\nNot all are viable for Root or Boot partitions\nand all have different features and limitations."
+_FSSkip="Skip / None"
+
+# Select Root
+_SelRootBody="\nSelect ROOT Partition.\nThis is where ArchLabs will be installed."
+
+# Select SWAP
+_SelSwpBody="\nSelect SWAP Partition.\nIf choosing a Swapfile it will initially\nbe set to the same size as your RAM."
+_SelSwpNone="None"
+_SelSwpFile="Swapfile"
+
+# Select UEFI
+_SelUefiBody="\nSelect EFI Partition.\nThis is a special partition\nused for booting UEFI systems."
+
+# Format UEFI
+_FormUefiBody="The EFI partition"
+_FormUefiBody2="has already been formatted.\n\nReformat? Doing so will erase ALL data on the partition.\n\n"
+
+# UEFI Mountpoint
+_MntUefiBody="\nSelect EFI Mountpoint.\nGrub will work with either"
+
+
 
 # Generic
 _UseSpaceBar="Use [Spacebar] to de/select options listed."
@@ -47,17 +196,8 @@ _AutoPartBody3="If intending to use SWAP, select the 'Swap File' option when mou
 
 # Error Messages. All others are generated by BASH.
 _ErrNoMount="\nPartition(s) must be mounted first.\n\n"
-_ErrNoBase="\nThe Arch base must be installed first.\n\n"
+_ErrNoBase="\nThe ArchLabs Base must be installed first.\n\n"
 _ErrNoKernel="\nAt least one kernel (linux or linux-lts) must be selected.\n\n"
-
-# Vbox Installations
-_VBoxInstTitle="VirtualBox Installation "
-_VBoxInstBody="\nIf for any reason the VirtualBox guest modules do not load for the installed system (e.g. low resolution and scrollbars after booting), a one-off series of commands will fix this:\n\n$ su\n# depmod -a\n# modprobe -a vboxvideo vboxguest vboxsf\n# reboot"
-
-# Select Config Files
-_SeeConfOptTitle="Review Configuration Files"
-_SeeConfOptBody="\nSelect any file listed below to be reviewed or amended.\n"
-_SeeConfErrBody="\nFile does not exist.\n\n"
 
 # Pacman
 _PrepPacKey="Refresh Pacman Keys"
@@ -74,7 +214,7 @@ _LuksEncryptAdv="Define Key-Size and Cypher"
 _LuksEncryptBody="\nSelect a partition to encrypt."
 _LuksEncruptSucc="\nDone! Opened and ready for LVM (recommended) or direct mounting.\n"
 _LuksPartErrBody="\nA minimum of two partitions are required for encryption:\n\n1. Root (/) - standard or lvm partition types.\n\n2. Boot (/boot or /boot/efi) - standard partition types only (except lvm where using BIOS Grub).\n"
-_SelLuksRootBody="\nSelect the ROOT (/) partition to encrypt. This is where Arch will be installed.\n\n"
+_SelLuksRootBody="\nSelect the ROOT (/) partition to encrypt. This is where ArchLabs will be installed.\n\n"
 _LuksPassBody="\nEnter a password to un/encrypt the partition. This should not be the same as the Root account or user account passwords.\n"
 _LuksWaitBody="\nCreating encrypted Root partition:"
 _LuksWaitBody2="Device or volume used:"
@@ -114,13 +254,12 @@ _LvmVGErr="\nNo Volume Groups found.\n\n"
 _DevShowOpt="List Devices (optional)"
 
 # Check Requirements
-_ChkTitle="Rechecking Requirements"
-_ChkBody="\nRechecking installer has been run as root and that there is an active internet connection. Please wait...\n\n"
+_ChkTitle="Checking Requirements"
+_ChkBody="\nChecking installer has been run as root and has an active internet connection. Please wait...\n\n"
 _RtFailBody="\nThe installer must be run as root. Exiting.\n\n"
-_ConFailBody="\nInternet connection test failed. Exiting.\n\n"
+_ConFailBody="\nThe installer must be run with an active internet connection. Exiting.\n\n"
 _ReqMetTitle="Requirements Met"
 _ReqMetBody="\nAll checks passed!\n\n"
-
 
 # Installer Mirrorlist
 _MirrorlistTitle="Mirrorlist"
@@ -136,96 +275,6 @@ _MirrorGenQ="Use generated mirrorlist for installer?"
 _MirrorPacman="Edit pacman configuration"
 _MIrrorPacQ="\nUse edited pacman configuration for installed system? If Yes, the file will be copied over after installing the base.\n\n"
 
-# Set Keymap (vconsole)
-_VCKeymapTitle="Set Virtual Console"
-_VCKeymapBody="\nA virtual console is a shell prompt in a non-graphical environment. Its keymap is independent of a desktop environment / terminal."
-
-# Set Xkbmap (environment)
-_XkbmapBody="\nSelect Desktop Environment Keymap."
-
-# Set Locale
-_localeBody="Locales determine the languages displayed, time and date formats, etc.\n\nThe format is language_COUNTRY (e.g. en_US is english, United States; en_GB is english, Great Britain)."
-
-# Set Timezone
-_TimeZBody="\nThe time zone is used to correctly set your system clock."
-_TimeSubZBody="\nSelect the city nearest to you."
-_TimeZQ="\nSet Time Zone as"
-
-# Set Hardware Clock
-_HwCBody="\nUTC is the universal time standard, and is recommended unless dual-booting with Windows."
-
-# Generate FSTAB
-_FstabBody="\nThe FSTAB file (File System TABle) sets what storage devices and partitions are to be mounted, and how they are to be used.\n\nUUID (Universally Unique IDentifier) is recommended.\n\nIf no labels were set for the partitions earlier, device names will be used for the label option."
-_FstabErr="\nThe Part UUID option is only for UEFI/GPT installations.\n\n"
-_FstabDevName="Device Name"
-_FstabDevLabel="Device Label"
-_FstabDevUUID="Device UUID"
-_FstabDevPtUUID="UEFI Part UUID"
-
-# Set Hostname
-_HostNameBody="\nThe host name is used to identify the system on a network.\n\nIt is restricted to alphanumeric characters, can contain a hyphen (-) - but not at the start or end - and must be no longer than 63 characters.\n"
-
-# Set Root Password
-_PassRtBody="\nEnter Root password\n\n"
-_PassRtBody2="\nRe-enter Root password\n\n"
-
-# Create New User
-_NUsrTitle="Create New User"
-_NUsrBody="\nEnter the user name. Letters MUST be lower case.\n"
-
-# Username Error
-_NUsrErrTitle="User Name Error"
-_NUsrErrBody="\nAn incorrect user name was entered. Please try again.\n\n"
-
-# Set User
-_PassNUsrBody="\nEnter password for" 
-_NUsrSetBody="\nCreating User and setting groups...\n\n"
-
-# Mounting (Partitions)
-_MntStatusTitle="Mount Status"
-_MntStatusSucc="\nMount Successful!\n\n"
-_MntStatusFail="\nMount Failed!\n\n"
-_WarnMount1="\nIMPORTANT: Partitions can be mounted without formatting them by selecting the"
-_WarnMount2="option listed at the top of the file system menu.\n\nEnsure the correct choices for mounting and formatting are made as no warnings will be provided, with the exception of the UEFI boot partition.\n\n"
-
-# Select Device (installation)
-_DevSelTitle="Select Device"
-_DevSelBody="\nDevices (/dev/) are available hard-disks and USB-sticks to install on. The first is /sda, the second /sdb, and so on.\n\nWhere using a USB-stick to boot Architect, be careful as it will also be listed!"
-
-# Partitioning Tool
-_PartToolTitle="Partitioning Tool"
-_PartToolBody="\nAn automatic partitioning option is available for beginners. Otherwise, cfdisk is recomended for BIOS, parted for UEFI.\n\nDO NOT select a UEFI/GPT-only partitioning tool for a BIOS/MBR system as this could cause serious problems, including an unbootable installation."
-_PartOptAuto="Automatic Partitioning"
-_PartOptWipe="Securely Wipe Device (optional)"
-_AutoPartWipeBody1="\nWARNING: ALL data on"
-_AutoPartWipeBody2="will be destroyed using the command 'wipe -Ifre'. This process may also take a long time depending on the size of the device.\n\nDo you wish to continue?\n"
-
-# Partitioning Error
-_PartErrBody="\nBIOS systems require a minmum of one partition (ROOT).\n\nUEFI systems require a minimum of two partitions (ROOT and UEFI).\n\n"
-
-# File System
-_FSTitle="Choose Filesystem"
-_FSBody="\nExt4 is recommended. Not all filesystems are viable for Root or Boot partitions. All have different features and limitations."
-_FSSkip="Skip / None" 
-
-# Select Root
-_SelRootBody="\nSelect ROOT Partition. This is where Arch will be installed."
-
-# Select SWAP
-_SelSwpBody="\nSelect SWAP Partition. If using a Swapfile, it will be initially set the same size as your RAM."
-_SelSwpNone="None"
-_SelSwpFile="Swapfile"
-
-# Select UEFI
-_SelUefiBody="\nSelect UEFI Partition. This is a special partition for booting UEFI systems."
-
-# Format UEFI
-_FormUefiBody="The UEFI partition"
-_FormUefiBody2="has already been formatted.\n\nReformat? Doing so will erase ALL data already on that partition.\n\n"
-
-# UEFI Mountpoint
-_MntUefiBody="\nSelect UEFI Mountpoint.\n\nsystemd-boot requires /boot. Grub will work with either mountpoint."
-
 # Extra Partitions
 _ExtPartBody="\nSelect additional partitions in any order, or 'Done' to finish."
 
@@ -235,96 +284,9 @@ _ExtPartBody1="\nSpecify partition mountpoint. Ensure the name begins with a for
 # Extra Partition Naming Error
 _ExtErrBody="\nPartition cannot be mounted due to a problem with the mountpoint name. A name must be given after a forward slash.\n\n"
 
-# Install Base
-_InstBseTitle="Install Base"
-_InstBseBody="\nStandard: Recommended for beginners. Choose up to two kernels (linux and linux-lts) and optionally the base-devel package group. sudo, btrfs-progs, f2fs-tools will also be installed.\n\nAdvanced: Choose up to four kernels (linux, lts, grsec, zen) and control individual base and base-devel packages. Additional configuration for grsec and zen may be required for Virtualbox and NVIDIA.\n\nNOTE: Unless already installed, at least one kernel must be selected."
-_InstStandBseBody="\nThe base package group will be installed automatically. The base-devel package group is required to use the Arch User Repository (AUR).\n\n"
-_InstStandBase="Standard Installation"
-_InstAdvBase="Advanced Installation"
-_InstAdvBseBody="\nWARNING: This is for experienced users only. Newer users should use the 'standard' installation option."
-_InstAdvWait="\nGathering package descriptions."
-
-# Install BIOS Bootloader
-_InstBiosBtTitle="Install BIOS Bootloader"
-_InstBiosBtBody="\nGrub2 is recommended for beginners. The installation device can also be selected.\n\nSyslinux is a lighter and simpler alternative that will only work with ext/btrfs filesystems."
-_InstSysTitle="Install Syslinux"
-_InstSysBody="\nInstall syslinux to Master Boot Record (MBR) or to Root (/)?\n\n"
-
-# Install UEFI Bootloader
-_InstUefiBtTitle="Install UEFI Bootloader"
-_InstUefiBtBody="\nsystemd-boot requires /boot. Grub will work with either mountpoint."
-_SetBootDefBody="\nSome UEFI firmware may not detect the bootloader unless it is set as default by copying its efi stub to"
-_SetBootDefBody2="and renaming it to bootx64.efi.\n\nIt is recommended to do so unless already using a default bootloader, or where intending to use multiple bootloaders.\n\nSet bootloader as default?\n\n"
-
-# efi file set for Grub
-_SetDefDoneBody="has been set as the default bootloader.\n\n"
-
-# Graphics Card Menu
-_GCtitle="Graphics Card Menu"
-_GCBody="Pick Nouveau for older NVIDIA cards. If your card is not listed, pick 'Unknown / Generic'.\n"
-_GCUnknOpt="Unknown / Generic"
-
-# NVIDIA Configruation Check
-_NvidiaConfTitle="NVIDIA Configuration Check"
-_NvidiaConfBody="\nA basic NVIDIA configuration file has been created. Please check it before closing to continue.\n"
-
-# Graphics Card Detection
-_GCDetTitle="Detected"
-_GCDetBody="\nIs your graphics card or virtualisation software"
-_GCDetBody2="-Select 'Yes' to install its OPEN-SOURCE driver.\n\n-Select 'No' to open the graphics card menu, which includes proprietary NVIDIA drivers."
-
-#  Install DE Info
-_DEInfoBody="\nMultiple environments can be installed.\n\nGnome and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
-
-# Install DE Menu
-_InstDETitle="Install Desktop Environments"
-_InstDEBody="Desktop Environments and their related package groups are listed first."
-
-# Install Common Packages
-_InstComTitle="Install Common Packages"
-_InstComBody="Some environments require additional packages to function better."
-
-# Display Manager
-_DmChTitle="Install Display Manager"
-_DmChBody="gdm lists Gnome-shell as a dependency. sddm is recommended for plasma. lightdm will incude lightdm-gtk-greeter. slim is no longer maintained."
-_DmDoneBody="\nDisplay manager has been installed and enabled.\n\n"
-
-# Network Manager
-_InstNMTitle="Install Network Manager"
-_InstNMBody="\nNetwork Manager is recommended, especially for wireless and PPPoE/DSL connections.\n"
-_InstNMErrBody="\nNetwork connection manager has been installed and enabled.\n\n"
-
-# Welcome
-_WelTitle="Welcome to"
-_WelBody="\nThis installer will download the latest packages from the Arch repositories. Only the minimal necessary configuration is undertaken.\n\nMENU OPTIONS: Select by pressing the option number or by using the up/down arrow keys before pressing [enter] to confirm. Switch between buttons by using [Tab] or the left/right arrow keys before pressing [enter] to confirm. Long lists can be navigated using the [pg up] and [pg down] keys, and/or by pressing the first letter of the desired option.\n\nCONFIGURATION & PACKAGE OPTIONS: Default packages in checklists will be pre-checked. Use the [Spacebar] to de/select."
-
-# Preparation Menu
-_PrepMenuTitle="Prepare Installation"
-_PrepMenuBody="\nThe console keyboard layout will be used for both the installer and the installed system.\n"
-_PrepKBLayout="Set Desktop Keyboard Layout"
-_PrepMirror="Configure Installer Mirrorlist"
-_PrepPartDisk="Partition Disk"
-_PrepMntPart="Mount Partitions"
-_Back="Back"
-
-# Install Base Menu
-_InstBsMenuTitle="Install Base"
-_InstBseMenuBody="\nPackages to be installed must be downloaded from mirror servers. The pacstrap script installs the base system. To build packages from the AUR or with ABS, the base-devel group is also required."
-_InstBse="Install Base Packages"
-_InstBootldr="Install Bootloader"
-
-# Configure Base Menu
-_ConfBseMenuTitle="Configure Base"
-_ConfBseBody="\nBasic configuration of the base."
-_ConfBseFstab="Generate FSTAB"
-_ConfBseHost="Set Hostname"
-_ConfBseTimeHC="Set Timezone and Clock"
-_ConfBseSysLoc="Set System Locale"
-_MMRunMkinit="Run Mkinitcpio"
-
-# User Menu
-_ConfUsrRoot="Set Root Password"
-_ConfUsrNew="Add New User(s)"
+# Vbox Installations
+_VBoxInstTitle="VirtualBox Installation "
+_VBoxInstBody="\nIf for any reason the VirtualBox guest modules do not load for the installed system (e.g. low resolution and scrollbars after booting), a one-off series of commands will fix this:\n\n$ su\n# depmod -a\n# modprobe -a vboxvideo vboxguest vboxsf\n# reboot"
 
 # Graphics Menu
 _InstGrMenuTitle="Install Graphical Interface"
@@ -362,11 +324,50 @@ _InstMulCust="Install Custom Packages"
 _InstMulCodBody="GStreamer is a pipeline-based multimedia framework. The first two options are the current and legacy (gstreamer0.10) package groups. Xine is also listed.\n\n"
 
 # Custom Packages Box
-_InstMulCustBody="\nEnter the names of packages to install from the Arch repositories, seperated by spaces. It is not necessary to specify the pacstrap (or any) command. It is necessary to specify the package names correctly.\n\nFor example, to install Firefox, VLC, and HTop: firefox vlc htop\n"
+_InstMulCustBody="\nEnter the names of packages to install from the ArchLabs repositories, seperated by spaces. It is not necessary to specify the pacstrap (or any) command. It is necessary to specify the package names correctly.\n\nFor example, to install Firefox, VLC, and HTop: firefox vlc htop\n"
 
-# Main Menu
-_MMTitle="Main Menu"
-_MMBody="\nEach step must be followed IN ORDER. Steps 4-8 are all optional. Once complete, select 'Done' to properly finalise the installation.\n"
+# Graphics Card Menu
+_GCtitle="Graphics Card Menu"
+_GCBody="Pick Nouveau for older NVIDIA cards. If your card is not listed, pick 'Unknown / Generic'.\n"
+_GCUnknOpt="Unknown / Generic"
 
-# Close Installer
-_CloseInstBody="Close installer?"
+# NVIDIA Configruation Check
+_NvidiaConfTitle="NVIDIA Configuration Check"
+_NvidiaConfBody="\nA basic NVIDIA configuration file has been created. Please check it before closing to continue.\n"
+
+# Graphics Card Detection
+_GCDetTitle="Detected"
+_GCDetBody="\nIs your graphics card or virtualisation software"
+_GCDetBody2="-Select 'Yes' to install its OPEN-SOURCE driver.\n\n-Select 'No' to open the graphics card menu, which includes proprietary NVIDIA drivers."
+
+#  Install DE Info
+_DEInfoBody="\nMultiple environments can be installed.\n\nGnome and LXDE come with a display manager.\n\nCinnamon, Gnome and KDE come with a Network Manager.\n\n"
+
+# Install DE Menu
+_InstDETitle="Install Desktop Environments"
+_InstDEBody="Desktop Environments and their related package groups are listed first."
+
+# Install Common Packages
+_InstComTitle="Install Common Packages"
+_InstComBody="Some environments require additional packages to function better."
+
+# Display Manager
+_DmChTitle="Install Display Manager"
+_DmChBody="gdm lists Gnome-shell as a dependency. sddm is recommended for plasma. lightdm will incude lightdm-gtk-greeter. slim is no longer maintained."
+_DmDoneBody="\nDisplay manager has been installed and enabled.\n\n"
+
+# Network Manager
+_InstNMTitle="Install Network Manager"
+_InstNMBody="\nNetwork Manager is recommended, especially for wireless and PPPoE/DSL connections.\n"
+_InstNMErrBody="\nNetwork connection manager has been installed and enabled.\n\n"
+
+# Syslinux bootloader
+_InstSysTitle="Install Syslinux"
+_InstSysBody="\nInstall syslinux to Master Boot Record (MBR) or to Root (/)?\n\n"
+
+_InstBseBody="\nStandard: Recommended for beginners. Choose up to two kernels (linux and linux-lts) and optionally the base-devel package group. sudo, btrfs-progs, f2fs-tools will also be installed.\n\nAdvanced: Choose up to four kernels (linux, lts, grsec, zen) and control individual base and base-devel packages. Additional configuration for grsec and zen may be required for Virtualbox and NVIDIA.\n\nNOTE: Unless already installed, at least one kernel must be selected."
+_InstStandBseBody="\nThe base package group will be installed automatically. The base-devel package group is required to use the ArchLabs User Repository (AUR).\n\n"
+_InstStandBase="Standard Installation"
+_InstAdvBase="Advanced Installation"
+_InstAdvBseBody="\nWARNING: This is for experienced users only. Newer users should use the 'standard' installation option."
+_InstAdvWait="\nGathering package descriptions."

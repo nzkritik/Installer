@@ -1,7 +1,7 @@
 ##
-## 							
-## English Translation File (ArchLabs 2.0)		
-##								
+##
+## Italian Translation File
+##
 ##
 ## Written by Carl Duff (27-Feb-2016)
 ##
@@ -25,6 +25,7 @@ _SecKernTitle="Limitare l'accesso ai logs del Kernel"
 _Edit="Modifica il file di configurazione"
 _Disable="Disabilita"
 _SecMenuBody="\nSono disponibili alcuni semplici miglioramenti utili a migliorare le prestazioni e la sicurezza del sistema.\n\nSelezionare un'opzone mostrerà ulteriori dettagli."
+_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
 _SecJournBody="\nsystemd-journald raccoglie ed archivia i log del kernel, log di sistema, rapporti audit, messaggi da standard outputs e messaggi di errore dai servizi.\n\nDi default, il limite  alla dimensione di un journal persistente (non-volatile) è impostato al 10% della partizione di root: ad una root da 500G corrisponde un limiti di 50G per i dati aggregati in /var/log/journal. 50M dovrbebero essere abbastanza. È possibile disabilitare il logging, sebbene ciò renda più difficile diagnosticare problemi del sistema.\n\n"
 _SecCoreBody="\nUn core dump è un'instantanea della memoria del computer durante il crash di un processo.\n\nUtile per  gi sviluppatore ma non per l'utente medio, i core dumps utilizzano molte risorse di sistema e possono contenere dati sensibili come passwords e chiavi di cifratura.\n\nIl comportamento di default di systemd è di generare dei core dumps per tutti i processi in /var/lib/systemd/coredump. Tale comportamento può essere modificato creando un file di configurazione nella directory /etc/systemd/coredump.conf.d/.\n\n"
 
@@ -50,17 +51,10 @@ _ErrNoMount="\nLa/Le partizione/i deve/devono essere montata/e per prima/e.\n\n"
 _ErrNoBase="\nArchLabs base deve essere istallata per prima.\n\n"
 _ErrNoKernel="\nSelezionare almeno un kernel (linux o linux-lts).\n\n"
 
-# Installazioni su Vbox
-_VBoxInstTitle="Installazione su VirtualBox "
-_VBoxInstBody="\nSe per qualche ragione i moduli Guest di Virtualbox non sono caricati dal sistema installato (per esempio, bassa risoluzione e barre di scorrimento dopo l'avvio), questa serie di comandi correggerà il problema:\n\n$ su\n# depmod -a\n# modprobe -a vboxvideo vboxguest vboxsf\n# reboot"
-
 # Selezionare i file di configurazione
 _SeeConfOptTitle="Controllare i file di configurazione"
 _SeeConfOptBody="\nSelezionare ogni file elencato di seguito per essere controllato o modificato.\n"
 _SeeConfErrBody="\nIl file non esiste.\n\n"
-
-# Pacman
-_PrepPacKey="Aggiornare le chiavi di Pacman"
 
 # LUKS / DM-Crypt / Encryption
 _PrepLUKS="Crittografia LUKS (opzionale)"
@@ -121,21 +115,6 @@ _ConFailBody="\nIl test della connessione ad Internet è fallito. Procedura term
 _ReqMetTitle="Requisiti soddisfatti"
 _ReqMetBody="\nTutti i controlli sono stati superati!\n\n"
 
-
-# Lista Mirror Installer
-_MirrorlistTitle="Lista mirror"
-_MirrorlistBody="\nLa lista mirror contiene gli indirizzi server utilizzati da pacman per installare i pacchetti. Per trovare i server più veloci, generare una lista mirror per località geografica PRIMA di eseguire RankMirrors, altrimenti il processo sarà MOLTO LUNGO.\n\nÈ possibile modificare il file di configurazione di pacman per abilitare multilib and e altri repository.\n\nNOTA: Chiudere i files di testo con '[CTRL] + [x]'. Se modificati, premere [y] per salvare o [n] per annullare i cambiamenti.\n"
-_MirrorbyCountry="Genera lista mirror per località geografica"
-_MirrorEdit="Modifica manualmente la lista dei mirror"
-_MirrorRankTitle="Esegui RankMirrors"
-_MirrorRestTitle="Ripristina lista mirror originale"
-_MirrorRankBody="\nRicerca server più veloce nella lista mirror."
-_MirrorNoneBody="\nUna copia della lista dei mirror originale non è stata trovata.\n\n"
-_MirrorCntryBody="\nSarà generata una lista mirror per la località selezionata.\n"
-_MirrorGenQ="Vuoi usare la lista creata per l'installazione?"
-_MirrorPacman="Modifica configurazione pacman"
-_MIrrorPacQ="\nUsare la configurazione pacman modificata per il sistema installato? Se sì, il file verrà copiato dopo l'installazione di base.\n\n"
-
 # Impostazione tastiera (vconsole)
 _VCKeymapTitle="Imposta Virtual Console"
 _VCKeymapBody="\nUna virtual console è un prompt di comando in un ambiente non-grafico. La sua mappatura tastiera è indipendente da quella per l'ambiente desktop / terminale."
@@ -151,7 +130,7 @@ _TimeZBody="\nIl fuso orario è utilizzato per impostare correttamente l'ora del
 _TimeSubZBody="\nSeleziona la città più vicina alla tua posizione."
 _TimeZQ="\nImposta Time Zone"
 
-# Impostazione orologio hardware 
+# Impostazione orologio hardware
 _HwCBody="\nUTC è il tempo universale standard ed è generalmente raccomandato eccetto in configurazioni di dual-boot con Windows."
 
 # Generare FSTAB
@@ -178,7 +157,7 @@ _NUsrErrTitle="Errore Nome Utente"
 _NUsrErrBody="\nE' stato scelto un nome utente non valido. Provare nuovamente.\n\n"
 
 # Imposta Utente
-_PassNUsrBody="\nImmetti la password per" 
+_PassNUsrBody="\nImmetti la password per"
 _NUsrSetBody="\nCreazione utente ed impostazioni gruppi\n\n"
 
 # Montaggio (Partizioni)
@@ -206,7 +185,7 @@ _PartErrBody="\nI sistemi BIOS richiedono almeno una partizione (ROOT).\n\nI sis
 # File System
 _FSTitle="Selezione Filesystem"
 _FSBody="\nExt4 è la scelta consigliata. Non tutti i filesystem sono utilizzabili per la partizione di Root o quella di Boot. Ciascuno dispone di funzionalità e limitazioni differenti."
-_FSSkip="Salta / Nessuno" 
+_FSSkip="Salta / Nessuno"
 
 # Select Root
 _SelRootBody="\nSelezionare partizione ROOT. ArchLabs sarà installata qui."
@@ -259,41 +238,6 @@ _SetBootDefBody2="e rinominandolo bootx64.efi.\n\nSi riccomanda di procedere com
 # Set file efi per Grub
 _SetDefDoneBody="è stato impostato come bootloader predefinito.\n\n"
 
-# Graphics Card Menu
-_GCtitle="Menu Schede Video"
-_GCBody="Selezionare Nouvea per schede NVIDIA più vecchie. Se la scheda video in uso non è elencata, elezionare 'Unknown / Generic'.\n"
-_GCUnknOpt="Sconosciuta / Generica"
-
-# NVIDIA Configuration Check
-_NvidiaConfTitle="Controllo Configurazione NVIDIA"
-_NvidiaConfBody="\nE' stato creato un file base di configurazione NVIDIA. Prima di chiudere il file di configurazione NVIDIA si prega di controllarne la validità.\n"
-
-# Rilevamento Scheda Video
-_GCDetTitle="Rilevata"
-_GCDetBody="\nè la scheda video o il software di virtualizzazione"
-_GCDetBody2="-Selezionare 'Sì' per installare il relativo driver OPEN-SOURCE.\n\n-Selezionare 'No' per aprire il menu schede video, che include drivers NVIDIA proprietari."
-
-#  Install DE Info
-_DEInfoBody="\nPossono essere installati più ambienti.\n\nGnome e LXDE includono un display manager.\n\nCinnamon, Gnome e KDE includono Network Manager.\n\n"
-
-# Install DE Menu
-_InstDETitle="Installazione Ambiente Desktop"
-_InstDEBody="Gli ambienti desktop e i pacchetti relativi sono indicati per primi."
-
-# Install Common Packages
-_InstComTitle="Installazione Pacchetti Comuni"
-_InstComBody="Alcuni ambienti richiedono pacchetti addizionali per funzionare al meglio."
-
-# Display Manager
-_DmChTitle="Installazione Display Manager"
-_DmChBody="gdm richiede Gnome-shell come dipendenza. sddm è raccomandato per plasma. lightdm includerà lightdm-gtk-greeter. slim non è più in sviluppo."
-_DmDoneBody="\nDisplay manager installato ed abilitato.\n\n"
-
-# Network Manager
-_InstNMTitle="Installazione Network Manager"
-_InstNMBody="\nNetwork Manager è consigliato, specialmente per connessioni wireless e PPPoE/DSL.\n"
-_InstNMErrBody="\nNetwork connection manager installato ed abilitato.\n\n"
-
 # Welcome
 _WelTitle="Benvenuto in"
 _WelBody="\nQuesto installer scaricherà i pacchetti più recenti dai repositories ArchLabs. I passaggi comprenderrano la minima configurazione necessaria.\n\nOPZIONI MENU: Selezionare premendo il numero corrispondente o usando i tasti su/giù prima di premere [invio] per confermare. Scorrere fra i bottoni premendo [Tab] o le frecce sinistra/destraconfermando con [Invio]. È possibile navigare liste più lunghe usando i tasti [pg up] e [pg down], e/o la prima lettera corrispondente all'opzione selezionata.\n\nCONFIGURAZIONE & OPZIONI PACHETTI: I pacchetti preferiti nelle checklists verranno pre-selezionati. Utilizzare [Spazio] per selzionare e deselezionare."
@@ -325,44 +269,6 @@ _MMRunMkinit="Eseguire Mkinitcpio"
 # User Menu
 _ConfUsrRoot="Imposta la password di Root"
 _ConfUsrNew="Aggiungi nuovo/i utente/i"
-
-# Menù schede grafiche
-_InstGrMenuTitle="Installazione Interfaccia Grafica"
-_InstGrMenuBody="\nPrima di installare un ambiente desktop, DOVRANNO essere installati drivers grafici, audio e per l'input, incluso i drivers per le schede video."
-_InstGrMenuDS="Installa Display Server"
-_InstGrMenuDSBody="In aggiunta alle opzioni xorg e wayland, vengono mostrati drivers per dispositivi di input (xf86-input-)."
-_InstGrMenuDD="Installazione Display Driver"
-_InstGrMenuGE="Installazione Ambiente Grafico"
-_InstGrMenuDM="Installazione Display Manager"
-
-# Networking Menu
-_InstNMMenuTitle="Installazione Funzioni di Rete"
-_InstNMMenuBody="\nPotrebbero essere richiesti pacchetti aggiuntivi per funzionalità di rete e dispositivi wireless. Alcune schede wireless potrebbero richiedere firmware appositi per funzionare.\n\n"
-_InstNMMenuPkg="Installazione pacchetti per Dispositivi Wireless"
-_InstNMMenuNM="Installazione Network Connection Manager"
-_InstNMMenuCups="Installazione CUPS / Pacchetti Stampante"
-_InstNMMenuPkgBody="Se viene rilevate un dispositivo wireless, i pacchetti essenziali saranno selezionati automaticamente. Se non si conoscono i pacchetti firmware necessari, è possibile installarli tutti."
-_SeeWirelessDev="Visualizzare le periferiche Wireless (opzionale)"
-_WirelessShowTitle="Dispositivo Wireless"
-_WirelessErrBody="\nNessuna rilevata.\n"
-_InstCupsBody="CUPS (Common Unix Printing System) è il sistema di stampa standards-based, open source sviluppato da  Apple Inc. per OS X e altri sistemi operativi UNIX-like. Samba permette la condivisione di files e stampanti tra sistemi Linux e Windows."
-_InstCupsQ="\nAbilitare org.cups.cupsd.service nel sistema installato?\n\n"
-
-# Install Multimedia Support Menu
-_InstMultMenuTitle="Installazione Supporto Multimedia"
-_InstMultMenuBody="\nI pacchetti per l'accessibilità aiutano chi è affetto da disabilità visive e/o acustiche. L'opzione Custom Packages permette l'installazione autonoma di pacchetti.\n"
-_InstMulSnd="Installazione Driver(s) Suono"
-_InstMulSndBody="\nALSA fornisce drivers per le schede audio via kernel. PulseAudio serve come interfaccia per ALSA."
-_InstMulCodec="Installazione Codecs"
-_InstMulAcc="Installazione Pacchetti Accessibilità"
-_InstMulAccBody="\nSelezionare i pacchetti per l'accessibilità desiderati.\n\n"
-_InstMulCust="Installazioni Pacchetti Personalizzati"
-
-# Codecs Menu
-_InstMulCodBody="GStreamer è un framework per file multimediali. Le prime due opzioni sono i pacchetti correnti e quello legacy (gstreamer0.10). È inoltre disponibile Xine.\n\n"
-
-# Custom Packages Box
-_InstMulCustBody="\nIndicare i nomi dei pacchetti da installare dai repositories ArchLabs, separati da spazi. Non è necessario specificare il comando pacstrap (o altri). È richiesto indicare i nomi dei pacchetti correttamente.\n\nAd esempio, per installare Firefox, VLC, e HTop: firefox vlc htop\n"
 
 # Menu Principale
 _MMTitle="Menu Principale"

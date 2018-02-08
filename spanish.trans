@@ -1,7 +1,7 @@
 ##
-## 							
-## ArchLabsivo de traducción al español (ArchLabs 2.0)		
-##								
+##
+## ArchLabsivo de traducción al español
+##
 ##
 ## Texto original de Carl Duff (27-Feb-2016)
 ##
@@ -24,6 +24,7 @@ _SecCoreTitle="Deshabilitar el registro de volcados de memoria"
 _SecKernTitle="Limitar acceso a los registros del núcleo"
 _Edit="Editar archivo de configuración"
 _Disable="Deshabilitar"
+_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
 _SecMenuBody="\nHay disponibles varios ajustes útiles y fáciles de usar para mejorar el rendimiento y la seguridad del sistema.\n\nSeleccionar una opción porporcionará detalles sobre la misma."
 _SecJournBody="\nsystemd-journald recopila y almacena registros del núcleo, del sistema, de auditoría, y mensajes de salida estándar y error de los servicios.\n\nPor defecto, el tamaño límite de un archivo de journaling permanente (no volátil) es el 10% del tamaño de la partición raíz: una partición raíz de 500GB significa un límite de 50GB para los datos almacenados en /var/log/journal. 50MB deberían ser suficientes. También se puede desactivar el registro, aunque puede hacer más difícil la resolución de problemas del sistema.\n\n"
 _SecCoreBody="\nUn volcado de memoria es una grabación de la memoria del ordenador cuando un proceso se bloquea.\n\nAunque son útiles para los desarrolladores, no lo son tanto para la mayoría de usuarios. Los volcados de memoria malgastan recursos del sistema y pueden contener datos privados como contraseñas y claves de encriptación.\n\nEl comportamiento por defecto de systemd es generar volcados de memoria para todos los procesos en /var/lib/systemd/coredump. Este comportamiento se puede sobreescribir creando un archivo de configuración en el directorio /etc/systemd/coredump.conf.d/\n\n"
@@ -50,17 +51,10 @@ _ErrNoMount="\nPrimero se debe/n montar la/s partición/es.\n\n"
 _ErrNoBase="\nPrimero se debe instalar el sistema base de ArchLabs.\n\n"
 _ErrNoKernel="\nSe debe seleccionar al menos un núcleo (linux o iinux-lts).\n\n"
 
-# Instalaciones de Vbox
-_VBoxInstTitle="Instalación de VirtualBox"
-_VBoxInstBody="\nSi por alguna razón los módulos de 'invitado' de VirtualBox no se cargan para el sistema instalado (por ejemplo, baja resolución y barras de desplazamiento después de reiniciar), una única serie de comandos lo solucionará:\n\n$ su\n# depmod -a\n# modprobe -a vboxvideo vboxguest vboxsf\n# reboot"
-
 # Seleccionar archivos de configuración
 _SeeConfOptTitle="Revisar archivos de configuración"
 _SeeConfOptBody="\nSeleccione cualquier archivo de la lista para revisarlo o modificarlo.\n"
 _SeeConfErrBody="\nEl archivo no existe.\n\n"
-
-# Pacman
-_PrepPacKey="Actualizar las claves de Pacman"
 
 # LUKS / DM-Crypt / Encriptación
 _PrepLUKS="Encriptación LUKS (opcional)"
@@ -121,21 +115,6 @@ _ConFailBody="\nFallo de la prueba de conexión a internet. Saliendo.\n\n"
 _ReqMetTitle="Requisitos cumplidos"
 _ReqMetBody="\n¡Todas las pruebas superadas!\n\n"
 
-
-# Lista de mirrors del instalador
-_MirrorlistTitle="Lista de mirrors"
-_MirrorlistBody="\nLa lista de mirrors contiene direcciones de servidores utilizadas por 'pacman' para instalar paquetes. Para encontrar los servidores más rápidos, PRIMERO genere una lista de mirrors por país ANTES de ejecutar RankMirrors, ya que de no hacerlo el proceso puede tardar MUCHO TIEMPO.\n\nSe puede editar el archivo de configuración de 'pacman' para activar 'multilib' y otros repositorios.\n\nNOTA: Cierre los archivos de texto con '[CTRL] + [x]'. Si se edita el archivo, pulse [y] para guardar o [n] para descartar los cambios.\n"
-_MirrorbyCountry="Generar lista de mirrors por países"
-_MirrorEdit="Editar manualmente la lista de mirrors"
-_MirrorRankTitle="Ejecutar RankMirrors"
-_MirrorRestTitle="Restablecer lista de mirrors original"
-_MirrorRankBody="\nBuscando los servidores más rápidos de la lista de mirrors."
-_MirrorNoneBody="\nSe ha encontrado una copia de la lista original de mirrors.\n\n"
-_MirrorCntryBody="\nSe generará una lista de mirrors por el país seleccionado.\n"
-_MirrorGenQ="¿Usar la lista de mirrors generada para el instalador?"
-_MirrorPacman="Editar configuración de pacman"
-_MIrrorPacQ="\n¿Utilizar el archivo de configuración de 'pacman' editado para el sistema instalado? Si elige si, el archivo se copiará después de instalar el sistema base.\n\n"
-
 # Seleccionar distribución de teclado de la consola virtual (vconsole)
 _VCKeymapTitle="Seleccionar distribución de teclado de la consola virtual"
 _VCKeymapBody="\nUna consola virtual es un intérprete de comandos en un entorno no gráfico. Su distribución de teclado es independiente de un entorno de escritorio o terminal."
@@ -178,7 +157,7 @@ _NUsrErrTitle="Error de nombre de usuario"
 _NUsrErrBody="\nSe ha introducido un nombre de usuario incorrecto. Vuelva a intentarlo.\n\n"
 
 # Establecer usuario
-_PassNUsrBody="\nEscriba la contraseña para" 
+_PassNUsrBody="\nEscriba la contraseña para"
 _NUsrSetBody="\nCreando usuario y ajustando grupos...\n\n"
 
 # Montaje (particiones)
@@ -206,7 +185,7 @@ _PartErrBody="\nLos sistemas BIOS requieren un mínimo de una partición (RAÍZ)
 # Sistema de archivos
 _FSTitle="Elegir sistema de archivos"
 _FSBody="\nSe recomienda el sistema de archivos Ext4. No todos los sistemas de archivos son adecuados para particiones raíz o de arranque. Todas tienen sus características y limitaciones."
-_FSSkip="Saltar / Ninguno" 
+_FSSkip="Saltar / Ninguno"
 
 # Seleccionar raíz
 _SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará ArchLabs."
@@ -237,7 +216,6 @@ _ExtErrBody="\nLa partición no se puede montar debido a un problema con el nomb
 
 # Instalar sistema base
 _InstBseTitle="Instalar sistema base"
-_InstBseBody="\nEstándar: Recomendado para principiantes. Elija hasta dos núcleos (linux y linux-lts) y opcionalmente el grupo de paquetes 'base-devel'. También se instalará sudo, btrfs-progs y f2fs-tools.\n\nAvanzado: Elija hasta cuatro núcleos (linux, lts, grsec, zen) y controle de forma individual los paquetes de 'base' y 'base-devel'. VirtualBox y NVIDIA pueden requerir configuración adicional con grsec y zen.\n\nNOTA: A menos que ya esté instalado, se necesita seleccionar al menos un núcleo."
 _InstStandBseBody="\nSe instalará de forma automática el grupo de paquetes 'base'. El grupo de paquetes 'base-devel' es necesario para poder usar el ArchLabs User Repository (AUR).\n\n"
 _InstStandBase="Instalación estándar"
 _InstAdvBase="Instalación avanzada"
@@ -258,41 +236,6 @@ _SetBootDefBody2="y renombrándolo a bootx64.efi.\n\nSe recomienda hacer esto a 
 
 # ArchLabsivo EFI ajustado para GRUB
 _SetDefDoneBody="ha sido definido como el gestor de arranque predeterminado.\n\n"
-
-# Menú de tarjetas gráficas
-_GCtitle="Menú de tarjeta gráfica"
-_GCBody="Seleccione 'Nouveau' para tarjetas NVIDIA antiguas. Si su tarjeta no aparece en la lista, seleccione 'Desconocido/Genérico'.\n"
-_GCUnknOpt="Desconocido/Genérico"
-
-# Comprobación de configuración de NVIDIA
-_NvidiaConfTitle="Comprobación de configuración de NVIDIA"
-_NvidiaConfBody="\nSe ha creado un archivo de configuración de NVIDIA básico. Compruébelo antes de cerrarlo para continuar.\n"
-
-# Detección de tarjeta gráfica
-_GCDetTitle="Detectada"
-_GCDetBody="\nEs tu tarjeta gráfica o software de virtualización"
-_GCDetBody2="-Seleccione 'Sí' para instalar su driver de CÓDIGO ABIERTO.\n\n-Seleccione 'No' para abrir el menú de tarjeta gráfica, que incluye drivers propietarios de NVIDIA."
-
-#  Información de instalación de entornos de escritorio
-_DEInfoBody="\nSe pueden instalar varios entornos de escritorio.\n\nGnome y LXDE incluyen un gestor de pantalla.\n\nCinnamon, Gnome y KDE incluyen un administrador de conexiones.n\n"
-
-# Menú de instalación de entornos de escritorio
-_InstDETitle="Instalar entornos de escritorio"
-_InstDEBody="Primero se listan los entornos de escritorio y sus grupos de paquetes relacionados."
-
-# Instalar paquetes comunes
-_InstComTitle="Instalar paquetes comunes"
-_InstComBody="Algunos entornos requieren paquetes adicionales para un mejor funcionamiento."
-
-# Gestor de pantalla
-_DmChTitle="Instalar gestor de pantalla"
-_DmChBody="gdm lista 'gnome-shell' como una dependencia. 'sddm' es recomendado para 'plasma'. 'lightdm' incluye 'lightdm-gtk-greeter'. 'slim' ya no es mantenido."
-_DmDoneBody="\nSe ha instalado y activado el gestor de pantalla.\n\n"
-
-# Administrador de conexiones
-_InstNMTitle="Instalar administrador de conexiones"
-_InstNMBody="\nSe recomienda Network Manager, especialmente para conexiones inalámbricas y PPPoE/DSL.\n"
-_InstNMErrBody="\nSe ha instalado y activado el administrador de conexiones.\n\n"
 
 # Bienvenido
 _WelTitle="Bienvenido a"
@@ -325,44 +268,6 @@ _MMRunMkinit="Ejecutar Mkinitcpio"
 # Menú de usuario
 _ConfUsrRoot="Establecer contraseña de superusuario"
 _ConfUsrNew="Añadir nuevo/s usuario/s"
-
-# Menú de gráficos
-_InstGrMenuTitle="Instalar interfaz gráfica"
-_InstGrMenuBody="\nAntes de instalar un entorno de escritorio, primero DEBEN instalarse drivers de gráficos, sonido y entrada. Esto incluye la instalación de drivers de tarjetas gráficas."
-_InstGrMenuDS="Instalar servidor de pantalla"
-_InstGrMenuDSBody="Además de las opciones 'xorg' y 'wayland', también se proporcionan drivers para dispositivos de entrada (xf86-input)."
-_InstGrMenuDD="Instalar driver de pantalla"
-_InstGrMenuGE="Instalar entorno gráfico"
-_InstGrMenuDM="Instalar gestor de pantalla"
-
-# Menú de redes
-_InstNMMenuTitle="Instalar componentes de red"
-_InstNMMenuBody="\nPueden ser necesarios paquetes complementarios para los dispositivos de red e inalámbricos. Algunos dispositivos ianlámbricos pueden requerir firmwares adicionales para funcionar.\n\n"
-_InstNMMenuPkg="Instalar paquetes de dispositivo inalámbrico"
-_InstNMMenuNM="Instalar administrador de conexiones"
-_InstNMMenuCups="Instalar CUPS/paquetes de impresora"
-_InstNMMenuPkgBody="Los paquetes de wifi esenciales se pre-marcarán si se detecta un dispositivo inalámbrico. Si no está seguro sobre el posible firmware adicional que pueda requerir el dispositivo, se pueden instalar todos los paquetes."
-_SeeWirelessDev="Mostrar dispositivo Inalámbrico (opcional)"
-_WirelessShowTitle="Dispositivo inalámbrico"
-_WirelessErrBody="\nNinguno detectado.\n"
-_InstCupsBody="CUPS (Common Unix Printing System) es el sistema de impresión de código abierto y basado en estándares desarrollado por Apple Inc. para OS X y otros sistemas operativos basados en UNIX. Samba permite compartir archivos e impresoras entre sistemas Linux y Windows."
-_InstCupsQ="\n¿Desea activar 'org.cups.cupsd.service' en el sistema instalado?\n\n"
-
-# Menú de instalación de soporte multimedia
-_InstMultMenuTitle="Instalar soporte multimedia"
-_InstMultMenuBody="\nLos paquetes de accesibilidad ayudan a personas con discapacidad visual y/o auditiva. La opción de paquetes personalizados permite al usuario indicar qué paquetes desea instalar.\n"
-_InstMulSnd="Instalar driver/s de sonido"
-_InstMulSndBody="\nALSA proporciona drivers de tarjetas de sonido gestionados por el núcleo. PulseAudio se utiliza como un proxy para ALSA."
-_InstMulCodec="Instalar códecs"
-_InstMulAcc="Instalar paquetes de accesibilidad"
-_InstMulAccBody="\nSeleccione qué paquetes de accesibilidad desea instalar.\n\n"
-_InstMulCust="Instalar paquetes personalizados"
-
-# Menú de códecs
-_InstMulCodBody="GStreamer es un framework multimedia basado en canales. Las primeras dos opciones son los grupos de paquetes actual y 'legacy' (gstreamer0.10), respectivamente. También está disponible Xine.\n\n"
-
-# Caja de paquetes personalizados
-_InstMulCustBody="\nIntroduzca los nombres de los paquetes a instalar de los repositorios de ArchLabs, separados por espacios. No es necesario especificar el comando 'pacstrap' u otro cualquiera. Es necesario especificar los nombres correctos de los paquetes.\n\nPor ejemplo, para instalar Firefox, VLC y Htop: firefox vlc htop\n"
 
 # Menú principal
 _MMTitle="Menú principal"

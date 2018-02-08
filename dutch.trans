@@ -1,11 +1,11 @@
 ##
-## 							
-## Nederlands Vertaalbestand (ArchLabs 2.0)		
-##								
+##
+## Nederlands Vertaalbestand (ArchLabs 2.0)
+##
 ##
 ## Ontwerp: Carl Duff (27-Feb-2016)
 ##
-#Vertalers: Erwin Crepieux
+## Vertalers: Erwin Crepieux
 
 # Generic
 _UseSpaceBar="Gebruik de [spatietoets] om opties in de lijst te (de)selecteren."
@@ -25,6 +25,7 @@ _SecKernTitle="Beperk de toegang tot Kernel Logs"
 _Edit="Pas het configuratiebestand aan"
 _Disable="Uitschakelen"
 _SecMenuBody="\nEr zijn enkele handige en beginners-vriendelijke instelmogelijkheden voorzien om de beveiliging van het systeem en de prestaties te verbeteren.\n\nBij het selecteren van een optie krijg je meer details te zien."
+_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
 _SecJournBody="\nsystemd-journald verzamelt en slaat kernel logs, systeem logs, audit records op, alsook standaard rapporten en foutmeldingen van services.\n\nStandaard wordt de persistente rapport-grootte gelimiteerd op 10% van de root partitie:  Bij een root-partitie van 500G betekent dit dat maximum 50G aan gegevens kunnen worden opgeslagen in/var/log/journal.  50G zou voldoende moeten zijn. De rapportering kan ook worden uitgeschakeld, maar dat kan het oplossen van problemen met het systeem bemoeilijken.\n\n"
 _SecCoreBody="\nEen core-dump is de registratie van de staat van het computergeheugen wanneer een proces vastloopt.\n\nHandig voor ontwikkelaars, maar niet voor de gemiddelde gebruiker. Core-dumps verkwisten systeembronnen en kunnen ook gevoelige gegevens bevatten zoals wachtwoorden en encryptiesleutels. /n/nStandaard genereert systemd core-dumps voor alle processen in /var/lib/systemd/coredump. Dit gedrag kan worden aangepast door het creëren van een configuratiebestand in de /etc/systemd/coredump.conf.d/ map.\n\n"
 
@@ -50,17 +51,10 @@ _ErrNoMount="\nPartitie(s) moet(en) eerst worden aangekoppeld\n\n"
 _ErrNoBase="\nHet ArchLabs basissysteem moet eerst worden geïnstalleerd.\n\n"
 _ErrNoKernel="\nEr moet ten minste één kernel (linux of linux-lts) worden geselecteer.\n\n"
 
-# Vbox Installaties
-_VBoxInstTitle="VirtualBox Installatie "
-_VBoxInstBody="\nAls, voor welke reden dan ook, de VirtualBox guest modules niet laden voor het geïnstalleerde systeem (vb lage resolutie en scrollbars na de opstart) dan zal deze reeks van commando's dit corrigeren:\n\n$ su\n# depmod -a\n# modprobe -a vboxvideo vboxguest vboxsf\n# reboot"
-
 # Selecteer Configuratiebestanden
 _SeeConfOptTitle="Controle van Configuratiebestanden"
 _SeeConfOptBody="\nSelecteer een hieronder vermeld bestand dat moet worden herzien of gewijzigd.\n"
 _SeeConfErrBody="\nBestand bestaat niet.\n\n"
-
-# Pacman
-_PrepPacKey="Vernieuw de Pacman sleutelbestanden"
 
 # LUKS / DM-Crypt / Versleuteling
 _PrepLUKS="LUKS Versleuteling (optioneel)"
@@ -121,21 +115,6 @@ _ConFailBody="\nGeen internetverbinding. Afsluiten.\n\n"
 _ReqMetTitle="Alle voorwaarden voldaan"
 _ReqMetBody="\nAlle controles ok!\n\n"
 
-
-# Installeer Mirrorlijst
-_MirrorlistTitle="Mirrorlijst"
-_MirrorlistBody="\nDe mirrorlijst bevat server-adressen die worden gebruikt door pacman om pakketten te installeren. Om de snelste servers te vinden, moet u EERST een mirrorlijst per land genereren VOORALEER u RankMirrors laat draaien, anders zal het proces LANG duren.\n\nHet pacman configuratiebestand kan worden bewerkt om multilib en andere repositories in te schakelen. \n\nOPMERKING:. Sluit tekstbestanden met '[Ctrl] + [x] '. Indien  u dit bestand bewerkt, druk dan op [y] om de wijzigingen op te slaan of [n] om ze te annuleren.\n"
-_MirrorbyCountry="Genereer een mirrorlijst gesorteerd volgens Land"
-_MirrorEdit="Pas de Mirrorlijst manueel aan"
-_MirrorRankTitle="Start RankMirrors"
-_MirrorRestTitle="Herstel de originele mirrorlijst"
-_MirrorRankBody="\nZoeken naar de snelste servers op de mirrorlijst."
-_MirrorNoneBody="\nEr werd geen versie van de originele mirrorlijst gevonden.\n\n"
-_MirrorCntryBody="\nEr zal een lijst van mirrors per land worden gegenereerd.\n"
-_MirrorGenQ="Gebruik je de gegenereerde mirrorlijst voor het installatieprogramma?"
-_MirrorPacman="Bewerkt het pacman configuratiebestand"
-_MIrrorPacQ="\nWil je het aangepast pacman configuratiebestand gebruiken voor het geïnstalleerde systeem? Zo ja, zal het bestand gekopieerd worden zodra het basissysteem is geïnstalleerd.\n\n"
-
 # Stel het toetsenbord in (vconsole)
 _VCKeymapTitle="Stel de Virtuele Console in"
 _VCKeymapBody="\nEen virtuele console is een shell prompt in een niet-grafische omgeving. De toetsenbordindeling ervan is onafhankelijk van een desktop suite / terminal."
@@ -178,7 +157,7 @@ _NUsrErrTitle="Foute gebruikersnaam"
 _NUsrErrBody="\nEen foute gebruikersnaam werd ingegeven. Probeer opnieuw aub.\n\n"
 
 # Stel Gebruiker in
-_PassNUsrBody="\nGeef wachtwoord in voor" 
+_PassNUsrBody="\nGeef wachtwoord in voor"
 _NUsrSetBody="\nMaak een Gebruiker aan en stel Groepen in...\n\n"
 
 # Aankoppelen van Partities
@@ -206,7 +185,7 @@ _PartErrBody="\nDe installatie van BIOS systemen vereist minimum één partitie 
 # Bestand Systeem
 _FSTitle="Kies een bestandsysteem"
 _FSBody="\nExt4 is hier aanbevolen. Niet alle bestandsystemen zijn geschikt voor de Root of Boot-Partities. Elk bestandsysteem heeft verschillende eigenschappen en beperkingen."
-_FSSkip="Sla over / Geen" 
+_FSSkip="Sla over / Geen"
 
 # Selecteer Root
 _SelRootBody="\nSelecteer de ROOT Partitie. Dit is waar ArchLabs zal worden geïnstalleerd."
@@ -259,41 +238,6 @@ _SetBootDefBody2="en het te hernoemen naar bootx64.efi.\n\nHet is aanbevolen dit
 #Stel efi bestand in voor Grub
 _SetDefDoneBody="werd ingesteld als standaard bootloader.\n\n"
 
-#Beeldkaart Menu
-_GCtitle="Beeldkaart Menu"
-_GCBody="Neem Nouveau voor oudere NVIDIA kaarten. Als je kaart niet in de lijst staat neem 'Onbekend / Generic'.\n"
-_GCUnknOpt="Onbekend / Generic"
-
-# Controle van de NVIDIA Configuratie
-_NvidiaConfTitle="Controle van NVIDIA Configuratie"
-_NvidiaConfBody="\nEen eenvoudig NVIDIA configuratiebestand werd aangemaakt. Kijk het aub eens na vooraleer het te sluiten om verder te gaan.\n"
-
-# Beeldkaart Detectie
-_GCDetTitle="Gedetecteerd"
-_GCDetBody="\nIs dit uw Beeldkaart of virtualisatie software"
-_GCDetBody2="-Selecteer'Ja' om het OPEN-SOURCE stuurprogramma te installeren.\n\n-Selecteer 'Nee' om het Beeldkaart menu te openen, waarin u gesloten NVIDIA stuurprogramma's vindt."
-
-#  Installeer DE Info
-_DEInfoBody="\nmeerdere Desktop Suites kunnen worden geïnstalleerd.\n\nGnome en LXDE komen met een weergave manager.\n\nCinnamon, Gnome en KDE komen met een Netwerk Manager.\n\n"
-
-# Installeer DE Menu
-_InstDETitle="Installeer Desktop Suites"
-_InstDEBody="Desktop Suites en hun verwante pakketten staan bovenaan de lijst."
-
-# Installeer meestgebruikte Pakketten
-_InstComTitle="Installeer meestgebruikte Pakketten"
-_InstComBody="Sommige Desktop Suites hebben bijkomende pakketten nodig om beter te functioneren."
-
-# Weergave Manager
-_DmChTitle="Installeer Weergave Manager"
-_DmChBody="Gdm geef Gnome-shell op als afhankelijkheid. Sddm is aanbevolen voor plasma. Met lightdm komt lightdm-gtk-greeter. Slim is niet langer ondersteund."
-_DmDoneBody="\nWeergave manager werd geïnstalleerd en ingeschakeld.\n\n"
-
-# Network Manager
-_InstNMTitle="Installeer Netwerk Manager"
-_InstNMBody="\nNetwerk Manager is aanbevolen, zeker voor draadloze en PPPoE/DSL verbindingen.\n"
-_InstNMErrBody="\nNetwerk manager werd geïnstalleerd en ingeschakeld.\n\n"
-
 # Welkom
 _WelTitle="Welkom bij"
 _WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de ArchLabs repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
@@ -325,44 +269,6 @@ _MMRunMkinit="Voer Mkinitcpio uit"
 # Gebruikersmenu
 _ConfUsrRoot="Stel het Root wachtwoord in"
 _ConfUsrNew="Voeg nieuwe gebruiker(s) toe"
-
-# Graphics Menu
-_InstGrMenuTitle="Installeer Grafische omgeving "
-_InstGrMenuBody="\nVooraleer een Desktop-Suite te installeren, MOETEN eerst de stuurprogramma's voor Beeld, Ingave, en Geluid geinstalleerd worden, met inbegrip van het stuurprogramma van uw grafische kaart."
-_InstGrMenuDS="Installeer Weergave Manager"
-_InstGrMenuDSBody="In aanvulling op Xorg en Wayland opties, zijn stuurprogramma's voor invoerapparaten (xf86-input) ook vermeld."
-_InstGrMenuDD="Installeer Weergave Manager"
-_InstGrMenuGE=" Installeer Desktop-Suites "
-_InstGrMenuDM="Installeer Weergave Manager"
-
-# Netwerk Menu
-_InstNMMenuTitle="Installeer Netwerk mogelijkheden"
-_InstNMMenuBody="\nAanvullende pakketten kunnen nodig zijn om netwerken en draadloze apparaten aan te sturen. Sommige draadloze apparaten kunnen ook extra firmware nodig hebben om te functioneren.\n\n"
-_InstNMMenuPkg="Install Wireless Device Packages"
-_InstNMMenuNM="Installeer Netwerkmanager"
-_InstNMMenuCups="Installeer CUPS / Printer Pakketten"
-_InstNMMenuPkgBody="De belangrijkste wifi pakketten zullen vooraf worden geconsulteerd als een draadloos apparaat werd gedetecteerd. Als je onzeker bent over de extra firmware, kun je alle pakketten installeren."
-_SeeWirelessDev="Toon uw draadloze netwerkapparatuur (optioneel)"
-_WirelessShowTitle=" Draadloos netwerkapparaat "
-_WirelessErrBody="\nNiets gedetecteerd."
-_InstCupsBody="CUPS (Common Unix Printing System) is het op standaarden gebaseerde, open source afdruksysteem, ontwikkeld door Apple Inc. voor OS X en andere Unix-achtige besturingssystemen. Samba maakt het delen van bestanden en printers mogelijk tussen Linux en Windows-systemen."
-_InstCupsQ="\nSchakel org.cups.cupsd.service op geïnstalleerde systeem in?\n\n"
-
-# Installeer Multimedia ondersteuning Menu
-_InstMultMenuTitle=" Installeer Multimedia Ondersteuning"
-_InstMultMenuBody="\nToegankelijkheidspakketten helpen mensen met zicht en / of gehoorstoornissen. De optie aangepast pakketten maakt het mogelijk om zelfgekozen pakketten te installeren.\n"
-_InstMulSnd="Installeer de stuurprogramma's voor Geluid "
-_InstMulSndBody="\nALSA biedt door kernel aangedreven geluidskaartstuurprogramma's. PulseAudio fungeert als een proxy rond ALSA."
-_InstMulCodec="Installeer Codecs"
-_InstMulAcc="Installeer ToegankelijkheidsPakketten"
-_InstAccBody="Selecteer gewenste toegankelijkheidspakketten"
-_InstMulCust="Installeer gewone pakketten"
-
-# Codecs Menu
-_InstMulCodBody="GStreamer is een pipeline-gebaseerd multimedia-raamwerk. De eerste twee opties zijn de huidige en legacy (gstreamer0.10) pakketgroepen. Xine wordt ook vermeld.\n\n"
-
-# Gewenste Pakketten Box
-_InstMulCustBody="\nGeef de pakketnamen op, met tussenspaties, die je wil installeren uit de ArchLabs repositories. Het is niet nodig het pacstrap (of ander) commando te gebruiken. Het is noodzakelijk om de namen van pakketten correct op te geven.\n\nBijvoorbeeld: om Firefox, VLC, en HTop te installeren: firefox vlc htop\n"
 
 # Hoofd Menu
 _MMTitle="Hoofd Menu"

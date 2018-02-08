@@ -158,7 +158,8 @@ check_base() {
 }
 
 show_devices() {
-    lsblk -o NAME,MODEL,TYPE,FSTYPE,SIZE,MOUNTPOINT | grep "disk\|part\|lvm\|crypt\|NAME\|MODEL\|TYPE\|FSTYPE\|SIZE\|MOUNTPOINT" > /tmp/.devlist
+    lsblk -o NAME,MODEL,TYPE,FSTYPE,SIZE,MOUNTPOINT | \
+        grep "disk\|part\|lvm\|crypt\|NAME\|MODEL\|TYPE\|FSTYPE\|SIZE\|MOUNTPOINT" > /tmp/.devlist
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_DevShowOpt " --textbox /tmp/.devlist 0 0
 }
 
@@ -168,7 +169,8 @@ set_keymap() {
     for i in $(sort <<< "$(sed 's/\.map\.gz//g' <<< "$(grep "map.gz" <<< "$MAPS")")"); do
         KEYMAPS="$KEYMAPS $i -"
     done
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_VCKeymapTitle " --menu "$_VCKeymapBody" 20 40 16 $KEYMAPS 2>$ANSWER || prep_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_VCKeymapTitle " \
+        --menu "$_VCKeymapBody" 20 40 16 $KEYMAPS 2>$ANSWER || prep_menu
     KEYMAP=$(cat $ANSWER)
     echo -e "KEYMAP=$KEYMAP\nFONT=$FONT" > /tmp/vconsole.conf
 }
@@ -182,9 +184,11 @@ set_xkbmap() {
     for i in "${keymaps_xkb[@]}"; do
         XKBMAP_LIST="$XKBMAP_LIST $i -"
     done
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_PrepKBLayout " --menu "$_XkbmapBody" 0 0 16 $XKBMAP_LIST 2>$ANSWER || install_graphics_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_PrepKBLayout " \
+        --menu "$_XkbmapBody" 0 0 16 $XKBMAP_LIST 2>$ANSWER || install_graphics_menu
     XKBMAP=$(sed 's/_.*//' "$ANSWER")
-    echo -e "Section "\"InputClass"\"\n\tIdentifier "\"system-keyboard"\"\n\tMatchIsKeyboard "\"on"\"\n\tOption "\"XkbLayout"\" "\"$XKBMAP"\"\nEndSection" > /tmp/01-keyboard-layout.conf
+    echo -e "Section "\"InputClass"\"\n\tIdentifier "\"system-keyboard"\"\n\tMatchIsKeyboard "\"on"\"
+    \tOption "\"XkbLayout"\" "\"$XKBMAP"\"\nEndSection" > /tmp/01-keyboard-layout.conf
     setxkbmap "$XKBMAP" 2>>/tmp/.errlog
     check_for_error
 }
@@ -194,7 +198,8 @@ set_locale() {
     for i in $(grep .UTF-8 <<< "$(sed 's/ UTF-8//g' <<< "$(sed 's/#//g' <<< "$(grep -v "#  " /etc/locale.gen)")")"); do
         LOCALES="$LOCALES $i -"
     done
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseSysLoc " --menu "$_localeBody" 0 0 12 $LOCALES 2>$ANSWER || config_base_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseSysLoc " \
+        --menu "$_localeBody" 0 0 12 $LOCALES 2>$ANSWER || config_base_menu
     LOCALE=$(cat $ANSWER)
     {
         sed -i "s/en_US.UTF-8/${LOCALE}/g" $MOUNTPOINT/etc/locale.conf
@@ -212,13 +217,15 @@ set_timezone() {
     for i in $(awk '{print $3}' < /usr/share/zoneinfo/zone.tab | grep "/" | sed "s/\/.*//g" | sort -ud); do
         ZONE="$ZONE $i -"
     done
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " --menu "$_TimeZBody" 0 0 10 $ZONE 2>$ANSWER || config_base_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " \
+        --menu "$_TimeZBody" 0 0 10 $ZONE 2>$ANSWER || config_base_menu
     ZONE=$(cat $ANSWER)
     SUBZONE=""
     for i in $(awk '{print $3}' < /usr/share/zoneinfo/zone.tab | grep "$ZONE/" | sed "s/${ZONE}\///g" | sort -ud); do
         SUBZONE="$SUBZONE $i -"
     done
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " --menu "$_TimeSubZBody" 0 0 11 $SUBZONE 2>$ANSWER || config_base_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " \
+        --menu "$_TimeSubZBody" 0 0 11 $SUBZONE 2>$ANSWER || config_base_menu
     SUBZONE=$(cat $ANSWER)
     if dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " --yesno "$_TimeZQ $ZONE/$SUBZONE?" 0 0; then
         arch_chroot "ln -sf /usr/share/zoneinfo/$ZONE/$SUBZONE /etc/localtime" 2>>/tmp/.errlog
@@ -229,7 +236,8 @@ set_timezone() {
 }
 
 set_hw_clock() {
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " --menu "$_HwCBody" 0 0 2 "utc" "-" "localtime" "-" 2>$ANSWER
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_ConfBseTimeHC " \
+        --menu "$_HwCBody" 0 0 2 "utc" "-" "localtime" "-" 2>$ANSWER
     [[ $(cat $ANSWER) != "" ]] && arch_chroot "hwclock --systohc --$(cat $ANSWER)" 2>>/tmp/.errlog
     check_for_error
 }
@@ -251,7 +259,8 @@ generate_fstab() {
 }
 
 set_hostname() {
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Set the Hostname" --inputbox "$_HostNameBody" 0 0 "archlabs" 2>$ANSWER || config_base_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "Set the Hostname" \
+        --inputbox "$_HostNameBody" 0 0 "archlabs" 2>$ANSWER || config_base_menu
     HOST_NAME=$(cat $ANSWER)
     echo "$HOST_NAME" > $MOUNTPOINT/etc/hostname
     echo "127.0.0.1    localhost
@@ -269,7 +278,7 @@ set_root_password() {
         --insecure --passwordbox "$_PassReEntBody" 0 0 2> ${ANSWER} || config_base_menu
     PASSWD2=$(cat $ANSWER)
     if [[ $PASSWD == "$PASSWD2" ]]; then
-        echo -e "$PASSWD\n$PASSWD" > /tmp/.passwd
+        echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
         arch_chroot "passwd root" < /tmp/.passwd >/dev/null 2>>/tmp/.errlog
         rm /tmp/.passwd
         check_for_error
@@ -281,12 +290,14 @@ set_root_password() {
 
 
 create_new_user() {
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_NUsrTitle " --inputbox "$_NUsrBody" 0 0 "" 2>$ANSWER || config_base_menu
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_NUsrTitle " \
+        --inputbox "$_NUsrBody" 0 0 "" 2>$ANSWER || config_base_menu
     USER=$(cat $ANSWER)
 
     # Loop while user name is blank, has spaces, or has capital letters in it.
     while [[ ${#USER} -eq 0 ]] || [[ $USER =~ \ |\' ]] || [[ $USER =~ [^a-z0-9\ ] ]]; do
-        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_NUsrTitle " --inputbox "$_NUsrErrBody" 0 0 "" 2>$ANSWER || config_base_menu
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_NUsrTitle " \
+            --inputbox "$_NUsrErrBody" 0 0 "" 2>$ANSWER || config_base_menu
         USER=$(cat $ANSWER)
     done
 
@@ -325,11 +336,9 @@ create_new_user() {
             sed -i "s/${ISO_USER}/${USER}/g" $MOUNTPOINT/etc/passwd
             sed -i "s/${ISO_USER}/${USER}/g" $MOUNTPOINT/etc/shadow
             sed -i "s/${ISO_USER}/${USER}/g" $MOUNTPOINT/etc/lightdm/lightdm.conf
-            sed -i '/al-hello/ c sleep 10; termite --exec=/usr/bin/al-hello &' $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
-            sed -i "/liveuser/ c sleep 1; polybar --config=/home/${USER}/.config/polybar/config openbox-bar &" \
-                $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
-            sed -i '188,193d' $MOUNTPOINT/home/$ISO_USER/.config/openbox/menu.xml
             sed -i "s/${ISO_USER}/${USER}/g" $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
+            sed -i '/al-hello/ c sleep 10; termite -e al-hello &' $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
+            sed -i '188,193d' $MOUNTPOINT/home/$ISO_USER/.config/openbox/menu.xml
             sed -i 's/#$HOME/$HOME/g' $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
             sed -i '/keypack/d' $MOUNTPOINT/home/$ISO_USER/.config/openbox/autostart
             rm -f  $MOUNTPOINT/home/$ISO_USER/.config/keypack
@@ -379,31 +388,25 @@ umount_partitions() {
     MOUNTED=""
     MOUNTED=$(mount | grep "$MOUNTPOINT" | awk '{print $3}' | sort -r)
     swapoff -a
-    for i in $MOUNTED; do
-        umount "$i" >/dev/null 2>>/tmp/.errlog
-    done
+    for i in $MOUNTED; do umount "$i" >/dev/null 2>>/tmp/.errlog; done
     check_for_error
 }
 
 confirm_mount() {
     if grep -q "$1" <<< "$(mount)"; then
-        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_MntStatusTitle " --infobox "$_MntStatusSucc" 0 0
-        sleep 1
+        dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_MntStatusTitle " --infobox "$_MntStatusSucc" 0 0 && sleep 1
         PARTS=$(sed "s~${PART}$' -'~~" <<< "$(sed "s~${PART} [0-9]*\.[0-9]*[G-M]~~" <<< "$(sed "s~${PART} [0-9]*[G-M] ~~" <<< "$PARTS")")")
         NUM_PARTS=$((NUM_PARTS - 1))
     else
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_MntStatusTitle " --infobox "$_MntStatusFail" 0 0
-        sleep 1
-        prep_menu
+        sleep 1 && prep_menu
     fi
 }
 
 select_device() {
     DEVICE=""
     devices_list=$(lsblk -lno NAME,SIZE,TYPE | grep 'disk' | awk '{print "/dev/" $1 " " $2}' | sort -u)
-    for i in $devices_list; do
-        DEVICE="$DEVICE $i"
-    done
+    for i in $devices_list; do DEVICE="$DEVICE $i"; done
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_DevSelTitle " --menu "$_DevSelBody" 0 0 4 $DEVICE 2>$ANSWER || prep_menu
     DEVICE=$(cat $ANSWER)
 }
@@ -442,8 +445,7 @@ create_partitions() {
     secure_wipe() {
         if dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_PartOptWipe " \
                   --yesno "$_AutoPartWipeBody1 $DEVICE $_AutoPartWipeBody2" 0 0; then
-            clear
-            wipe -Ifre "$DEVICE"
+            clear && wipe -Ifre "$DEVICE"
         else
             create_partitions
         fi
@@ -452,11 +454,12 @@ create_partitions() {
     auto_partition() {
         if dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_PrepPartDisk " \
                   --yesno "$_AutoPartBody1 $DEVICE $_AutoPartBody2 $_AutoPartBody3" 0 0; then
-            parted -s "$DEVICE" print | awk '/^ / {print $1}' > /tmp/.del_parts
+            parted -s "$DEVICE" print | awk '/^ / {print $1}' >/tmp/.del_parts
             for del_part in $(tac /tmp/.del_parts); do
                 parted -s "$DEVICE" rm "$del_part" 2>>/tmp/.errlog
                 check_for_error
             done
+
             part_table=$(awk '{print $3}' <<< "$(grep -i 'partition table' <<< "$(parted -s "$DEVICE" print)")")
             if [[ $SYSTEM == "BIOS" ]] && [[ $part_table != "msdos" ]]; then
                 parted -s "$DEVICE" mklabel msdos 2>>/tmp/.errlog
@@ -464,6 +467,7 @@ create_partitions() {
                 parted -s "$DEVICE" mklabel gpt 2>>/tmp/.errlog
             fi
             check_for_error
+
             if [[ $SYSTEM == "BIOS" ]]; then
                 parted -s "$DEVICE" mkpart primary ext3 1MiB 513MiB 2>>/tmp/.errlog
             else
@@ -472,7 +476,7 @@ create_partitions() {
             parted -s "$DEVICE" set 1 boot on 2>>/tmp/.errlog
             parted -s "$DEVICE" mkpart primary ext3 513MiB 100% 2>>/tmp/.errlog
             check_for_error
-            lsblk "$DEVICE" -o NAME,TYPE,FSTYPE,SIZE > /tmp/.devlist
+            lsblk "$DEVICE" -o NAME,TYPE,FSTYPE,SIZE >/tmp/.devlist
             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title "" --textbox /tmp/.devlist 0 0
         else
             create_partitions
@@ -496,47 +500,45 @@ create_partitions() {
 
 
 select_filesystem() {
-    fs_opts=""
-    CHK_NUM=0
+    fs_opts="" CHK_NUM=0
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_FSTitle " --menu "$_FSBody" 0 0 12 "$_FSSkip" "-" \
         "btrfs" "mkfs.btrfs -f" "ext2" "mkfs.ext2 -q" "ext3" "mkfs.ext3 -q" "ext4" "mkfs.ext4 -q" \
         "f2fs" "mkfs.f2fs" "jfs" "mkfs.jfs -q" "nilfs2" "mkfs.nilfs2 -q" "ntfs" "mkfs.ntfs -q" \
         "reiserfs" "mkfs.reiserfs -q" "vfat" "mkfs.vfat -F32" "xfs" "mkfs.xfs -f" 2>$ANSWER
     case "$(cat $ANSWER)" in
         "$_FSSkip") FILESYSTEM="$_FSSkip" ;;
-        "btrfs")
-            FILESYSTEM="mkfs.btrfs -f" CHK_NUM=16
-            fs_opts="autodefrag compress=zlib compress=lzo compress=no compress-force=zlib compress-force=lzo discard noacl noatime nodatasum nospace_cache recovery skip_balance space_cache ssd ssd_spread"
+        "btrfs") FILESYSTEM="mkfs.btrfs -f" CHK_NUM=16
+            fs_opts=(autodefrag compress=zlib compress=lzo compress=no compress-force=zlib
+                     compress-force=lzo discard noacl noatime nodatasum nospace_cache recovery
+                     skip_balance space_cache ssd ssd_spread
+                     )
             modprobe btrfs
             ;;
         "ext2") FILESYSTEM="mkfs.ext2 -q" ;;
         "ext3") FILESYSTEM="mkfs.ext3 -q" ;;
-        "ext4")
-            FILESYSTEM="mkfs.ext4 -q" CHK_NUM=8
-            fs_opts="data=journal data=writeback dealloc discard noacl noatime nobarrier nodelalloc"
+        "ext4") FILESYSTEM="mkfs.ext4 -q" CHK_NUM=8
+            fs_opts=(data=journal data=writeback dealloc discard noacl noatime nobarrier nodelalloc)
             ;;
-        "f2fs")
-            FILESYSTEM="mkfs.f2fs" CHK_NUM=16
-            fs_opts="data_flush disable_roll_forward disable_ext_identify discard fastboot flush_merge inline_xattr inline_data inline_dentry no_heap noacl nobarrier noextent_cache noinline_data norecovery"
+        "f2fs") FILESYSTEM="mkfs.f2fs" CHK_NUM=16
+            fs_opts=(data_flush disable_roll_forward disable_ext_identify discard fastboot
+                     flush_merge inline_xattr inline_data inline_dentry no_heap noacl nobarrier
+                     noextent_cache noinline_data norecovery
+                     )
             modprobe f2fs
             ;;
-        "jfs")
-            FILESYSTEM="mkfs.jfs -q" CHK_NUM=4
-            fs_opts="discard errors=continue errors=panic nointegrity"
+        "jfs") FILESYSTEM="mkfs.jfs -q" CHK_NUM=4
+            fs_opts=(discard errors=continue errors=panic nointegrity)
             ;;
-        "nilfs2")
-            FILESYSTEM="mkfs.nilfs2 -q" CHK_NUM=7
-            fs_opts="discard nobarrier errors=continue errors=panic order=relaxed order=strict norecovery"
+        "nilfs2") FILESYSTEM="mkfs.nilfs2 -q" CHK_NUM=7
+            fs_opts=(discard nobarrier errors=continue errors=panic order=relaxed order=strict norecovery)
             ;;
         "ntfs") FILESYSTEM="mkfs.ntfs -q" ;;
-        "reiserfs")
-            FILESYSTEM="mkfs.reiserfs -q" CHK_NUM=5
-            fs_opts="acl nolog notail replayonly user_xattr"
+        "reiserfs") FILESYSTEM="mkfs.reiserfs -q" CHK_NUM=5
+            fs_opts=(acl nolog notail replayonly user_xattr)
             ;;
         "vfat") FILESYSTEM="mkfs.vfat -F32" ;;
-        "xfs")
-            FILESYSTEM="mkfs.xfs -f" CHK_NUM=9
-            fs_opts="discard filestreams ikeep largeio noalign nobarrier norecovery noquota wsync"
+        "xfs") FILESYSTEM="mkfs.xfs -f" CHK_NUM=9
+            fs_opts=(discard filestreams ikeep largeio noalign nobarrier norecovery noquota wsync)
             ;;
         *) prep_menu
     esac
@@ -554,7 +556,7 @@ mount_partitions() {
     mount_opts() {
         FS_OPTS=""
         echo "" > $MOUNT_OPTS
-        for i in $fs_opts; do
+        for i in "${fs_opts[@]}"; do
             FS_OPTS="$FS_OPTS $i - off"
         done
         FS_TITLE=$(sed "s/-.*//g" <<< "$(sed "s/.*\.//g" <<< "$FILESYSTEM")")
@@ -924,13 +926,11 @@ lvm_create() {
         LVM_VG=$(cat $ANSWER)
     done
 
-    # Select the partition(s) for the Volume Group
     dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_LvmCreateVG " \
         --checklist "$_LvmPvSelBody $_UseSpaceBar" 0 0 7 $PARTS 2>$ANSWER || prep_menu
     [[ $(cat $ANSWER) != "" ]] && VG_PARTS=$(cat $ANSWER) || prep_menu
 
-    # Once all the partitions have been selected, show user. On confirmation, use it/them in 'vgcreate' command.
-    # Also determine the size of the VG, to use for creating LVs for it.
+    # On confirmation, use 'vgcreate' command and determine the size of the VG, for creating LVs
     if dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_LvmCreateVG " \
               --yesno "$_LvmPvConfBody1${LVM_VG} $_LvmPvConfBody2${VG_PARTS}" 0 0; then
 
@@ -1008,10 +1008,8 @@ lvm_create() {
     # Create the final LV
     lvcreate -l +100%FREE "$LVM_VG" -n "$LVM_LV_NAME" 2>>/tmp/.errlog
     check_for_error
-    NUM_LOGICAL_VOLUMES=$((NUM_LOGICAL_VOLUMES - 1))
-    LVM=1
-    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_LvmCreateVG " \
-        --yesno "$_LvmCompBody" 0 0 && show_devices || lvm_menu
+    NUM_LOGICAL_VOLUMES=$((NUM_LOGICAL_VOLUMES - 1)) LVM=1
+    dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_LvmCreateVG " --yesno "$_LvmCompBody" 0 0 && show_devices || lvm_menu
 }
 
 lvm_del_vg() {
@@ -1049,6 +1047,8 @@ lvm_menu() {
     esac
 }
 
+
+
 ######################################################################
 ##                    Installation Functions                        ##
 ######################################################################
@@ -1058,6 +1058,8 @@ install_root() {
     AIROOTIMG="/run/archiso/sfs/airootfs/"
     rsync -a --progress $AIROOTIMG $MOUNTPOINT/ 2>>/tmp/.errlog
     check_for_error
+
+    # Clean up installation files
     {
         cp "/run/archiso/bootmnt/arch/boot/$ARCHI/vmlinuz" $MOUNTPOINT/boot/vmlinuz-linux
         cp /etc/pacman.d/mirrorlist $MOUNTPOINT/etc/pacman.d/mirrorlist
@@ -1075,7 +1077,11 @@ install_root() {
         sed -i 's/volatile/auto/g' $MOUNTPOINT/etc/systemd/journald.conf
     } 2>>/tmp/.errlog
     check_for_error
+
+    # Remove archiso init files
     find $MOUNTPOINT/usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
+
+    # Setup pacman & keyring
     arch_chroot "mkdir -p /var/lib/pacman/sync"
     arch_chroot "touch /var/lib/pacman/sync/{core.db,extra.db,community.db}"
     arch_chroot "dirmngr </dev/null"
@@ -1092,13 +1098,16 @@ install_root() {
     done
     arch_chroot "pacman-key --populate archlabs"
     arch_chroot "pacman -Syy --noconfirm"
+
+    XKB="/tmp/01-keyboard-layout.conf"
+    NETC="/etc/NetwokManager/system-connections"
+    [[ -e /etc/resolv.conf ]] && cp -f /etc/resolv.conf $MOUNTPOINT/etc/resolv.conf
+    [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf $MOUNTPOINT/etc/vconsole.conf
+    [[ -e $XKB ]] && cp -f $XKB ${MOUNTPOINT}$XKB
+    [[ -e $NETC ]] && cp -rf $NETC ${MOUNTPOINT}$NETC
+
+    # Setup system services
     {
-        XKB="/tmp/01-keyboard-layout.conf"
-        NETC="/etc/NetwokManager/system-connections"
-        [[ -e /etc/resolv.conf ]] && cp -f /etc/resolv.conf $MOUNTPOINT/etc/resolv.conf
-        [[ -e /tmp/vconsole.conf ]] && cp /tmp/vconsole.conf $MOUNTPOINT/etc/vconsole.conf
-        [[ -e $XKB ]] && cp -f $XKB ${MOUNTPOINT}$XKB
-        [[ -e $NETC ]] && cp -rf $NETC ${MOUNTPOINT}$NETC
         arch_chroot "systemctl enable ntpd.service -f"
         arch_chroot "systemctl enable NetworkManager.service -f"
         arch_chroot "systemctl enable lightdm.service -f"
@@ -1107,7 +1116,9 @@ install_root() {
     check_for_error
 }
 
+
 install_bootloader() {
+
     bios_bootloader() {
         select_device
         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Grub-install " --infobox "$_PlsWaitBody" 0 0
@@ -1120,7 +1131,7 @@ install_bootloader() {
             sed -i "s~GRUB_CMDLINE_LINUX=.*~GRUB_CMDLINE_LINUX=\"${LUKS_DEV}\"~g" $MOUNTPOINT/etc/default/grub
         fi
         sed -i 's/GRUB_DISTRIBUTOR="Arch"/GRUB_DISTRIBUTOR="ArchLabs"/g' $MOUNTPOINT/etc/default/grub
-        arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
+        arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>/dev/null
         check_for_error
     }
 
@@ -1137,7 +1148,6 @@ install_bootloader() {
         {
             arch_chroot "mkdir $UEFI_MOUNT/EFI/Boot"
             arch_chroot "cp -r $UEFI_MOUNT/EFI/archlabs/grubx64.efi $UEFI_MOUNT/EFI/Boot/bootx64.efi"
-            arch_chroot "grub-mkconfig -o /boot/efi/grub/grub.cfg"
             arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg"
         } 2>>/tmp/.errlog
         check_for_error
@@ -1152,6 +1162,7 @@ install_bootloader() {
         uefi_bootloader
     fi
 }
+
 
 ######################################################################
 ##                       Main Interfaces                            ##
@@ -1170,7 +1181,6 @@ security_menu(){
     HIGHLIGHT_SUB=$(cat $ANSWER)
     case "$(cat $ANSWER)" in
         "1")
-            # systemd-journald
             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_SecJournTitle " \
                 --menu "$_SecJournBody" 0 0 7 "$_Edit" "/etc/systemd/journald.conf" \
                 "10M" "SystemMaxUse=10M" "20M" "SystemMaxUse=20M" "50M" "SystemMaxUse=50M" \
@@ -1192,7 +1202,6 @@ security_menu(){
             fi
             ;;
         "2")
-            # core dump
             dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_SecCoreTitle " --menu "$_SecCoreBody" 0 0 2 \
                 "$_Disable" "Storage=none" "$_Edit" "/etc/systemd/coredump.conf" 2>$ANSWER
             if [[ $(cat $ANSWER) == "$_Disable" ]]; then
@@ -1204,9 +1213,7 @@ security_menu(){
             fi
             ;;
         "3")
-            # Kernel log access
-            dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_SecKernTitle " \
-                --menu "Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)" 0 0 2 \
+            dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " $_SecKernTitle " --menu "$_SecKernLogs" 0 0 2 \
                 "$_Disable" "kernel.dmesg_restrict = 1" "$_Edit" "/etc/systemd/coredump.conf.d/custom.conf" 2>$ANSWER
             case "$(cat $ANSWER)" in
                 "$_Disable")
@@ -1219,7 +1226,7 @@ security_menu(){
                         nano $MOUNTPOINT/etc/sysctl.d/50-dmesg-restrict.conf
                     else
                         dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --title " Config Not Found " \
-                            --msgbox "The config does not exist: $MOUNTPOINT/etc/sysctl.d/50-dmesg-restrict.conf" 0 0
+                            --msgbox " $_SeeConfErrBody $MOUNTPOINT/etc/sysctl.d/50-dmesg-restrict.conf" 0 0
                     fi
             esac
             ;;
@@ -1249,10 +1256,7 @@ prep_menu() {
         "1") set_keymap ;;
         "2") set_xkbmap ;;
         "3") show_devices ;;
-        "4")
-            umount_partitions
-            select_device
-            create_partitions ;;
+        "4") umount_partitions && select_device && create_partitions ;;
         "5") luks_menu ;;
         "6") lvm_menu ;;
         "7") mount_partitions ;;
@@ -1298,10 +1302,7 @@ config_base_menu() {
         "1") generate_fstab ;;
         "2") set_hostname ;;
         "3") set_locale ;;
-        "4")
-            set_timezone
-            set_hw_clock
-            ;;
+        "4") set_timezone && set_hw_clock ;;
         "5") set_root_password ;;
         "6") create_new_user ;;
         "7") security_menu ;;
@@ -1355,6 +1356,7 @@ edit_configs() {
     edit_configs
 }
 
+
 main_menu() {
     if [[ $HIGHLIGHT != 5 ]]; then
         if ! [[ -e $MOUNTPOINT/etc ]] && [[ $HIGHLIGHT != 1 ]]; then
@@ -1381,13 +1383,8 @@ main_menu() {
         "4") edit_configs ;;
         *)
             if dialog --backtitle "$VERSION - $SYSTEM ($ARCHI)" --yesno "$_CloseInstBody" 8 45; then
-                if [[ -e $MOUNTPOINT/etc/skel ]] && [[ -e $MOUNTPOINT/boot/grub/grub.cfg ]]; then
-                    umount_partitions
-                    clear && systemctl -i reboot
-                else
-                    umount_partitions
-                    clear && exit 0
-                fi
+                umount_partitions
+                clear && exit 0
             else
                 main_menu
             fi
@@ -1395,11 +1392,11 @@ main_menu() {
     main_menu
 }
 
-
 id_system
 select_language
 check_requirements
 greeting
+
 while true; do
     main_menu
 done

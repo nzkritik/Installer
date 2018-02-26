@@ -8,7 +8,6 @@ _AlreadyInst="Já instalado mas não habilitado:"
 _All="Todos"
 _Done="Pronto"
 _PlsWaitBody="\nPor favor, aguarde...\n\n"
-_PassReEntBody="\nDigite novamente a senha.\n"
 _ErrTitle="Erro"
 _PassErrBody="\nAs senhas digitadas não coincidem. Por favor, tente novamente.\n\n"
 
@@ -140,8 +139,8 @@ _FstabDevPtUUID="UEFI Partição UUID"
 _HostNameBody="\nO hostname é usado para identificar o sistema em uma rede.\n\nE é restrito aos caracteres alfa numéricos, pode conter um hífen (-) - mas não no inicio ou no fim - e não deve ser maior que 63 caracteres.\n"
 
 # Definir Senha Root
-_PassRtBody="\nDigite a senha Root \n\n"
-_PassRtBody2="\nRe-digite a senha Root \n\n"
+_PassRtBody="Digite a senha Root"
+_PassRtBody2="Re-digite a senha Root"
 
 # Criar Novo Usuário
 _NUsrTitle="Criar Novo Usuário"
@@ -152,7 +151,8 @@ _NUsrErrTitle="Erro no Nome do Usuário"
 _NUsrErrBody="\nUm nome de usuário incorrecto foi inserido. Por favor, tente novamente..\n\n"
 
 # Definir Usuário
-_PassNUsrBody="\nInsira a senha para"
+_PassNUsrBody="Insira a senha para"
+_PassNUsrBody2="Digite novamente a senha para"
 _NUsrSetBody="\nCriando usuários e definindo grupos...\n\n"
 
 # Montando (Partições)

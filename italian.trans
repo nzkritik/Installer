@@ -8,7 +8,6 @@ _AlreadyInst="Già installato ma non abilitato:"
 _All="Tutte"
 _Done="Fatto"
 _PlsWaitBody="\nAttendere prego...\n\n"
-_PassReEntBody="\nImmettere nuovamente la password.\n"
 _ErrTitle="Errore"
 _PassErrBody="\nLe password digitate non corrispondono. Provare nuovamente.\n\n"
 
@@ -140,8 +139,8 @@ _FstabDevPtUUID="Part UUID UEFI"
 _HostNameBody="\nL'hostname è utilizzato per identificare il sistema all'interno di una rete.\n\nPuò essere composto di soli caratteri alfanumerici, può inoltre contenere un trattino (-) - ma non all'inizio o alla fine del nome - e non può essere più lungo di 63 caretteri.\n"
 
 # Impostare la password di Root
-_PassRtBody="\nImmetti la password di Root\n\n"
-_PassRtBody2="\nImmetti nuovamente la password di Root\n\n"
+_PassRtBody="Immetti la password di Root"
+_PassRtBody2="Immetti nuovamente la password di Root"
 
 # Crea un nuovo utente
 _NUsrTitle="Crea Nuovo Utente"
@@ -152,7 +151,8 @@ _NUsrErrTitle="Errore Nome Utente"
 _NUsrErrBody="\nE' stato scelto un nome utente non valido. Provare nuovamente.\n\n"
 
 # Imposta Utente
-_PassNUsrBody="\nImmetti la password per"
+_PassNUsrBody="Immetti la password per"
+_PassNUsrBody2="Immettere nuovamente la password per"
 _NUsrSetBody="\nCreazione utente ed impostazioni gruppi\n\n"
 
 # Montaggio (Partizioni)

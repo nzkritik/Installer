@@ -91,6 +91,7 @@ _PassRtBody2="Re-enter Root password"
 _NUsrTitle="Create New User"
 _NUsrBody="\nEnter the user name.\n\nLetters MUST be lower case."
 _PassNUsrBody="Enter password for"
+_PassNUsrBody2="Re-enter the password for"
 _NUsrSetBody="\nCreating User and setting groups...\n\n"
 
 # Mounting (Partitions)

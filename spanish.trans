@@ -8,7 +8,6 @@ _AlreadyInst="Ya instalado/s pero no habilitado/s:"
 _All="Todos"
 _Done="Finalizar"
 _PlsWaitBody="\nPor favor espere...\n\n"
-_PassReEntBody="\nVuelva a escribir la contraseña.\n"
 _ErrTitle="Error"
 _PassErrBody="\nLas contraseñas introducidas no coinciden. Vuelva a intentarlo.\n\n"
 
@@ -140,8 +139,8 @@ _FstabDevPtUUID="UUID de Part UEFI"
 _HostNameBody="\nEl nombre del equipo se usa para identificar al sistema dentro de una red.\n\nEstá restringido a carcteres alfanuméricos, y puede contener guiones (-) pero no al principio o al final del nombre, y no puede exceder los 63 caracteres de longitud.\n"
 
 # Establecer contraseña de superusuario
-_PassRtBody="\nEscriba la contraseña de superusuario\n\n"
-_PassRtBody2="\nVuelva a escribir la contraseña de superusuario\n\n"
+_PassRtBody="Escriba la contraseña de superusuario"
+_PassRtBody2="Vuelva a escribir la contraseña de superusuario"
 
 # Crear nuevo usuario
 _NUsrTitle="Crear un nuevo usuario"
@@ -152,7 +151,8 @@ _NUsrErrTitle="Error de nombre de usuario"
 _NUsrErrBody="\nSe ha introducido un nombre de usuario incorrecto. Vuelva a intentarlo.\n\n"
 
 # Establecer usuario
-_PassNUsrBody="\nEscriba la contraseña para"
+_PassNUsrBody="Escriba la contraseña para"
+_PassNUsrBody2="Vuelva a escribir la contraseña para"
 _NUsrSetBody="\nCreando usuario y ajustando grupos...\n\n"
 
 # Montaje (particiones)

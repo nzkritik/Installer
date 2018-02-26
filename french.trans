@@ -8,7 +8,6 @@ _AlreadyInst="Déjà installé mais pas activé :"
 _All="Tous"
 _Done="Terminé"
 _PlsWaitBody="\nVeuillez patienter...\n\n"
-_PassReEntBody="\nEntrer à nouveau le mot de passe.\n"
 _ErrTitle="Erreur"
 _PassErrBody="\nLes mots de passe entrés ne correspondent pas. Veuillez réessayer.\n\n"
 
@@ -140,8 +139,8 @@ _FstabDevPtUUID="UUID de la section UEFI"
 _HostNameBody="\nLe nom d'hôte est utilisé pour identifier le système sur un réseau.\n\nIl est limité aux caractères alphanumériques, peut contenir un trait d'union (-) - mais pas au début ni à la fin - et ne doit pas être plus long que 63 caractères.\n"
 
 # Définir le mot de passe administrateur
-_PassRtBody="\nEntrer le mot de passe administrateur\n\n"
-_PassRtBody2="\nEntrer à nouveau le mot de passe administrateur\n\n"
+_PassRtBody="Entrer le mot de passe administrateur"
+_PassRtBody2="Entrer à nouveau le mot de passe administrateur"
 
 # Créer un nouvel utilisateur
 _NUsrTitle="Créer un nouvel utilisateur"
@@ -152,7 +151,8 @@ _NUsrErrTitle="Erreur de nom utilisateur"
 _NUsrErrBody="\nNom d'utilisateur incorrect. Veuillez réessayer.\n\n"
 
 # Définir l'utilisateur
-_PassNUsrBody="\nEntrer le mot de passe pour"
+_PassNUsrBody="Entrer le mot de passe pour"
+_PassNUsrBody2="Entrer à nouveau le mot de passe."
 _NUsrSetBody="\nCréation de l'utilisateur et paramétrage des groupes...\n\n"
 
 # Montage (Partitions)

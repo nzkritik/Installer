@@ -8,7 +8,6 @@ _AlreadyInst="Már telepítve van, de nincs engedélyezve."
 _All="Összes"
 _Done="Kész"
 _PlsWaitBody="\nKérlek várj...\n\n"
-_PassReEntBody="\nIsmételd meg a jelszót.\n"
 _ErrTitle="Hiba"
 _PassErrBody="\nA megadott jelszavak nem egyeznek. Kérlek próbáld újra.\n\n"
 
@@ -140,8 +139,8 @@ _FstabDevPtUUID="UEFI rész UUID"
 _HostNameBody="\n\A házigazda nevének azonosítására használja rendszer a hálózaton keresztül.n\nEz a név alfanumerikus karakterekből állhat és tartalmazhat kötőjelet (-), de nem az elején és a végén, és nem lehet hosszabb 63 karakternél.\n"
 
 # Rendszergazda jelszó beállítása
-_PassRtBody="\nAdd meg a rendszergazda jelszavát\n\n"
-_PassRtBody2="\nIsmételd meg a rendszergazda jelszavát\n\n"
+_PassRtBody="Add meg a rendszergazda jelszavát"
+_PassRtBody2="Ismételd meg a rendszergazda jelszavát"
 
 # Új felhasználó létrehozása
 _NUsrTitle="Új felhasználó létrehozása"
@@ -152,7 +151,8 @@ _NUsrErrTitle="Felhasználónév hiba"
 _NUsrErrBody="\nHelytelen felhasználónevet adtál meg. Kérlek próbáld újra.\n\n"
 
 # A felhasználó beállítása
-_PassNUsrBody="\nAdd meg a jelszót"
+_PassNUsrBody="Add meg a jelszót"
+_PassNUsrBody2="Ismételd meg a jelszót."
 _NUsrSetBody="\nFelhasználó létrehozása és csoportok beállítása...\n\n"
 
 # Csatolás (Partíciók)

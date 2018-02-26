@@ -8,7 +8,6 @@ _AlreadyInst="Reeds geïnstalleerd maar nog niet actief:"
 _All="Alle"
 _Done="Klaar"
 _PlsWaitBody="\nEven geduld aub...\n\n"
-_PassNUsrBody2="\nHerhaal het wachtwoord"
 _ErrTitle="Fout"
 _PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
 
@@ -152,7 +151,8 @@ _NUsrErrTitle="Foute gebruikersnaam"
 _NUsrErrBody="\nEen foute gebruikersnaam werd ingegeven. Probeer opnieuw aub.\n\n"
 
 # Stel Gebruiker in
-_PassNUsrBody="\nGeef wachtwoord in voor"
+_PassNUsrBody="Geef wachtwoord in voor"
+_PassNUsrBody2="Herhaal het wachtwoord"
 _NUsrSetBody="\nMaak een Gebruiker aan en stel Groepen in...\n\n"
 
 # Aankoppelen van Partities

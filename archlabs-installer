@@ -273,7 +273,7 @@ create_new_user() {
         --insecure --passwordbox "$_PassNUsrBody $USER" 0 0 2>$ANS || config_base_menu
     PASSWD=$(cat $ANS)
     dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear \
-        --insecure --passwordbox "$_PassReEntBody" 0 0 2>$ANS || config_base_menu
+        --insecure --passwordbox "$_PassNUsrBody2 $USER" 0 0 2>$ANS || config_base_menu
     PASSWD2=$(cat $ANS)
     while [[ $PASSWD != "$PASSWD2" ]]; do
         dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
@@ -281,7 +281,7 @@ create_new_user() {
             --clear --insecure --passwordbox "$_PassNUsrBody $USER" 0 0 2>$ANS || config_base_menu
         PASSWD=$(cat $ANS)
         dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear \
-            --insecure --passwordbox "$_PassReEntBody" 0 0 2>$ANS || config_base_menu
+            --insecure --passwordbox "$_PassNUsrBody2 $USER" 0 0 2>$ANS || config_base_menu
         PASSWD2=$(cat $ANS)
     done
 
@@ -371,9 +371,11 @@ confirm_mount() {
 
 select_device() {
     DEVICE=""
-    devices_list=$(lsblk -lno NAME,SIZE,TYPE | grep 'disk' | awk '{print "/dev/" $1 " " $2}' | sort -u);
-    for i in "${devices_list[@]}"; do DEVICE="$DEVICE $i" ; done
-    dialog --backtitle "$BTITLE" --title " $_DevSelTitle " --menu "$_DevSelBody" 0 0 4 $DEVICE 2>$ANS || prep_menu
+    devs=$(grep 'disk' <<< "$(lsblk -lno NAME,SIZE,TYPE)")
+    devs=$(awk '{print "/dev/" $1 " " $2}' <<< "$devs"| sort -u)
+    for i in "${devs[@]}"; do DEVICE="$DEVICE $i" ; done
+    dialog --backtitle "$BTITLE" --title " $_DevSelTitle " \
+        --menu "$_DevSelBody" 0 0 4 $DEVICE 2>$ANS || prep_menu
     DEVICE=$(cat $ANS)
 }
 
@@ -661,19 +663,28 @@ mount_partitions() {
         dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
             --menu "$_SelUefiBody" 0 0 7 $PARTS 2>$ANS || prep_menu
         PART=$(cat $ANS)
-        if grep -q 'fat' <<< "$(fsck -N "$PART")"; then
-            local MSG="$_FormUefiBody $PART $_FormUefiBody2"
-            if dialog --backtitle "$BTITLE" --title " $_PrepMntPart " --yesno "$MSG" 0 0; then
-                mkfs.vfat -F32 "$PART" >/dev/null 2>>/tmp/.errlog
-            fi
-        else
+        if ! grep -q 'fat' <<< "$(fsck -N "$PART")"; then
             mkfs.vfat -F32 "$PART" >/dev/null 2>>/tmp/.errlog
+        else
+            FORMAT="True"
         fi
         check_for_error
         EFI_MNT=/boot/efi
         mkdir -p ${MNTP}$EFI_MNT 2>>/tmp/.errlog
         mount "$PART" ${MNTP}$EFI_MNT 2>>/tmp/.errlog
         check_for_error
+        if [[ $FORMAT == "True" ]]; then
+            LDR=$(find ${MNTP}$EFI_MNT/EFI -maxdepth 1 -type d)
+            if ! grep -qi "Windows" <<< "$LDR" && ! grep -qi "Microsoft" <<< "$LDR"; then
+                local MSG="$_FormUefiBody $PART $_FormUefiBody2"
+                if dialog --backtitle "$BTITLE" --title " $_PrepMntPart " --yesno "$MSG" 0 0; then
+                    umount "$PART" ${MNTP}$EFI_MNT 2>>/tmp/.errlog
+                    mkfs.vfat -F32 "$PART" >/dev/null 2>>/tmp/.errlog
+                    mount "$PART" ${MNTP}$EFI_MNT 2>>/tmp/.errlog
+                    check_for_error
+                fi
+            fi
+        fi
         confirm_mount ${MNTP}$EFI_MNT
     fi
 
@@ -1124,9 +1135,19 @@ install_bootloader() {
                 sed -i "s/GRUB_PRELOAD_MODULES=.*/GRUB_PRELOAD_MODULES=\"lvm\"/g" $MNTP/etc/default/grub
             fi
         else
-            arch_chroot "mkdir -p $EFI_MNT/EFI/boot"
-            arch_chroot "cp -rf $EFI_MNT/EFI/ArchLabs/grubx64.efi $EFI_MNT/EFI/boot/grubx64.efi"
-            arch_chroot "cp -rf $EFI_MNT/EFI/ArchLabs/grubx64.efi $EFI_MNT/EFI/boot/bootx64.efi"
+            BOOTD=($(find $MNTP$EFI_MNT/EFI -maxdepth 1 -type d))
+            for i in "${BOOTD[@]}"; do
+                NAME=$(basename "$i")
+                if [[ $NAME == "BOOT" ]] || [[ $NAME == "Boot" ]] || [[ $NAME == "boot" ]]; then
+                    BD=$EFI_MNT/EFI/$NAME
+                    break
+                else
+                    BD=$EFI_MNT/EFI/boot
+                fi
+            done
+            arch_chroot "mkdir -p $BD"
+            arch_chroot "cp -rf $EFI_MNT/EFI/ArchLabs/grubx64.efi $BD/grubx64.efi"
+            arch_chroot "cp -rf $EFI_MNT/EFI/ArchLabs/grubx64.efi $BD/bootx64.efi"
         fi
         arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>>/tmp/.errlog
         check_for_error
@@ -1145,6 +1166,7 @@ install_bootloader() {
             mount -t efivarfs efivarfs /sys/firmware/efi/efivars
         fi
         dialog --backtitle "$BTITLE" --title " Grub-install " --infobox "$_PlsWaitBody" 0 0
+        GCMD="grub-install --target=x86_64-efi --efi-directory=$EFI_MNT --bootloader-id=ArchLabs --force"
         arch_chroot "$GCMD" 2>>/tmp/.errlog
         check_for_error
         grub_configuration
@@ -1156,7 +1178,6 @@ install_bootloader() {
     if [[ $SYSTEM == "BIOS" ]]; then
         bios_bootloader
     else
-        GCMD="grub-install --target=x86_64-efi --efi-directory=$EFI_MNT --bootloader-id=ArchLabs --force"
         uefi_bootloader
     fi
 }
@@ -1174,7 +1195,10 @@ security_menu() {
     fi
     dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" \
         --title " $_SecMenuTitle " --menu "$_SecMenuBody" 0 0 4 \
-        "1" "$_SecJournTitle" "2" "$_SecCoreTitle" "3" "$_SecKernTitle" "4" "$_Back" 2>$ANS
+        "1" "$_SecJournTitle" \
+        "2" "$_SecCoreTitle" \
+        "3" "$_SecKernTitle" \
+        "4" "$_Back" 2>$ANS
     HIGHLIGHT=$(cat $ANS)
     case "$(cat $ANS)" in
         "1")
@@ -1274,7 +1298,7 @@ install_root_menu() {
     if [[ $SUB_MENU != "install_base_menu" ]]; then
         SUB_MENU="install_base_menu" HIGHLIGHT=1
     else
-        [[ $HIGHLIGHT != 4 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
+        [[ $HIGHLIGHT != 5 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
     dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" --title "$_InstBseMenuTitle" \
         --menu "$_InstBseMenuBody" 0 0 5 \
@@ -1300,7 +1324,7 @@ config_base_menu() {
     if [[ $SUB_MENU != "config_base_menu" ]]; then
         SUB_MENU="config_base_menu" HIGHLIGHT=1
     else
-        [[ $HIGHLIGHT != 8 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
+        [[ $HIGHLIGHT != 7 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
     dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" --title " $_ConfBseMenuTitle " \
         --menu "$_ConfBseBody" 0 0 7 \

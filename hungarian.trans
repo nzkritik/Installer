@@ -1,10 +1,5 @@
-##
-##
 ## Angol nyelvi fájl
-##
-##
 ## Írta Carl Duff (27-Feb-2016)
-##
 ## Fordító : Istju
 
 # Általános
@@ -16,6 +11,9 @@ _PlsWaitBody="\nKérlek várj...\n\n"
 _PassReEntBody="\nIsmételd meg a jelszót.\n"
 _ErrTitle="Hiba"
 _PassErrBody="\nA megadott jelszavak nem egyeznek. Kérlek próbáld újra.\n\n"
+
+_MntBody="Használd a  [Szóköz] billentyűt a csatolni kívánt meghajtó kijelöléséhez, illetve a kijelölés törléséhez és nézd át újra gondosan. Kérjük ne válassz több változatot ugyanahhoz a lehetőséghez."
+_MntConfBody="Erősítsd meg a következő csatolási lehetőségeket:\n\n"
 
 # Biztonság és furmányos kiegészítések
 _SecMenuTitle="Biztonság és systemd lehetőségek"
@@ -38,8 +36,6 @@ _btrfsSVErrBody="Üres karakter, vagy szóköz nem engedélyezett. Kérlek prób
 _btrfsSVBody1="Írd be az alkötet nevét"
 _btrfsSVBody2="létrehozni ezen belül"
 _btrfsSVBody3="\n\nEz a folyamat addig folytatódik, amíg csillag(*) van beírva az alkötet nevéhez .\n\nLétrehozott alkötetek:"
-_btrfsMntBody="Használd a  [Szóköz] billentyűt a csatolni kívánt meghajtó kijelöléséhez, illetve a kijelölés törléséhez és nézd át újra gondosan. Kérjük ne válassz több változatot ugyanahhoz a lehetőséghez."
-_btrfsMntConfBody="Erősítsd meg a következő csatolási lehetőségeket:\n\n"
 
 # Automata partícionálás
 _AutoPartBody1="Figyelmeztetés: Az összes adat a"
@@ -66,7 +62,7 @@ _LuksOpenBody="\nAdj egy nevet a titkosított block eszköznek. Nem szükséges,
 _LuksEncrypt="Automatikus LUKS Titkosítás"
 _LuksEncryptAdv="Határozd meg a kulcs méretét és a rejtjelezés típusát"
 _LuksEncryptBody="\nVálaszd ki a titkosítandó partíciót."
-_LuksEncruptSucc="\nKész! Kinyílt, és kész az LVM (ajánlott) vagy direkt csatolásra.\n"
+_LuksEncryptSucc="\nKész! Kinyílt, és kész az LVM (ajánlott) vagy direkt csatolásra.\n"
 _LuksPartErrBody="\nMinimum kettő partícióra van szükség a titkosításhoz:\n\n1. Root (/) - normál vagy lvm partíció.\n\n2. Boot (/boot or /boot/efi) - csak normál partíció (kivéve lvm-nél ha BIOS Grub-ot használsz).\n"
 _SelLuksRootBody="\nVálaszd a gyökér (/) partíciót titkosításra. Ez az, ahová az ArchLabs lesz telepítve.\n\n"
 _LuksPassBody="\nAdj meg egy jelszót a partíció titkosításához, illetve a titkosítás feloldásához. Ez nem egyezhet sem a rendszergazda, sem a felhasználói jelszóval.\n"
@@ -75,8 +71,7 @@ _LuksWaitBody2="Használt eszköz vagy kötet:"
 _LuksCipherKey="\nHa a megadott zászlókat módosítod, ezt automatikusan használva lesz a  'cryptsetup -q luksFormat /dev/...' parancssal.\n\nMegjegyzés: Kulcs fájlok nem támogatottak; ezeket manuálisan kell hozzáadni telepítés után. Ne add meg a további zászlókat, mint a  -v (--verbose) vagy -y (--verify-passphrase).\n"
 
 # Logikai kötetkezelés
-_PrepLVM="Logikai kötetkezelés"
-_PrepLVM2="(választható)"
+_PrepLVM="Logikai kötetkezelés (választható)"
 _LvmMenu="\nA logikai kötetkezelő (LVM) lehetővé teszi 'virtuális' merevlemezek (Kötetcsoportok) és partíciók (logikai kötetek) létrehozását  a meglévő meghajtóra és partícióra A kötetcsoportot kell létrehozni először, majd ebben egy vagy több logikai kötetet.\n\nAz LVM is használható titkosított partíciónál, ha több logikai kötete hozol létre benne. (pl. root és home) "
 _LvmCreateVG="Kötetcsoport és logikai kötet(ek) létrehozása"
 _LvmDelVG="Kötetcsoport törlése"
@@ -251,7 +246,7 @@ _PrepMntPart="Partíciók csatolása"
 _Back="Vissza"
 
 # Alaptelepítés menü
-_InstBsMenuTitle="Alaptelepítés"
+_InstBseMenuTitle="Alaptelepítés"
 _InstBseMenuBody="\nA telepítendő csomagokat le kell tölteni a tükörszerverekről. A 'pacstrap' script telepíti az alaprendszert. Csomagkészítéshez az AUR-ból, vagy az ABS segítségével a 'base-devel' csomag telepítése szükséges."
 _InstBse="Alapcsomagok telepítése"
 _InstBootldr="Rendszertöltő telepítése"

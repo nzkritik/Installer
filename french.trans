@@ -1,10 +1,5 @@
-##
-##
 ## French Translation File
-##
-##
 ## Écrit par Carl Duff (27-02-2016)
-##
 ## Traduction française par Charles Monzat (27-02-2016)
 
 # Générique
@@ -16,6 +11,9 @@ _PlsWaitBody="\nVeuillez patienter...\n\n"
 _PassReEntBody="\nEntrer à nouveau le mot de passe.\n"
 _ErrTitle="Erreur"
 _PassErrBody="\nLes mots de passe entrés ne correspondent pas. Veuillez réessayer.\n\n"
+
+_MntBody="Utiliser [Espace] pour sélectionner/désélectionner les options de montage désirées. Veuillez ne pas sélectionner plusieurs versions de la même option."
+_MntConfBody="Confirmer les options de montage suivantes :\n\n"
 
 # Sécurité et réglages
 _SecMenuTitle="Sécurité et réglages de systemd"
@@ -38,8 +36,6 @@ _btrfsSVErrBody="Les blancs ou espaces ne sont pas permis. Veuillez réessayer.\
 _btrfsSVBody1="Entrer le nom du sous-volume"
 _btrfsSVBody2="à créer dans"
 _btrfsSVBody3="\n\nCe processus sera répété jusqu'à ce qu'un astérisque (*) soit entré comme nom de sous-volume.\n\nSous-volumes Créés :"
-_btrfsMntBody="Utiliser [Espace] pour sélectionner/désélectionner les options de montage désirées. Veuillez ne pas sélectionner plusieurs versions de la même option."
-_btrfsMntConfBody="Confirmer les options de montage suivantes :\n\n"
 
 # Partition auto
 _AutoPartBody1="AVERTISSEMENT : TOUTES les données sur"
@@ -66,7 +62,7 @@ _LuksOpenBody="\nPréciser un nom pour le bloc crypté du périphérique. Il n'e
 _LuksEncrypt="Cryptage LUKS automatique"
 _LuksEncryptAdv="Définir le cryptage et la longueur de clé"
 _LuksEncryptBody="\nSélectionner une partition à crypter."
-_LuksEncruptSucc="\nTerminé ! Ouvert et prêt pour LVM (recommandé) ou montage direct.\n"
+_LuksEncryptSucc="\nTerminé ! Ouvert et prêt pour LVM (recommandé) ou montage direct.\n"
 _LuksPartErrBody="\nUn minimum de deux partitions est nécessaire pour le cryptage :\n\n1. Root (/) - partition standard ou lvm.\n\n2. Boot (/boot ou /boot/efi) - partition standard uniquement (excepté lvm utilisant BIOS Grub).\n"
 _SelLuksRootBody="\nSélectionner la partition ROOT (/) à crypter. ArchLabs sera installé dans cette partition.\n\n"
 _SelLuksRootBody="\nEntrer un mot de passe pour crypter/décrypter la partition. Le mot de passe ne doit pas être le même que celui du compte utilisateur ou administrateur.\n"
@@ -75,8 +71,7 @@ _LuksWaitBody2="Périphérique ou volume utilisé :"
 _LuksCipherKey="\nDès que les drapeaux spécifiés sont modifiés, ils peuvent être automatiquement utilisés avec la commande 'cryptsetup -q luksFormat /dev/...'.\n\nNOTE : Les fichiers de clé ne sont pas supportés ; Ils peuvent être ajoutés manuellement après l'installation. Ne spécifier aucuns drapeaux additionnels du genre -v (--verbose) ou -y (verify-passphrase).\n"
 
 # Gestionnaire de volume logique (LVM)
-_PrepLVM="Gestionnaire de volume logique"
-_PrepLVM2="(optionnel)"
+_PrepLVM="Gestionnaire de volume logique (optionnel)"
 _LvmMenu="\nLe gestionnaire de volume logique (LVM) permet aux disque durs 'virtuels' (groupes de volume) et aux partitions (volumes logiques) d'être créer à partir de volumes et partitions qui existent déjà. Un groupe de volume peut être créé en premier, avec un ou plusieurs volumes logiques à l'intérieur.\n\nLVM peut également être utilisé avec une partition cryptée pour créer de multiples volumes logiques (ex : root et home) à l'intérieur."
 _LvmCreateVG="Créer des LV(s) et VG"
 _LvmDelVG="Supprimer des groupes de volume"
@@ -251,7 +246,7 @@ _PrepMntPart="Monter les partitions"
 _Back="Retour"
 
 # Menu d'installation de Base
-_InstBsMenuTitle="Installer Base"
+_InstBseMenuTitle="Installer Base"
 _InstBseMenuBody="\nLes paquets à installer doivent être téléchargés à partir des serveurs miroirs. Le script pacstrap installe le système de base. Pour construire des paquets à partir d'AUR ou avec ABS, le groupe base-devel est également nécessaire."
 _InstBse="Installer les paquets de Base"
 _InstBootldr="Installer le chargeur d'amorçage"

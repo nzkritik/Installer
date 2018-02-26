@@ -1,10 +1,5 @@
-##
-##
 ## Nederlands Vertaalbestand (ArchLabs 2.0)
-##
-##
 ## Ontwerp: Carl Duff (27-Feb-2016)
-##
 ## Vertalers: Erwin Crepieux
 
 # Generic
@@ -16,6 +11,9 @@ _PlsWaitBody="\nEven geduld aub...\n\n"
 _PassNUsrBody2="\nHerhaal het wachtwoord"
 _ErrTitle="Fout"
 _PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
+
+_MntConfBody="Bevestig volgende aankoppelopties:\n\n"
+_MntBody="Gebuik [Spatie] om de gewenste aankoppel-opties te (de)selecteren en controleer deze nauwkeurig. Vermijd de selectie van meerdere versies van de zelfde optie, aub."
 
 # Veiligheid en aanpassingen
 _SecMenuTitle="Beveiliging en systemd instellen"
@@ -38,8 +36,6 @@ _btrfsSVErrBody="Blanco's of spaties zijn niet toegestaan. Probeer opnieuw.\n"
 _btrfsSVBody1="Geef de naam van het subvolume in"
 _btrfsSVBody2="om te maken in"
 _btrfsSVBody3="\n\nDit proces zal worden herhaald tot een asterisk (*) als subvolumenaam wordt ingegeven.\n\nAangemaakte subvolumes:"
-_btrfsMntBody="Gebuik [Spatie] om de gewenste aankoppel-opties te (de)selecteren en controleer deze nauwkeurig. Vermijd de selectie van meerdere versies van de zelfde optie, aub."
-_btrfsMntConfBody="Bevestig volgende aankoppelopties:\n\n"
 
 # Autopartitionering
 _AutoPartBody1="Opgelet: ALLE data op"
@@ -66,7 +62,7 @@ _LuksOpenBody="\nGeef een naam aan het versleutelde opslagmedium. Het is niet no
 _LuksEncrypt="Automatische LUKS Versleuteling"
 _LuksEncryptAdv="Bepaal de sleutelgrootte en Cypher"
 _LuksEncryptBody="\nSelecteer een partitie om te versleutelen."
-_LuksEncruptSucc="\nKlaar! Geopend en klaar voor LVM (aanbevolen) of rechtstreekse aankoppeling.\n"
+_LuksEncryptSucc="\nKlaar! Geopend en klaar voor LVM (aanbevolen) of rechtstreekse aankoppeling.\n"
 _LuksPartErrBody="\nEr zijn minimum twee partities nodig om te kunnen versleutelen:\n\n1. Root (/) - standaard-of LVM partitie-types.\n\n2. Boot (/boot of /boot/efi) - alleen standaard partitietypes  (behalve LVM waar men BIOS Grub gebruikt).\n"
 _SelLuksRootBody="\nSelecteer de ROOT (/) partitie die moet worden versleuteld. Dit is waar ArchLabs zal worden geïnstalleerd.\n\n"
 _LuksPassBody="\nGeef een wachtwoord in om de partitie te versleutelen. Dit mag niet hetzelfde zijn als het Root-wachtwoord of uw gebruikerswachtwoord.\n"
@@ -75,8 +71,7 @@ _LuksWaitBody2="Gebruikt opslagmedium of volume:"
 _LuksCipherKey="\nZodra de opgegeven vlaggen zijn gewijzigd, zullen ze automatisch worden gebruikt met de opdracht 'cryptsetup q luksFormat/dev/...'\n\nOpmerking: Sleutelbestanden worden niet ondersteund; ze kunnen na de installatie handmatig worden toegevoegd. Geef geen extra vlaggen op, zoals -v (--verbose) of -y (--verify-passphrase).\n"
 
 # Logisch Volume Management
-_PrepLVM="Logisch Volume Management"
-_PrepLVM2="(optioneel)"
+_PrepLVM="Logisch Volume Management (optioneel)"
 _LvmMenu="\nLogisch Volume Management (LVM) laat ons toe 'virtuele' harde schijven (Volume Groepen) en partities (Logische Volumes) te maken op bestaande schijven en partities. Eerst moet een Volume Groep worden aangemaakt met daarin één of meerdere Logische Volumes.\n\nLVM kan ook worden gebruikt om in een versleutelde partitie meerdere logische volumes aan te maken (zoals root en home)."
 _LvmCreateVG="Aanmaken van VG en LV(s)"
 _LvmDelVG="Verwijder Volume Groepen"
@@ -252,7 +247,7 @@ _PrepMntPart="Koppel de Partities aan"
 _Back="Terug"
 
 # Menu: installeren van het Basissysteem
-_InstBsMenuTitle=" Installeer het Basissysteem"
+_InstBseMenuTitle=" Installeer het Basissysteem"
 _InstBseMenuBody="\nDe gewenste pakketten worden gedownload van mirror servers. Het pacstrap script installeert het basissysteem. Indien je pakketten van het AUR of met ABS wenst te gebruiken, is de basis-devel groep ook vereist."
 _InstBse="Installeer het Basissysteem"
 _InstBootldr="Installeer de Bootlader"

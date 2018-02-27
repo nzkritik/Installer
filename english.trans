@@ -21,7 +21,7 @@ _PrepKBLayout="Set Keyboard Layout"
 _DevShowOpt="List Devices (optional)"
 _PrepPartDisk="Partition Disk"
 _PrepLUKS="LUKS Encryption (optional)"
-_PrepLVM="Logical Volume Management (optional)"
+_PrepLVM="Setup LVM (optional)"
 _PrepMntPart="Mount Partitions"
 _Back="Back"
 
@@ -29,7 +29,7 @@ _Back="Back"
 _InstBseMenuTitle="Install ArchLabs"
 _InstBseMenuBody="\nUnpack and install ArchLabs.\n"
 _InstBse="Unpack System"
-_InstBootldr="Install Grub"
+_InstBootldr="Install bootloader"
 _MMRunMkinit="Run mkinitcpio"
 
 # Configure Base Menu

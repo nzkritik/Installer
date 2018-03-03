@@ -159,13 +159,13 @@ set_keymap() {
 set_xkbmap() {
     XMAPS=""
     local maps
-    maps=(af al am at az ba bd be bg br bt bw by ca cd ch cm
-          cn cz de dk ee es et eu 'fi' fo fr gb ge gh gn gr hr
-          hu ie il in iq ir is it jp ke kg kh kr kz la lk lt
-          lv ma md me mk ml mm mn mt mv ng nl no np pc ph pk
-          pl pt ro rs ru se si sk sn sy tg th tj tm tr tw tz
-          ua us uz vn za
-          )
+    maps=(
+    af al am at az ba bd be bg br bt bw by ca cd ch cm cn
+    cz de dk ee es et eu 'fi' fo fr gb ge gh gn gr hr hu
+    ie il in iq ir is it jp ke kg kh kr kz la lk lt lv ma
+    md me mk ml mm mn mt mv ng nl no np pc ph pk pl pt ro
+    rs ru se si sk sn sy tg th tj tm tr tw tz ua us uz vn za
+    )
 
     for i in "${maps[@]}"; do
         XMAPS="$XMAPS $i -"
@@ -202,6 +202,7 @@ set_locale() {
 
     sed -i "s/en_US.UTF-8/${LOC}/g" $MNT/etc/locale.conf
     cp -f $MNT/etc/locale.conf $MNT/etc/default/locale
+    sed -i "s/#en_US.UTF-8/en_US.UTF-8/g" $MNT/etc/locale.gen
     sed -i "s/#${LOC}/${LOC}/g" $MNT/etc/locale.gen
     sed -i "s/en_US.UTF-8/${LOC}/g" $MNT/etc/default/locale
     arch_chroot "locale-gen" >/dev/null 2>>"$ERR"
@@ -351,6 +352,7 @@ create_new_user() {
 
         WHEEL="%wheel ALL=(ALL) ALL"
         OPENBOX="$MNT/home/$ISO_USER/.config/openbox"
+
         L_FILES=(/etc/lightdm/lightdm.conf "/home/$ISO_USER/.config/openbox/autostart"
                  /etc/group /etc/gshadow /etc/passwd /etc/shadow)
 
@@ -358,8 +360,13 @@ create_new_user() {
             sed -i "s/${ISO_USER}/${USER}/g" ${MNT}"$f"
         done
 
-        sed -i '98,103d' $OPENBOX/menu.xml
-        sed -i '743,745d' $OPENBOX/rc.xml
+        if grep -q "archlabs-installer" $OPENBOX/rc.xml; then
+            sed -i '/archlabs-installer/ { N; N; d; }' $OPENBOX/rc.xml
+        fi
+        if grep -q "Install Archlabs" $OPENBOX/rc.xml; then
+            sed -i '/Install Archlabs/ { N; N; N; N; N; d; }' $OPENBOX/menu.xml
+        fi
+
         sed -i 's/#$HOME/$HOME/g' $OPENBOX/autostart
         sed -i '/keypack/d' $OPENBOX/autostart
         sed -i '/al-hello/ c sleep 10; termite -e al-hello &' $OPENBOX/autostart
@@ -400,7 +407,27 @@ run_mkinitcpio() {
         sed -i 's/block filesystems/block encrypt filesystems/g' $CONF 2>>"$ERR"
     fi
 
-    if [[ $MNTHOOKS != "" ]]; then
+    if [[ $LUKS_DEV ]]; then
+        sed -i 's/block filesystems/block encrypt filesystems/g' $CONF 2>>"$ERR"
+        if [[ $LUKS_PASSWD ]]; then
+            LDEV=$(lsblk -lno NAME,UUID,TYPE | grep "part")
+            LDEV="/dev/$(grep "$LUKS_UUID" <<< "$LDEV" | awk '{print $1}')"
+
+            # arch_chroot "dd bs=512 count=8 if=/dev/urandom of=/etc/key"
+            # arch_chroot "chmod 400 /etc/key"
+            # arch_chroot "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $LDEV /etc/key"
+            # echo "cryptboot $LDVE /etc/key luks" >> $MNT/etc/crypttab
+
+            arch_chroot "dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin" &>/dev/null
+            arch_chroot "chmod 000 /crypto_keyfile.bin"
+            echo "INFO: Setting up single password decryption at boot"
+            echo "INFO: Creating encryption keyfile: /crypto_keyfile.bin"
+            arch_chroot "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $LDEV /crypto_keyfile.bin"
+            sed -i 's/FILES=()/FILES=(\/crypto_keyfile.bin)/g' $MNT/etc/mkinitcpio.conf
+        fi
+    fi
+
+    if [[ $MNTHOOKS ]]; then
         sed -i "s/keyboard fsck/keyboard ${MNTHOOKS} fsck/g" $CONF 2>>"$ERR"
     fi
 
@@ -702,12 +729,17 @@ mount_partitions() {
 
             LUKS=1
             LUKS_NAME=$(sed "s~^/dev/mapper/~~g" <<< "$PART")
+
             cryptblk=$(grep "lvm" <<< "$BLK" | grep -i "crypto_luks")
             crypts=$(awk '{print "/dev/mapper/"$1}' <<< "$cryptblk" | uniq)
 
             for i in ${crypts}; do
                 if grep -q "$LUKS_NAME" <<< "$(lsblk -lno NAME "$i")"; then
-                    LUKS_DEV="cryptdevice=$i:$LUKS_NAME"
+                    if [[ $LUKS_DEV ]]; then
+                        LUKS_DEV="$LUKS_DEV cryptdevice=$i:$LUKS_NAME"
+                    else
+                        LUKS_DEV="cryptdevice=$i:$LUKS_NAME"
+                    fi
                     LVM=1
                     break
                 fi
@@ -733,6 +765,7 @@ mount_partitions() {
 
             LVM=1
             NAME=$(sed "s~^/dev/mapper/~~g" <<< "$PART")
+
             cryptblk=$(grep "crypt" <<< "$BLK" | grep -i "lvm2_member")
             crypts=$(awk '{print "/dev/mapper/"$1}' <<< "$cryptblk" | uniq)
 
@@ -748,7 +781,6 @@ mount_partitions() {
 
             for i in ${crypts}; do
                 if grep -q "$LUKS_NAME" <<< "$(lsblk -lno NAME "$i")"; then
-
                     UUID=$(lsblk -lno UUID,TYPE,FSTYPE "$i" | grep "part")
                     LUKS_UUID=$(grep -i "crypto_luks" <<< "$UUID" | awk '{print $1}')
 
@@ -888,7 +920,15 @@ mount_partitions() {
             done
             mount_current_partition
 
-            [[ $MOUNT == "/usr" ]] && MNTHOOKS="usr shutdown"
+            if [[ $MOUNT == "/usr" ]]; then
+                if [[ $MNTHOOKS ]]; then
+                    if ! grep -q "usr shutdown" <<< "$MNTHOOKS"; then
+                        MNTHOOKS="$MNTHOOKS usr shutdown"
+                    fi
+                else
+                    MNTHOOKS="usr shutdown"
+                fi
+            fi
 
             if [[ $MOUNT == "/boot" ]]; then
                 if grep -q "lvm" <<< "$(lsblk -lno TYPE "$PART")"; then
@@ -917,6 +957,8 @@ luks_password() {
     if [[ $PASSWD != "$PASSWD2" ]]; then
         dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
         luks_password
+    else
+        LUKS_PASSWD="$PASSWD"
     fi
 }
 
@@ -938,12 +980,6 @@ luks_open() {
     dialog --backtitle "$BTITLE" --title " $_LuksOpen " --infobox "$MSG" 0 0
     echo "$PASSWD" | cryptsetup open --type luks "$PART" "$LUKS_ROOT_NAME" 2>"$ERR"
     check_for_error
-
-    # luks_show
-    # lsblk -o NAME,TYPE,FSTYPE,SIZE,MOUNTPOINT "$PART" \
-    #     | grep "crypt\|NAME\|MODEL\|TYPE\|FSTYPE\|SIZE" > /tmp/.devlist
-    # dialog --backtitle "$BTITLE" --title " $_DevShowOpt " --textbox /tmp/.devlist 0 0
-    # luks_menu
 }
 
 luks_setup() {
@@ -1313,7 +1349,7 @@ install_root() {
         arch_chroot "pacman-key --lsign $i"
     done
     arch_chroot "pacman-key --populate archlabs"
-    arch_chroot "pacman -Syy --noconfirm"
+    arch_chroot "pacman -Syyu --noconfirm"
 
     # System services
     arch_chroot "systemctl enable ntpd.service -f"
@@ -1388,6 +1424,8 @@ install_bootloader() {
         uefi_bootloader
     fi
 
+    os-prober &>/dev/null
+    arch_chroot "os-prober"
     arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>>"$ERR"
     check_for_error
 }

@@ -136,7 +136,7 @@ _SelSwpNone="None"
 _SelSwpFile="Swapfile"
 _SelUefiBody="Select EFI Partition.\n\nThis is a special partition\nfor booting newer UEFI systems."
 _FormUefiBody="The EFI partition"
-_FormUefiBody2="has already been formatted.\n\nDo you want to reformat it?\n\nDoing so will erase ALL data (bootloaders) on the partition.\n\n"
+_FormUefiBody2="is already formatted.\n\nDo you want to reformat it?\n\nDoing so will erase ALL data (bootloaders) on the partition.\n\n"
 
 # Generic
 _All="All"

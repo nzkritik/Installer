@@ -26,16 +26,6 @@ _SecMenuBody="\nHay disponibles varios ajustes útiles y fáciles de usar para m
 _SecJournBody="\nsystemd-journald recopila y almacena registros del núcleo, del sistema, de auditoría, y mensajes de salida estándar y error de los servicios.\n\nPor defecto, el tamaño límite de un archivo de journaling permanente (no volátil) es el 10% del tamaño de la partición raíz: una partición raíz de 500GB significa un límite de 50GB para los datos almacenados en /var/log/journal. 50MB deberían ser suficientes. También se puede desactivar el registro, aunque puede hacer más difícil la resolución de problemas del sistema.\n\n"
 _SecCoreBody="\nUn volcado de memoria es una grabación de la memoria del ordenador cuando un proceso se bloquea.\n\nAunque son útiles para los desarrolladores, no lo son tanto para la mayoría de usuarios. Los volcados de memoria malgastan recursos del sistema y pueden contener datos privados como contraseñas y claves de encriptación.\n\nEl comportamiento por defecto de systemd es generar volcados de memoria para todos los procesos en /var/lib/systemd/coredump. Este comportamiento se puede sobreescribir creando un archivo de configuración en el directorio /etc/systemd/coredump.conf.d/\n\n"
 
-# btrfs
-_btrfsSVTitle="Subvolúmenes btrfs"
-_btrfsSVBody="¿Crear subvolúmenes btrfs?\n\nSe creará un subvolumen inicial y después se montará. Se podrán crear otros subvolúmenes a partir de éste más tarde.\n\nDe lo contrario, puede saltar directamente a las opciones de montaje.\n"
-_btrfsMSubBody1="Inroduzca el nombre del subvolumen inicial a montar (e.g. RAÍZ). Las opciones de montaje serán seleccionadas entonces. Una vez montado, el resto de subvolúmenes "
-_btrfsMSubBody2="serán creados a partir de este."
-_btrfsSVErrBody="Espacios en blanco no permitidos. Pruebe otra vez.\n"
-_btrfsSVBody1="Introduzca el nombre del subvolumen"
-_btrfsSVBody2="para crearlo dentro de"
-_btrfsSVBody3="\n\nEste proceso se repetirá hasta que se introduzca un asterisco (*) como nombre del subvolumen.\n\nSubvolúmenes creados:"
-
 # Autopartición
 _AutoPartBody1="Aviso: TODA la información en "
 _AutoPartBody2="será eliminada por completo.\n\nPrimero se creará una partición de arranque de 512MB, seguida por una segunda partición (raíz o '/') que utilizará todo el espacio restante."
@@ -211,25 +201,8 @@ _ExtErrBody="\nLa partición no se puede montar debido a un problema con el nomb
 
 # Instalar sistema base
 _InstBseTitle="Instalar sistema base"
-_InstStandBseBody="\nSe instalará de forma automática el grupo de paquetes 'base'. El grupo de paquetes 'base-devel' es necesario para poder usar el ArchLabs User Repository (AUR).\n\n"
-_InstStandBase="Instalación estándar"
-_InstAdvBase="Instalación avanzada"
-_InstAdvBseBody="\nAVISO: Ésto es sólo para usuarios experimentados. Los usuarios novatos deberían utilizar la opción de instalación estándar."
-_InstAdvWait="\nRecopilando información de paquetes."
 
-# Instalar gestor de arranque BIOS
-_InstBiosBtTitle="Instalar gestor de arranque BIOS"
-_InstBiosBtBody="\nSe recomienda Grub2 para usuarios principiantes. También se puede seleccionar el dispositivo de instalación.\n\nSyslinux es una alternativa más ligera y más simple que sólo funciona con sistemas de archivos ext o btrfs."
-_InstSysTitle="Instalar Syslinux"
-_InstSysBody="\n¿Desea instalar 'syslinux' en el Registro de Arranque Maestro (MBR) o en la raíz (/)?\n\n"
-
-# Instalar gestor de arranque UEFI
-_InstUefiBtTitle="Instalar gestor de arranque UEFI"
-_InstUefiBtBody="\nsystemd-boot requiere /boot. Grub funcionará en cualquier punto de montaje."
-_SetBootDefBody="\nAlgunos firmwares UEFI podrían no detectar el gestor de arranque a menos que sea establecido como predeterminado, copiando su EFISTUB (archivo de arranque) a"
-_SetBootDefBody2="y renombrándolo a bootx64.efi.\n\nSe recomienda hacer esto a menos que ya se esté usando un gestor de arranque predeterminado, o si se quieren usar varios gestores de arranque.\n\n¿Establecer gestor de arranque como el predeterminado?\n\n"
-
-# ArchLabsivo EFI ajustado para GRUB
+# Archivo EFI ajustado para GRUB
 _SetDefDoneBody="ha sido definido como el gestor de arranque predeterminado.\n\n"
 
 # Bienvenido
@@ -247,7 +220,7 @@ _Back="Atrás"
 
 # Menú de instalación del sistema base
 _InstBseMenuTitle="Instalar sistema base"
-_InstBseMenuBody="\nLos paquetes a instalar se deben descargar de los servidores mirror. El script 'pacstrap' instala el sistema base. Para compilar paquetes del AUR o con ABS, se requiere el grupo de paquetes 'base-devel'."
+_InstBseMenuBody="\nInstalar sistema ArchLabs base"
 _InstBse="Instalar paquetes base"
 _InstBootldr="Instalar gestor de arranque"
 

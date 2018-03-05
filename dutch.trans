@@ -26,16 +26,6 @@ _SecKernLogs="Kernel logs may contain information an attacker can use to identif
 _SecJournBody="\nsystemd-journald verzamelt en slaat kernel logs, systeem logs, audit records op, alsook standaard rapporten en foutmeldingen van services.\n\nStandaard wordt de persistente rapport-grootte gelimiteerd op 10% van de root partitie:  Bij een root-partitie van 500G betekent dit dat maximum 50G aan gegevens kunnen worden opgeslagen in/var/log/journal.  50G zou voldoende moeten zijn. De rapportering kan ook worden uitgeschakeld, maar dat kan het oplossen van problemen met het systeem bemoeilijken.\n\n"
 _SecCoreBody="\nEen core-dump is de registratie van de staat van het computergeheugen wanneer een proces vastloopt.\n\nHandig voor ontwikkelaars, maar niet voor de gemiddelde gebruiker. Core-dumps verkwisten systeembronnen en kunnen ook gevoelige gegevens bevatten zoals wachtwoorden en encryptiesleutels. /n/nStandaard genereert systemd core-dumps voor alle processen in /var/lib/systemd/coredump. Dit gedrag kan worden aangepast door het creëren van een configuratiebestand in de /etc/systemd/coredump.conf.d/ map.\n\n"
 
-# btrfs
-_btrfsSVTitle="btrfs Subvolumes"
-_btrfsSVBody="Aanmaken van btrfs subvolumes?\n\nEen initieel subvolume zal worden aangemaakt en vervolgens aangekoppeld. Onderliggende subvolumes kunnen daarna worden aangemaakt.\n\nJe kunt ook direct verder gaan naar de aankoppelopties.\n"
-_btrfsMSubBody1="Geef de naam van de eerste subvolume dat moet worden aangekoppeld (bijv. ROOT). Aankoppelopties kunnen worden geselecteerd. Eenmaal aangekoppeld, alle subvolumes gecreëerd voor"
-_btrfsMSubBody2="zullen er uit aftakken."
-_btrfsSVErrBody="Blanco's of spaties zijn niet toegestaan. Probeer opnieuw.\n"
-_btrfsSVBody1="Geef de naam van het subvolume in"
-_btrfsSVBody2="om te maken in"
-_btrfsSVBody3="\n\nDit proces zal worden herhaald tot een asterisk (*) als subvolumenaam wordt ingegeven.\n\nAangemaakte subvolumes:"
-
 # Autopartitionering
 _AutoPartBody1="Opgelet: ALLE data op"
 _AutoPartBody2="zal worden gewist.\n\nEr wordt eerst een boot partitie van 512MB aangemaakt,  de rest van de ruimte wordt ingenomen door een tweede (root of '/') partitie."
@@ -183,18 +173,18 @@ _FSBody="\nExt4 is hier aanbevolen. Niet alle bestandsystemen zijn geschikt voor
 _FSSkip="Sla over / Geen"
 
 # Selecteer Root
-_SelRootBody="\nSelecteer de ROOT Partitie. Dit is waar ArchLabs zal worden geïnstalleerd."
+_SelRootBody="Selecteer de ROOT Partitie.\n\nDit is waar ArchLabs zal worden geïnstalleerd."
 
 # Selecteer SWAP
-_SelSwpBody="\nSelecteer de SWAP Partitie. Bij gebruik van SWAP, zal deze even groot ingesteld worden als de hoeveelheid RAM."
+_SelSwpBody="Selecteer de SWAP Partitie.\n\nBij gebruik van SWAP, zal deze even groot ingesteld worden als de hoeveelheid RAM."
 _SelSwpNone="Geen"
 _SelSwpFile="Swapbestand"
 
 # Selecteer UEFI
-_SelUefiBody="\nSelecteer een UEFI Partitie. Dit is een speciale partitie voor het starten van UEFI systemen."
+_SelUefiBody="Selecteer een UEFI Partitie.\n\nDit is een speciale partitie voor het starten van UEFI systemen."
 
 # Formateer UEFI
-_FormUefiBody="De UEFI partitie"
+_FormUefiBody="\nDe UEFI partitie"
 _FormUefiBody2="werd reeds geformateerd.\n\nHerformateren? Dit zal ALLE data op deze partitie wissen.\n\n"
 
 # UEFI aankoppelpunt
@@ -211,24 +201,6 @@ _ExtErrBody="\nPartitie kan niet worden aangekoppeld wegens een probleem met de 
 
 # Installeer Basissysteem
 _InstBseTitle="Installeer Basissysteem"
-_InstBseBody="\nStandaard: Aanbevolen voor beginners. Keuze tot twee kernels (linux en linux-lts) en optioneel kunnen de base-devel pakket groep. sudo, btrfs-progs, f2fs-tools ook worden geïnstalleerd.\n\nGevorderden: Keuze tot vier kernels (linux, lts, grsec, zen) en controle over individuele base en base-devel pakketten. Bijkomende configuratie van vgrsec en zen kan nodig zijn voor Virtualbox en NVIDIA.\n\nNOTE: Tenzij er reeds een kernel geïnstalleerd is, moet er tenminste een kernel worden geselecteerd."
-_InstStandBseBody="\nDe base package group zal automatisch worden geïnstalleerd. The base-devel package group is nodig voor de ArchLabs User Repository (AUR).\n\n"
-_InstStandBase="Standaard Installatie"
-_InstAdvBase="Geadvanceerde Installatie"
-_InstAdvBseBody="\nWAARSCHUWING: Dit is enkel voor ervaren gebruikers. Nieuwere gebruikers gebruiken best de 'standaard' installatie optie."
-_InstAdvWait="\nVerzameling pakketbeschrijvingen."
-
-# Installeer BIOS Bootloader
-_InstBiosBtTitle="Installeer BIOS Bootlader"
-_InstBiosBtBody="\nGrub2 is aanbevolen voor beginners. De installatieschijf kan ook worden geselecteerd.\n\nSyslinux is een lichter en eenvoudiger alternatief dat enkel werkt met de ext/btrfs -bestandsystemen."
-_InstSysTitle="Installeer Syslinux"
-_InstSysBody="\nInstalleer syslinux op Master Boot Record (MBR) of op Root (/)?\n\n"
-
-# Installeer UEFI Bootloader
-_InstUefiBtTitle="Installeer UEFI Bootloader"
-_InstUefiBtBody="\nsystemd-boot vereist /boot. Grub werkt met eender welk aankoppelpunt."
-_SetBootDefBody="\nSommige UEFI firmware kan geen bootloader vinden tenzij het is ingesteld als standaard. Dit doe je door het kopiëeren van haar efi stub"
-_SetBootDefBody2="en het te hernoemen naar bootx64.efi.\n\nHet is aanbevolen dit te doen tenzij je reeds een standaard bootloader hebt, of wanneer je van plan bent meerdere bootloaders te gebruiken.\n\nStel de bootloader in als standaard?\n\n"
 
 #Stel efi bestand in voor Grub
 _SetDefDoneBody="werd ingesteld als standaard bootloader.\n\n"
@@ -248,7 +220,7 @@ _Back="Terug"
 
 # Menu: installeren van het Basissysteem
 _InstBseMenuTitle=" Installeer het Basissysteem"
-_InstBseMenuBody="\nDe gewenste pakketten worden gedownload van mirror servers. Het pacstrap script installeert het basissysteem. Indien je pakketten van het AUR of met ABS wenst te gebruiken, is de basis-devel groep ook vereist."
+_InstBseMenuBody="Installeer het Basissysteem de ArchLabs."
 _InstBse="Installeer het Basissysteem"
 _InstBootldr="Installeer de Bootlader"
 

@@ -26,16 +26,6 @@ _SecMenuBody="\nAlguns ajustes úteis e amigáveis para iniciantes estão dispon
 _SecJournBody="\nO systemd-journald colecta e armazera os registros do kernel, de sistema, de auditoria, saídas padrão e mensagens de erro dos serviços.\n\nPor padrão, o tamanho limite de um arquivo de journaling permanente (não-volátil) é 10% do tamanho da partição root: uma partição root de 500G significa um limite de 50G para os dados armazenados em /var/log/journal. 50M deve ser suficiente. Pode-se também desabilitar o registro, embora possa ser bem mais difícil a resolução de problemas do sistema.\n\n"
 _SecCoreBody="\nUm despejo de memória é uma gravação da memória do computador quando um processo falha.\n\nMuito útil para os desenvolvedores mas não para a maioria dos usuários, os despejos de memóriacore dumps desperdiçam recursos do sistema e podem conter dados confidenciais senhas e chaves de criptografia.\n\nO comportamento padrão do systemd é gerar os despejos para todos os processos em /var/lib/systemd/coredump. Este comportamento pode ser substituído pela criação de um arquivo de configuração no diretório /etc/systemd/coredump.conf.d/.\n\n"
 
-# btrfs
-_btrfsSVTitle="Subvolumes btrfs"
-_btrfsSVBody="Criar subvolumes btrfs?\n\nUm subvolume inicial sera criado e em seguida montado. Outras ramificações do subvolume podem então ser criadas.\n\nCaso contrário, você pode pular diretamente para as opções de montagem.\n"
-_btrfsMSubBody1="Digite o nome do subvolume inicial para montar (ex. ROOT). Opções de montagem podem então ser selecionadas. Uma vez montado, todos os outros subvolumes criado para "
-_btrfsMSubBody2="irá ramificar dele."
-_btrfsSVErrBody="Espaços em brancos não são permitidos. Por favor tente novamente.\n"
-_btrfsSVBody1="Digite o nome do subvolume"
-_btrfsSVBody2="para criar dentro"
-_btrfsSVBody3="\n\nEste processo será repetido até que um asterisco (*) é inserido como o nome do subvolume.\n\nSubvolume Criado:"
-
 # Particionamento automático
 _AutoPartBody1="Atenção: TODOS os dados em"
 _AutoPartBody2="serão destruídos.\n\nUma partição de boot de 512MB será criada primeito, seguida por uma segunda partição (root ou '/') utilizando todo o espaço restante."
@@ -209,26 +199,6 @@ _ExtPartBody1="\nEspecifique o ponto de montagem da partição. Certifique-se qu
 # Erro de Nome em Partição Extra
 _ExtErrBody="\nA partição não pode ser montada devido a um problema com o nome do ponto de montagem. Um nome deve ser dado depois da barra.\n\n"
 
-# Instalar Base
-_InstBseTitle="Instalar Base"
-_InstStandBseBody="\nO grupo de pacote base será instalado automaticamente. The base package group will be installed automatically. O grupo de pacote base-devel é necessário para utilizar o AUR (ArchLabs User Repository).\n\n"
-_InstStandBase="Instalação padrão"
-_InstAdvBase="Instalação avançada"
-_InstAdvBseBody="\nATENÇÃO: Isto é apenas para usuários experientes. Usuários novatos devem utilizar a opção de instalação 'padrão'."
-_InstAdvWait="\nReunindo descrições dos pacotes."
-
-# Instalar o carregador de boot BIOS"
-_InstBiosBtTitle="Instalar o carregador de boot BIOS"
-_InstBiosBtBody="\nGrub2 é recomendado para iniciantes. O dispositivo de instalação também pode ser selecionado.\n\nSyslinux é uma alternativa mais leve e simples, que só funcionará com sistemas de arquivos ext/btrfs."
-_InstSysTitle="Instalar o Syslinux"
-_InstSysBody="\nInstalar o syslinux no Master Boot Record (MBR) ou no Root (/)?\n\n"
-
-# Instalar o carregador de boot UEFI
-_InstUefiBtTitle="Instalar o carregador de boot UEFI"
-_InstUefiBtBody="\nO systemd-boot requer /boot. O Grub irá trabalhar com qualquer ponto de montagem."
-_SetBootDefBody="\nAlguns firmware UEFI pode não detectar o carregador de boot a menos que seja definido como padrão, copiando o seu stub efi para"
-_SetBootDefBody2="e renomeá-lo para bootx64.efi.\n\nRecomenda-se fazer isto, a menos que já está usando um carregador de boot padrão, ou se quiser usar vários carregadores de boot.\n\nDefinir o carregador de boot como padrão?\n\n"
-
 # Arquivo efi definido para o Grub
 _SetDefDoneBody="foi definido como o carregador de boot padrão.\n\n"
 
@@ -247,7 +217,7 @@ _Back="Voltar"
 
 # Instalar Base Menu
 _InstBseMenuTitle="Instalar a Base"
-_InstBseMenuBody="\nOs pacotes a serem instalados devem ser baixados de servidores de espelhos. O script pacstrap instala o sistema base. Para compilar pacotes do AUR ou com ABS, é necessário o grupo de pacotes base-devel."
+_InstBseMenuBody="\nInstalar a ArchLabs Base"
 _InstBse="Instalar pacotes Base"
 _InstBootldr="Instalar o carregador do sistema "
 

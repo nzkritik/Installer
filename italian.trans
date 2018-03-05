@@ -26,16 +26,6 @@ _SecKernLogs="Kernel logs may contain information an attacker can use to identif
 _SecJournBody="\nsystemd-journald raccoglie ed archivia i log del kernel, log di sistema, rapporti audit, messaggi da standard outputs e messaggi di errore dai servizi.\n\nDi default, il limite  alla dimensione di un journal persistente (non-volatile) è impostato al 10% della partizione di root: ad una root da 500G corrisponde un limiti di 50G per i dati aggregati in /var/log/journal. 50M dovrbebero essere abbastanza. È possibile disabilitare il logging, sebbene ciò renda più difficile diagnosticare problemi del sistema.\n\n"
 _SecCoreBody="\nUn core dump è un'instantanea della memoria del computer durante il crash di un processo.\n\nUtile per  gi sviluppatore ma non per l'utente medio, i core dumps utilizzano molte risorse di sistema e possono contenere dati sensibili come passwords e chiavi di cifratura.\n\nIl comportamento di default di systemd è di generare dei core dumps per tutti i processi in /var/lib/systemd/coredump. Tale comportamento può essere modificato creando un file di configurazione nella directory /etc/systemd/coredump.conf.d/.\n\n"
 
-# btrfs
-_btrfsSVTitle="Sottovolumi di btrfs"
-_btrfsSVBody="Creare dei sottovolumi di btrfs?\n\nUn sottovolume iniziale sarà creato e poi montato. Altri sottovolumi che si diramano da questo possono essere in seguito creati.\n\nAltrimenti è possibile passare direttamente alle opzioni di montaggio.\n"
-_btrfsMSubBody1="Inserire il nome del sottovolume iniziale da montare (per esempio ROOT). Possono poi essere selezionate le opzioni di montaggio. Una volta montato, tutti gli altri sottovolumi creati "
-_btrfsMSubBody2="si dirameranno da esso."
-_btrfsSVErrBody="Spazi vuoti non sono permessi. Per favore prova di nuovo.\n"
-_btrfsSVBody1="Inserire il nome del sottovolume"
-_btrfsSVBody2="da creare dentro"
-_btrfsSVBody3="\n\nQuesto processo sarà ripetuto fino a quando un asterisco (*) non sarà inserito come nome del sottovolume.\n\nSottovolumi creati:"
-
 # Partizionamento automatico
 _AutoPartBody1="Attenzione: TUTTI i dati contenuti in"
 _AutoPartBody2="saranno eliminati.\n\nVerrà creata una partizione di boot da 512MB, seguita da una seconda partizione (root o '/') usando tutto lo spazio rimanente."
@@ -211,24 +201,6 @@ _ExtErrBody="\nImpossibile montare la partizione a case di un problema con il no
 
 # Install Base
 _InstBseTitle="Installazione di base"
-_InstBseBody="\nStandard: Raccomandata per i principianti. Scegliere fino a due kernels (linux and linux-lts) e volendo il gruppo pacchetti base-devel. In aggiunta, verranno installati sudo, btrfs-progs, f2fs-tools.\n\nAvanzato: Selezionare fino a 4 kernels (linux, lts, grsec, zen) e controllare pacchetti base e base-devel individualmente. Potrebbe essere richiesta configurazione aggiuntiva con grsec e zen per Virtualbox e NVIDIA.\n\nNOTA: a meno di installazioni precedenti, è necessario selezionare almeno un kernel."
-_InstStandBseBody="\nIl gruppo di pacchetti base verrà installato automaticamente. Il gruppo di pacchetti base-devel è richiesto per utilizzare l'ArchLabs User Repository (AUR).\n\n"
-_InstStandBase="Installazione Standard"
-_InstAdvBase="Installazione Avanzata"
-_InstAdvBseBody="\nATTENZIONE: solo per utenti esperti. Per i principianti è consigliato selezionare l'opzione di installazione 'standard'."
-_InstAdvWait="\nRaccolta descrizioni pacchetti."
-
-# Install BIOS Bootloader
-_InstBiosBtTitle="Installazione Bootloader BIOS"
-_InstBiosBtBody="\nGrub2 è consigliato per i principianti. E' possibile specificare il dispositivo sul quale installarlo.\n\nSyslinux rappresenta un'alternativa più leggera e semplice che funzionerà solo con i filesystem ext/btrfs."
-_InstSysTitle="Installa Syslinux"
-_InstSysBody="\nInstallare syslinux nel Master Boot Record (MBR) on in Root (/)?\n\n"
-
-# Install UEFI Bootloader
-_InstUefiBtTitle="Installazione Bootloader UEFI"
-_InstUefiBtBody="\nsystemd-boot richiede /boot. Grub funzionerà con qualunque mountpoint."
-_SetBootDefBody="\nAlcuni firmware UEFI potrebbero non identificare il bootloader a meno di impostarlo come default copiando il suo stub efi in"
-_SetBootDefBody2="e rinominandolo bootx64.efi.\n\nSi riccomanda di procedere come indicato a meno di non stare già usando un botoader di default, o qualora si vogliano usare bootloader multipli.\n\nImpostare il bootloader come default?\n\n"
 
 # Set file efi per Grub
 _SetDefDoneBody="è stato impostato come bootloader predefinito.\n\n"
@@ -248,9 +220,9 @@ _Back="Indietro"
 
 # Install Base Menu
 _InstBseMenuTitle="Installazione di base"
-_InstBseMenuBody="\nI pacchetti da installare devono essere scaricati da un mirror. Lo script pacstrap installa il sistema di base. Per compilare pacchetti dallo AUR o con ABS, è richiesto il gruppo pacchetti base-devel."
+_InstBseMenuBody="\nInstallazione di ArchLabs base"
 _InstBse="Installa Pacchetti Base"
-_InstBootldr="Installa il  Bootloader"
+_InstBootldr="Installa il Bootloader"
 
 # Configure Base Menu
 _ConfBseMenuTitle="Configurazione di base"

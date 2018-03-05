@@ -3,23 +3,19 @@
 
 # Welcome
 _WelTitle="Welcome to"
-_WelBody="This is the ArchLabs Installer.\n\nWith minimal configuration it will unpack and setup ArchLabs on your system\n\nMenu Navigation: \nSelect by pressing the option number or by using the up/down arrow keys before pressing [enter] to confirm. Switch between buttons by using [Tab] or the left/right arrow keys before pressing [enter] to confirm. Long lists can be navigated using the [pg up] and [pg down] keys, and/or by pressing the first letter of the desired option.\n\nUse the [Spacebar] to de/select."
+_WelBody="With minimal configuration this will unpack and setup ArchLabs on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys.\nSwitch between buttons using [Tab] or the arrow keys.\nLong lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse the [Spacebar] to select/deselect options and [Enter] to confirm."
 
-# Check Requirements
-_ChkTitle="Checking Requirements"
-_ChkBody="Checking installer has been\nrun as root and has an active internet connection.\n\nPlease wait..."
-_RtFailBody="The installer must be run as root.\n\nExiting."
-_ConFailBody="The installer must be run\nwith an active internet connection.\n\nExiting."
-_ReqMetTitle="Requirements Met"
-_ReqMetBody="\nAll checks passed!\n\n"
+# Requirements
+_RtFailBody="\nThe installer must be run as root.\n\nExiting."
+_ConFailBody="\nThe installer must be run\nwith an active internet connection.\n\nExiting."
 
 # Preparation Menu
 _PrepMenuTitle="Prepare System"
-_PrepMenuBody="Configure settings for installation"
+_PrepMenuBody="Configure settings used by\nthe system and installer during installation"
 _VCKeymapTitle="Set Virtual Console"
 _PrepKBLayout="Set Keyboard Layout"
 _DevShowOpt="List Devices (optional)"
-_PrepPartDisk="Partition Disk"
+_PrepPartDisk="Partition Device"
 _PrepLUKS="LUKS Encryption (optional)"
 _PrepLVM="Setup LVM (optional)"
 _PrepMntPart="Mount Partitions"
@@ -27,20 +23,15 @@ _Back="Back"
 
 # Install Base
 _InstBseMenuTitle="Install ArchLabs"
-_InstBseMenuBody="Unpack and install ArchLabs."
-_InstBse="Unpack System"
 _InstBootldr="Install Bootloader"
-_MMRunMkinit="Run Mkinitcpio"
 
 # Configure Menu
-_ConfBseMenuTitle="Configuration"
-_ConfBseBody="Post install system settings"
-_ConfBseFstab="Generate FSTAB"
+_ConfBseMenuTitle="Configure Installation"
+_ConfBseBody="Configure basic settings for the new system"
 _ConfBseHost="Set System Hostname"
-_ConfBseTimeHC="Set Timezone and Clock"
-_ConfBseSysLoc="Set System Locale"
+_ConfBseSysLoc="Set Locale and Timezone"
 _ConfUsrRoot="Set Root Password"
-_ConfUsrNew="Create User(s)"
+_ConfUsrNew="Create New User"
 
 # Main Menu
 _MMTitle="Main Menu"
@@ -61,24 +52,15 @@ _ErrNoBase="\nThe base system must be unpacked first.\n"
 _ExtErrBody="\nPartition cannot be mounted due to a problem with the mountpoint name.\n\nA name must be given after a forward slash."
 _PartErrBody="\nBIOS systems require at least one partition (ROOT).\nUEFI systems require at least two partitions (ROOT and EFI).\n\n"
 _NUsrErrTitle="User Name Error"
-_NUsrErrBody="Incorrect user name.\n\nPlease try again."
+_NUsrErrBody="\nIncorrect user name.\n\nPlease try again."
 
 # Set Keymap, Clock, Local and Timezone
 _VCKeymapBody="Virtual console is the shell prompt\nin a non-graphical environment.\n\nIts keymap is seperate from the desktop environment"
-_XkbmapBody="Select Desktop Keymap."
+_XkbmapBody="Select System Xorg Keymap.\n\nThis will be the keymap used on the desktop"
 _localeBody="Locale determines the date, time, and language.\n\nThe format is language_COUNTRY eg.\n\nen_US is english United States\nen_GB is english Great Britain"
 _TimeZBody="The time zone is used to set the system clock."
 _TimeSubZBody="Select the city nearest to you."
 _TimeZQ="\nSet Time Zone as:"
-_HwCBody="UTC is Universal Time Standard, and is recommended unless dual booting with Windows.\n\nConsider changing Windows to UTC instead."
-
-# Generate FSTAB
-_FstabBody="The FSTAB file (File System TABle) sets what storage devices and partitions are to be mounted, and how they are to be used.\n\nUUID (Universally Unique IDentifier) is recommended.\n\nIf no labels were set for the partitions earlier, device names will be used for the label option."
-_FstabErr="\nThe Part UUID option is only for UEFI/GPT installations.\n"
-_FstabDevName="Device Name"
-_FstabDevLabel="Device Label"
-_FstabDevUUID="Device UUID"
-_FstabDevPtUUID="UEFI Part UUID"
 
 # Set Hostname
 _HostNameBody="The hostname is used to identify systems on the network.\n\nIt is restricted to alphanumeric characters.\nIt can contain a hyphen (-) but NOT at the start or end\n\nIt also can NOT be longer than 63 characters."
@@ -99,24 +81,24 @@ _MntStatusTitle="Mount Status"
 _MntStatusSucc="\nMount Successful!\n\n"
 _MntStatusFail="\nMount Failed!\n\n"
 _WarnMount1="IMPORTANT: Partitions can be mounted without formatting them by selecting the"
-_WarnMount2="option listed at the top of the file system menu.\n\nEnsure the correct choices for mounting and formatting are made as no warnings will be provided, with the exception of the EFI boot partition."
+_WarnMount2="option listed at the top of the file system menu.\n\nEnsure the correct choices for mounting and formatting are made as no warnings will be provided, besides the EFI boot partition."
 _MntBody="Use [Space] to de/select the desired mount options.\nDo not select multiple versions of the same option.\n\nFor ext4 noatime is recommended.\nFor SSDs discard is also recommended."
 _MntConfBody="\nConfirm the following mount options:\n\n"
 
-# Select Device (installation)
+# Select Device
 _DevSelTitle="Select Device"
-_DevSelBody="Devices (/dev/) are available hard-disks and USB-sticks to install on. The first is /sda, the second /sdb, and so on.\n\nWhen using a USB-stick to boot ArchLabs, be careful it will also be listed!"
+_DevSelBody="Devices (/dev/) are the available drives on the system. The first is /sda, the second /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
 
 # Extra Partitions
-_ExtPartBody="Select additional partitions\nor 'Done' to finish.\n\n"
+_ExtPartBody="Select additional partitions\nor 'Done' to finish."
 _ExtPartBody1="Specify partition mountpoint.\n\nEnsure the name begins with a forward slash (/).\nExamples include:\n\n"
 
 # Auto partition
-_AutoPartBody1="\nWarning: ALL data on"
+_AutoPartBody1="\nWARNING: ALL data on"
 _AutoPartBody2="will be destroyed.\n\nA 512MB boot partition will be created,\nfollowed by a main partition using all remaining space."
 _AutoPartBody3="If intending to use SWAP, select the 'Swapfile' option when mounting.\n\nDo you wish to continue?"
 _AutoPartWipeBody1="WARNING: ALL data on"
-_AutoPartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process takes longer depending on the size of the device.\n\nDo you wish to continue?"
+_AutoPartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process takes a long time and will take longer depending on the size of the device.\n\nDo you wish to continue?"
 
 # Partitioning Menu
 _PartToolTitle="Partitioning Tool"
@@ -124,11 +106,9 @@ _PartToolBody="Auto partitioning is available for beginners.\nOtherwise gparted 
 _PartOptAuto="Automatic Partitioning"
 _PartOptWipe="Secure Wipe Device (optional)"
 
-# Partitioning Error
-
 # File System
 _FSTitle="Choose Filesystem"
-_FSBody="If unsure ext4 is recommended.\nNot all are viable for Root or Boot partitions\nand all have different features and limitations."
+_FSBody="If unsure ext4 is recommended.\n\nNot all are viable for Root or Boot partitions\nand all have different features and limitations."
 _FSSkip="Skip / None"
 _SelRootBody="Select ROOT Partition.\n\nThis is where ArchLabs will be installed."
 _SelSwpBody="Select SWAP File or Partition (optional)\n\nSwapfile will be auto filled in to the same size as system RAM, but can be changed"
@@ -148,16 +128,6 @@ _AlreadyInst="Already installed:"
 _PlsWaitBody="\nPlease wait...\n\n"
 _PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
 
-# btrfs
-_btrfsSVTitle="btrfs Subvolumes"
-_btrfsSVBody="Create btrfs subvolumes?\n\nAn initial subvolume will be created and then mounted. Other subvolumes branching from this may then be created.\n\nOtherwise you can skip directly to the mounting options."
-_btrfsMSubBody1="Enter the name of the initial subvolume to mount (e.g. ROOT). Mounting options may then be selected. Once mounted, all other subvolumes created for "
-_btrfsMSubBody2="will branch from it."
-_btrfsSVErrBody="Blanks or spaces are not permitted.\n\nPlease try again."
-_btrfsSVBody1="Enter the name of subvolume"
-_btrfsSVBody2="to create within"
-_btrfsSVBody3="This process will be repeated until an asterisk (*) is entered as the subvolume name.\n\nCreated Subvols:"
-
 # LUKS / DM-Crypt / Encryption
 _LuksMenuBody="Devices and volumes encrypted using dm_crypt cannot be accessed or even seen without being unlocked via a key or password."
 _LuksMenuBody2="\n\nA seperate boot partition without encryption or logical volume management (LVM - unless using BIOS Grub) is required."
@@ -171,7 +141,7 @@ _LuksEncryptSucc="Done! encrypted partition opened and ready for mounting.\n\n"
 _LuksPartErrBody="A minimum of two partitions are required for encryption:\n\n1. Root (/) - standard or lvm partition types.\n\n2. Boot (/boot or /boot/efi) - standard partition types only (except lvm where using BIOS Grub)."
 _SelLuksRootBody="Select the ROOT (/) partition to encrypt.\n\nThis is where ArchLabs will be installed."
 _LuksPassBody="Enter a password for un/encryption.\n\nThis should not be the same as the system account passwords."
-_LuksWaitBody="Creating encrypted partition:"
+_LuksWaitBody="\nCreating encrypted partition:"
 _LuksWaitBody2="\n\nDevice or volume used:"
 _LuksCipherKey="Once the specified flags have been amended, they will automatically be used with the 'cryptsetup -q luksFormat /dev/...' command.\n\nNOTE: Key files are not supported; they can be added manually post-installation. Do not specify any additional flags such as -v (--verbose) or -y (--verify-passphrase)."
 

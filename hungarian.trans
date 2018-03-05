@@ -26,16 +26,6 @@ _SecMenuBody="\nNéhány hasznos és kezdő felhasználóbarát lehetőség elé
 _SecJournBody="\nsystemd-journald gyűjti és tárolja a kernel és rendszernaplókat, az audit-nyilvántartást, a szabványos kimeneteket és a szolgáltatások hibaüzeneteit.\n\nAlapértelmezés szerint, egy tartós (nem felejtő) jurnal maximális mérete a gyökér partíciónak a 10%-a lehet. Például 500G gyökér partíció esetén 50G a limit a /var/log/journal fájlban az adat tárolásra. 50M elegendő lehet.\n\n"
 _SecCoreBody="\nA 'core dump' felvétel a számítógép memóriájáról, amikor a folyamatok összeomlanak.\n\nEz a fejlesztők számára hasznos de az átlagos felhasználónak nem, mivel pazarolja a rendszer erőforrásait és érzékeny adatokat tartalmazhat a jelszavakról és titkosítási kulcsokról.\n\nAz alapértelmezett 'systemd' viselkedés az, hogy memóriaképet készít az összes folyamatról a /var/lib/systemd/coredump fájlba. Ez a viselkedés felülírható egy beállítófájl létrehozásával az /etc/systemd/coredump.conf.d/ könyvtárba.\n\n"
 
-# btrfs
-_btrfsSVTitle="btrfs Alkötetek"
-_btrfsSVBody="Létrehozol btrfs alköteteket?\n\nEgy kezdeti alkötet fog létrejönni, majd csatolva lesz. Más alköteteket, melyek innen ágaznak le később lehet létrehozni.\n\nEgyébként kihagyhatod a közvetlen felcsatolási lehetőséget.\n"
-_btrfsMSubBody1="Írd be a kezdeti alkötet nevét a csatoláshoz (pl. ROOT). A csatolási lehetőségeket később választhatod ki. Először csatolod, a többi alkötetet ezután hozhatod létre. "
-_btrfsMSubBody2="ebbő ágazik le."
-_btrfsSVErrBody="Üres karakter, vagy szóköz nem engedélyezett. Kérlek próbáld újra.\n"
-_btrfsSVBody1="Írd be az alkötet nevét"
-_btrfsSVBody2="létrehozni ezen belül"
-_btrfsSVBody3="\n\nEz a folyamat addig folytatódik, amíg csillag(*) van beírva az alkötet nevéhez .\n\nLétrehozott alkötetek:"
-
 # Automata partícionálás
 _AutoPartBody1="Figyelmeztetés: Az összes adat a"
 _AutoPartBody2="törölve lesz.\n\nAz 512MB-os boot partíciótkell először létrehoznod, következö a  (root vagy '/') partíció az összes fennmaradó hely használatba vételével."
@@ -216,18 +206,6 @@ _InstStandBase="Szabvány telepítés"
 _InstAdvBase="Haladó telepítés"
 _InstAdvBseBody="\nFigyelem: Ez csak tapasztalt felhasználók részére ajánlott. Újabb felhasználók használják a szabvány telepítési módot."
 _InstAdvWait="\nCsomagleírások összegyűjtése"
-
-# BIOS rendszertöltő telepítése
-_InstBiosBtTitle="BIOS rendszertöltő telepítése"
-_InstBiosBtBody="\nA 'Grub2' ajánlott a kezdőknek. A telepítési eszköz is kiválasztható.\n\nA 'Syslinux' könnyebb és egyszerűbb megoldás, de ez csak 'ext' vagy 'btrfs' fájlrendszereknél használható."
-_InstSysTitle="Syslinux telepítése"
-_InstSysBody="\nA 'syslinux' telepítése a Master Boot Recordba (MBR) vagy a Root (/) partícióra?\n\n"
-
-# UEFI rendszertöltő telepítése
-_InstUefiBtTitle="UEFI rendszertöltő telepítése"
-_InstUefiBtBody="\nA 'systemd-boot' megköveteli a  /boot partíciót. A 'grub' más csatolási ponttal is működik."
-_SetBootDefBody="\nNéhány UEFI firmwarét nem érzékel a bootloader, kivéve, ha az az alapbeállítás másolja az 'efi stub'-ot "
-_SetBootDefBody2="és átnevezi ezt a 'bootx64.ef'-neki.\n\nEzt ajánlatos megtenni, kivéve, ha ezt már használja a rendszertöltő, vagy ha több rendszertöltőt használsz.\n\nBeállítod a rendszertöltőt alapértelmezettként?\n\n"
 
 # 'efi' fájl beállítása a 'grub' számára
 _SetDefDoneBody="beállítva alapértelmezett rendszertöltőnek.\n\n"

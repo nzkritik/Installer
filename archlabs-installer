@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# vim:ft=sh:fdm=marker:fmr={,}
 
 # ArchLabs Base Installer (version 1.2 - Feb, 2018)
 # Modified and adapted by Nathaniel Maia for use in Archlabs
@@ -8,7 +9,7 @@
 # Installation
 ISO_USER="liveuser"               # Live user account
 DIST="ArchLabs"                   # Distributor name for grub etc
-VERSION="ArchLabs Installer 1.2"  # Installer Name / Version
+VERSION="ArchLabs Installer 1.3"  # Installer Name / Version
 ANS="/tmp/.archlabs-installer"    # Temp file to store answers
 MNT="/mnt"                        # Installation mountpoint
 ERR="/tmp/.errlog"                # error log file
@@ -21,7 +22,7 @@ LOC="en_US.UTF-8"                 # Default system locale
 ARCHI=$(uname -m)                 # Display whether 32 or 64 bit system
 SYSTEM="Unknown"                  # Default for BIOS or UEFI.
 EFI_MNT="/boot/efi"               # EFI partition mountpoint
-MHIGHLIGHT=0                      # Highlight items for Main Menu
+MH=0                      # Highlight items for Main Menu
 HIGHLIGHT=0                       # Highlight items for submenus
 SUB_MENU=""                       # Submenu to be highlighted
 FS_OPTS=""                        # FS mount options available
@@ -39,7 +40,7 @@ LUKS_NAME=""                      # Name given to encrypted partition
 LUKS_UUID=""                      # UUID used for comparison purposes
 
 select_language() {
-    dialog --backtitle "$BTITLE" --title " Select Language " --menu \
+    dialog --backtitle "$BT" --title " Select Language " --menu \
         "Language / sprache / taal / språk / lingua / idioma / nyelv / língua" 0 0 9 \
         "1" $"English            (en_**)" "2" $"Español            (es_ES)" \
         "3" $"Português [Brasil] (pt_BR)" "4" $"Português          (pt_PT)" \
@@ -71,21 +72,20 @@ select_language() {
     export LANG="$LOC"
 }
 
+######################################################################
+##                  Utility and Check Functions                     ##
+######################################################################
+
 check_requirements() {
-    dialog --backtitle "$BTITLE" --title " $_ChkTitle " --infobox "$_ChkBody" 0 0 ; sleep 2
-
     if [[ $(whoami) != "root" ]]; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --infobox "$_RtFailBody" 0 0
-        sleep 2 ; exit 1
+        dialog --backtitle "$BT" --title " $_ErrTitle " --infobox "$_RtFailBody" 0 0
+        sleep 3 && exit 1
     fi
-
     if [[ ! $(ping -c 1 google.com) ]]; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --infobox "$_ConFailBody" 0 0
-        sleep 2 ; exit 1
+        dialog --backtitle "$BT" --title " $_ErrTitle " --infobox "$_ConFailBody" 0 0
+        sleep 3 && exit 1
     fi
-
-    dialog --backtitle "$BTITLE" --title " $_ReqMetTitle " --infobox "$_ReqMetBody" 0 0
-    sleep 2 ; clear ; echo "" >"$ERR"
+    echo "" >"$ERR"
 }
 
 id_system() {
@@ -104,7 +104,7 @@ id_system() {
         SYSTEM="BIOS"
     fi
 
-    BTITLE="$VERSION - $SYSTEM ($ARCHI)"
+    BT="$VERSION - $SYSTEM ($ARCHI)"
 }
 
 arch_chroot() {
@@ -113,22 +113,22 @@ arch_chroot() {
 
 check_for_error() {
     if [[ $? -eq 1 ]] && grep -wqi "error" "$ERR"; then
-        MSG=$(cat "$ERR")
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$MSG" 0 0
+        msg=$(cat "$ERR")
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$msg" 0 0
         rm -rf ${MNT:?}/* ; main_menu
     fi
 }
 
 check_mount() {
     if ! grep -q "$MNT" <<< "$(lsblk -o MOUNTPOINT)"; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_ErrNoMount" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_ErrNoMount" 0 0
         main_menu
     fi
 }
 
 check_base() {
     if ! [[ -e $MNT/etc ]]; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_ErrNoBase" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_ErrNoBase" 0 0
         main_menu
     fi
 }
@@ -136,8 +136,12 @@ check_base() {
 show_devices() {
     lsblk -o NAME,MODEL,TYPE,FSTYPE,SIZE,MOUNTPOINT \
         | grep "disk\|part\|lvm\|crypt\|NAME\|TYPE\|SIZE" >/tmp/.devlist
-    dialog --backtitle "$BTITLE" --title " $_DevShowOpt " --textbox /tmp/.devlist 0 0
+    dialog --backtitle "$BT" --title " $_DevShowOpt " --textbox /tmp/.devlist 0 0
 }
+
+######################################################################
+##                  System Settings Functions                       ##
+######################################################################
 
 set_keymap() {
     CMAPS=""
@@ -149,7 +153,7 @@ set_keymap() {
         CMAPS="$CMAPS $i -"
     done
 
-    dialog --backtitle "$BTITLE" --title " $_VCKeymapTitle " \
+    dialog --backtitle "$BT" --title " $_VCKeymapTitle " \
         --menu "$_VCKeymapBody" 20 40 16 $CMAPS 2>$ANS || prep_menu
     CMAP=$(cat $ANS)
 
@@ -171,13 +175,13 @@ set_xkbmap() {
         XMAPS="$XMAPS $i -"
     done
 
-    dialog --backtitle "$BTITLE" --title " $_PrepKBLayout " \
+    dialog --backtitle "$BT" --title " $_PrepKBLayout " \
         --menu "$_XkbmapBody" 0 0 16 $XMAPS 2>$ANS || prep_menu
     XMAP=$(sed 's/_.*//' "$ANS")
 
     KFILE='Section "InputClass"\n\tIdentifier "system-keyboard"\n\tMatchIsKeyboard "on"'
     KFILE="$KFILE\n\tOption \"XkbLayout\" \"$XMAP\"\nEndSection"
-    echo -e "$KFILE" > /tmp/01-keyboard-layout.conf
+    echo -e "$KFILE" > /tmp/01-keyboard.conf
 
     setxkbmap "$XMAP" 2>>"$ERR"
     check_for_error
@@ -190,13 +194,13 @@ set_xkbmap() {
 
 set_locale() {
     LOCS=""
-    LOCL=$(sed 's/ UTF-8//g' <<< "$(sed 's/#//g' <<< "$(grep -v "#  " /etc/locale.gen)")")
+    LOCL=$(sed 's/ UTF-8//g' <<< "$(sed 's/#//g' <<< "$(grep -v "# " /etc/locale.gen)")")
 
     for i in $(grep .UTF-8 <<< "$LOCL"); do
         LOCS="$LOCS $i -"
     done
 
-    dialog --backtitle "$BTITLE" --title " $_ConfBseSysLoc " \
+    dialog --backtitle "$BT" --title " $_ConfBseSysLoc " \
         --menu "$_localeBody" 0 0 12 $LOCS 2>$ANS || config_base_menu
     LOC=$(cat $ANS)
 
@@ -212,71 +216,62 @@ set_locale() {
 set_timezone() {
     ZONE=""
     SUBZONE=""
-    Z_FULL=$(awk '{print $3}' < /usr/share/zoneinfo/zone.tab)
+    FULLZONES=$(awk '{print $3}' < /usr/share/zoneinfo/zone.tab)
 
-    for i in $(grep "/" <<< "$Z_FULL" | sed "s/\/.*//g" | sort -ud); do
-        ZONE="$ZONE $i -"
-    done
+    if [[ $MANUAL != "True" ]]; then
+        GEOI=$(curl --silent freegeoip.net/xml/ | grep -i "TimeZone" | sed 's|<TimeZone>||g')
+        GEO=$(sed 's|</TimeZone>||g' <<< "$GEOI" | tr -d '[:blank:]')
+    fi
 
-    dialog --backtitle "$BTITLE" --title " $_ConfBseTimeHC " \
-        --menu "$_TimeZBody" 0 0 10 $ZONE 2>$ANS || config_base_menu
-    ZONE=$(cat $ANS)
-
-    for i in $(grep "$ZONE/" <<< "$Z_FULL" | sed "s/${ZONE}\///g" | sort -ud); do
-        SUBZONE="$SUBZONE $i -"
-    done
-
-    dialog --backtitle "$BTITLE" --title " $_ConfBseTimeHC " \
-        --menu "$_TimeSubZBody" 0 0 11 $SUBZONE 2>$ANS || config_base_menu
-    SUBZONE=$(cat $ANS)
-
-    local MSG="$_TimeZQ $ZONE/$SUBZONE?\n\n"
-    local TITLE" $_ConfBseTimeHC "
-
-    if dialog --backtitle "$BTITLE" --title "$TITLE" --yesno "$MSG" 0 0; then
-        arch_chroot "ln -sf /usr/share/zoneinfo/$ZONE/$SUBZONE /etc/localtime" 2>>"$ERR"
-        check_for_error
+    if ([[ $GEO ]] && grep -qi "$GEO" <<< "$FULLZONES") && [[ $MANUAL != "True" ]]; then
+        ZONE=$(awk -F/ '{print $1}' <<< "$GEO")
+        SUBZONE=$(awk -F/ '{print $2}' <<< "$GEO")
     else
-        config_base_menu
+        for i in $(grep "/" <<< "$FULLZONES" | sed "s|/.*||g" | sort -ud); do
+            ZONE="$ZONE $i -"
+        done
+        dialog --backtitle "$BT" --title " $_ConfBseTimeHC " \
+            --menu "$_TimeZBody" 0 0 10 $ZONE 2>$ANS || config_base_menu
+        ZONE=$(cat $ANS)
+
+        for i in $(grep "$ZONE/" <<< "$FULLZONES" | sed "s/${ZONE}\///g" | sort -ud); do
+            SUBZONE="$SUBZONE $i -"
+        done
+        dialog --backtitle "$BT" --title " $_ConfBseTimeHC " \
+            --menu "$_TimeSubZBody" 0 0 11 $SUBZONE 2>$ANS || config_base_menu
+        SUBZONE=$(cat $ANS)
+    fi
+
+    if [[ $ZONE ]] && [[ $SUBZONE ]]; then
+        title=" $_ConfBseTimeHC "
+        msg="$_TimeZQ $ZONE/$SUBZONE?\n\n"
+        if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
+            arch_chroot "ln -sf /usr/share/zoneinfo/$ZONE/$SUBZONE /etc/localtime" 2>>$ERR
+            check_for_error
+        else
+            MANUAL="True"
+            set_timezone
+        fi
+    else
+        MANUAL="True"
+        set_timezone
     fi
 }
 
 set_hw_clock() {
-    dialog --backtitle "$BTITLE" --title " $_ConfBseTimeHC " \
-        --menu "$_HwCBody" 0 0 2 \
-        "utc" "-" \
-        "localtime" "-" 2>$ANS
-
-    if [[ $(cat $ANS) != "" ]]; then
-        arch_chroot "hwclock --systohc --$(cat $ANS)" 2>>"$ERR"
-    fi
-    check_for_error
-}
-
-generate_fstab() {
-    dialog --backtitle "$BTITLE" --title " $_ConfBseFstab " \
-        --menu "$_FstabBody" 0 0 4 \
-        "genfstab -p"             "$_FstabDevName" \
-        "genfstab -L -p"          "$_FstabDevLabel" \
-        "genfstab -U -p"          "$_FstabDevUUID" \
-        "genfstab -t PARTUUID -p" "$_FstabDevPtUUID" 2>$ANS
-
-    if [[ $(cat $ANS) != "" ]]; then
-        if [[ $SYSTEM == "BIOS" ]] && [[ $(cat $ANS) == "genfstab -t PARTUUID -p" ]]; then
-            dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_FstabErr" 0 0
-            generate_fstab
-        else
-            $(cat $ANS) $MNT > $MNT/etc/fstab 2>>"$ERR"
-            check_for_error
-
-            [[ -f $MNT/swapfile ]] && sed -i "s/\\${MNT}//" $MNT/etc/fstab
+    arch_chroot "hwclock --systohc --utc"
+    if [[ $? -eq 1 ]]; then
+        arch_chroot "hwclock --systohc --utc --directisa" 2>>"$ERR"
+        if [[ $? -eq 1 ]] && grep -wqi "error" "$ERR"; then
+            dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$(cat "$ERR")" 0 0
+            echo "" >$ERR
         fi
     fi
 }
 
 set_hostname() {
     HSTNM=$(awk '{print tolower($1)}' <<< "$DIST")
-    dialog --backtitle "$BTITLE" --title "$_ConfBseHost" \
+    dialog --backtitle "$BT" --title "$_ConfBseHost" \
         --inputbox "$_HostNameBody" 0 0 "$HSTNM" 2>$ANS || config_base_menu
     HOST_NAME=$(cat $ANS)
 
@@ -289,11 +284,11 @@ ff02::2 ip6-allrouters" > $MNT/etc/hosts
 }
 
 set_root_password() {
-    dialog --backtitle "$BTITLE" --title " $_ConfUsrRoot " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_ConfUsrRoot " --clear --insecure \
         --passwordbox "$_PassRtBody" 0 0 2> $ANS || config_base_menu
     PASSWD=$(cat $ANS)
 
-    dialog --backtitle "$BTITLE" --title " $_ConfUsrRoot " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_ConfUsrRoot " --clear --insecure \
         --passwordbox "$_PassRtBody2" 0 0 2> $ANS || config_base_menu
     PASSWD2=$(cat $ANS)
 
@@ -303,43 +298,41 @@ set_root_password() {
         rm /tmp/.passwd
         check_for_error
     else
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
         set_root_password
     fi
 }
 
-
 create_new_user() {
-    dialog --backtitle "$BTITLE" --title " $_NUsrTitle " \
+    dialog --backtitle "$BT" --title " $_NUsrTitle " \
         --inputbox "$_NUsrBody" 0 0 "" 2>$ANS || config_base_menu
     USER=$(cat $ANS)
 
-    # Loop while user name is invalid
     while [[ ${#USER} -eq 0 ]] || [[ $USER =~ \ |\' ]] || [[ $USER =~ [^a-z0-9\ ] ]]; do
-        dialog --backtitle "$BTITLE" --title " $_NUsrTitle " \
+        dialog --backtitle "$BT" --title " $_NUsrTitle " \
             --inputbox "$_NUsrErrBody" 0 0 "" 2>$ANS || config_base_menu
         USER=$(cat $ANS)
     done
 
-    dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_ConfUsrNew " --clear --insecure \
         --passwordbox "$_PassNUsrBody $USER" 0 0 2>$ANS || config_base_menu
     PASSWD=$(cat $ANS)
 
-    dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_ConfUsrNew " --clear --insecure \
         --passwordbox "$_PassNUsrBody2 $USER" 0 0 2>$ANS || config_base_menu
     PASSWD2=$(cat $ANS)
 
     while [[ $PASSWD != "$PASSWD2" ]]; do
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
-        dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear --insecure \
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
+        dialog --backtitle "$BT" --title " $_ConfUsrNew " --clear --insecure \
             --passwordbox "$_PassNUsrBody $USER" 0 0 2>$ANS || config_base_menu
         PASSWD=$(cat $ANS)
-        dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --clear --insecure \
+        dialog --backtitle "$BT" --title " $_ConfUsrNew " --clear --insecure \
             --passwordbox "$_PassNUsrBody2 $USER" 0 0 2>$ANS || config_base_menu
         PASSWD2=$(cat $ANS)
     done
 
-    dialog --backtitle "$BTITLE" --title " $_ConfUsrNew " --infobox "$_NUsrSetBody" 0 0
+    dialog --backtitle "$BT" --title " $_ConfUsrNew " --infobox "$_NUsrSetBody" 0 0
     sleep 2
     echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
 
@@ -353,17 +346,28 @@ create_new_user() {
         WHEEL="%wheel ALL=(ALL) ALL"
         OPENBOX="$MNT/home/$ISO_USER/.config/openbox"
 
-        L_FILES=(/etc/lightdm/lightdm.conf "/home/$ISO_USER/.config/openbox/autostart"
-                 /etc/group /etc/gshadow /etc/passwd /etc/shadow)
+        L_FILES=(/etc/lightdm/lightdm.conf
+        "/home/$ISO_USER/.config/openbox/autostart"
+        /etc/group /etc/gshadow /etc/passwd /etc/shadow
+        )
 
         for f in "${L_FILES[@]}"; do
             sed -i "s/${ISO_USER}/${USER}/g" ${MNT}"$f"
         done
 
+        if grep -q "welcome.sh" $OPENBOX/autostart; then
+            sed -i '/welcome.sh/d' $OPENBOX/autostart
+        fi
+        if grep -q 'item label="ArchLabs Welcome"' $OPENBOX/menu.xml; then
+            sed -i '/item label="ArchLabs Welcome"/ i\
+    <separator label="ArchLabs"/>' $OPENBOX/menu.xml
+            sed -i '/item label="ArchLabs Welcome"/ { N; N; N; N; N; d; }' $OPENBOX/menu.xml
+        fi
+
         if grep -q "archlabs-installer" $OPENBOX/rc.xml; then
             sed -i '/archlabs-installer/ { N; N; d; }' $OPENBOX/rc.xml
         fi
-        if grep -q "Install Archlabs" $OPENBOX/rc.xml; then
+        if grep -q "Install Archlabs" $OPENBOX/menu.xml; then
             sed -i '/Install Archlabs/ { N; N; N; N; N; d; }' $OPENBOX/menu.xml
         fi
 
@@ -371,7 +375,8 @@ create_new_user() {
         sed -i '/keypack/d' $OPENBOX/autostart
         sed -i '/al-hello/ c sleep 10; termite -e al-hello &' $OPENBOX/autostart
 
-        rm -f  $MNT/home/$ISO_USER/.config/keypack
+        rm -f $MNT/home/$ISO_USER/.config/keypack
+        rm -f $MNT/home/$ISO_USER/bin/welcome.sh
 
         # Swap live account
         {
@@ -395,56 +400,16 @@ create_new_user() {
     rm /tmp/.passwd
 }
 
-run_mkinitcpio() {
-    clear
-    local CONF="$MNT/etc/mkinitcpio.conf"
-
-    if [[ $LVM -eq 1 ]] && [[ $LUKS -eq 0 ]]; then
-        sed -i 's/block filesystems/block lvm2 filesystems/g' $CONF 2>>"$ERR"
-    elif [[ $LVM -eq 1 ]] && [[ $LUKS -eq 1 ]]; then
-        sed -i 's/block filesystems/block encrypt lvm2 filesystems/g' $CONF 2>>"$ERR"
-    elif [[ $LVM -eq 0 ]] && [[ $LUKS -eq 1 ]]; then
-        sed -i 's/block filesystems/block encrypt filesystems/g' $CONF 2>>"$ERR"
-    fi
-
-    if [[ $LUKS_DEV ]]; then
-        sed -i 's/block filesystems/block encrypt filesystems/g' $CONF 2>>"$ERR"
-        if [[ $LUKS_PASSWD ]]; then
-            LDEV=$(lsblk -lno NAME,UUID,TYPE | grep "part")
-            LDEV="/dev/$(grep "$LUKS_UUID" <<< "$LDEV" | awk '{print $1}')"
-
-            # arch_chroot "dd bs=512 count=8 if=/dev/urandom of=/etc/key"
-            # arch_chroot "chmod 400 /etc/key"
-            # arch_chroot "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $LDEV /etc/key"
-            # echo "cryptboot $LDVE /etc/key luks" >> $MNT/etc/crypttab
-
-            arch_chroot "dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin" &>/dev/null
-            arch_chroot "chmod 000 /crypto_keyfile.bin"
-            echo "INFO: Setting up single password decryption at boot"
-            echo "INFO: Creating encryption keyfile: /crypto_keyfile.bin"
-            arch_chroot "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $LDEV /crypto_keyfile.bin"
-            sed -i 's/FILES=()/FILES=(\/crypto_keyfile.bin)/g' $MNT/etc/mkinitcpio.conf
-        fi
-    fi
-
-    if [[ $MNTHOOKS ]]; then
-        sed -i "s/keyboard fsck/keyboard ${MNTHOOKS} fsck/g" $CONF 2>>"$ERR"
-    fi
-
-    arch_chroot "mkinitcpio -p linux" 2>>"$ERR"
-    check_for_error
-}
-
 ######################################################################
-##            System and Partitioning Functions                     ##
+##              System and Partitioning Functions                   ##
 ######################################################################
 
 umount_partitions() {
     MOUNTED=""
-    MOUNTED=($(mount | grep "$MNT" | awk '{print $3}' | sort -r))
+    MOUNTED=$(mount | grep "$MNT" | awk '{print $3}' | sort -r)
     swapoff -a
 
-    for i in "${MOUNTED[@]}"; do
+    for i in $MOUNTED; do
         umount "$i" >/dev/null 2>>"$ERR"
     done
 
@@ -452,17 +417,17 @@ umount_partitions() {
 }
 
 confirm_mount() {
-    local TITLE MSG
-    TITLE=" $_MntStatusTitle "
+    local title msg
+    title=" $_MntStatusTitle "
 
     if grep -q "$1" <<< "$(mount)"; then
-        dialog --backtitle "$BTITLE" --title "$TITLE" --infobox "$_MntStatusSucc" 0 0
+        dialog --backtitle "$BT" --title "$title" --infobox "$_MntStatusSucc" 0 0
         sleep 2
         PARTS=$(sed "s~${PART} [0-9]*[G-M]~~" <<< "$PARTS")
         PARTS=$(sed "s~${PART} [0-9]*\.[0-9]*[G-M]~~" <<< "$PARTS" | sed s~${PART}$' -'~~)
         NUM_PARTS=$((NUM_PARTS - 1))
     else
-        dialog --backtitle "$BTITLE" --title "$TITLE" --infobox "$_MntStatusFail" 0 0
+        dialog --backtitle "$BT" --title "$title" --infobox "$_MntStatusFail" 0 0
         sleep 2
         prep_menu
     fi
@@ -470,15 +435,21 @@ confirm_mount() {
 
 select_device() {
     DEVICE=""
-    devs=$(grep 'disk' <<< "$(lsblk -lno NAME,SIZE,TYPE)")
-    devs=$(awk '{print "/dev/" $1 " " $2}' <<< "$devs" | sort -u)
+    dev=$(grep 'disk' <<< "$(lsblk -lno NAME,SIZE,TYPE)")
+    dev=$(awk '{print "/dev/" $1 " " $2}' <<< "$dev" | sort -u)
 
-    for i in "${devs[@]}"; do
-        DEVICE="$DEVICE $i"
+    for i in "${dev[@]}"; do
+        DEVS="$DEVS $i"
     done
 
-    dialog --backtitle "$BTITLE" --title " $_DevSelTitle " \
-        --menu "$_DevSelBody" 0 0 4 $DEVICE 2>$ANS || prep_menu
+    if [[ $1 == "Grub" ]]; then
+        msg="$_DevSelTitle for Bootloader\n\n$_DevSelBody"
+    else
+        msg="$_DevSelBody"
+    fi
+
+    dialog --backtitle "$BT" --title " $_DevSelTitle " \
+        --menu "$msg" 0 0 4 $DEVS 2>$ANS || prep_menu
     DEVICE=$(cat $ANS)
 }
 
@@ -489,7 +460,7 @@ find_partitions() {
     LBLK=$(sed 's/lvm$\|crypt$/\/dev\/mapper\//g' <<< "$LBLK")
     pts=$(awk '{print $3$1 " " $2}' <<< "$LBLK" | sort -u)
 
-    for i in ${pts}; do
+    for i in $pts; do
         PARTS="$PARTS $i"
         NUM_PARTS=$((NUM_PARTS + 1))
     done
@@ -499,30 +470,29 @@ find_partitions() {
     case $INC_PART in
         'part\|lvm\|crypt')
             if [[ $SYSTEM == "UEFI" ]] && [[ $NUM_PARTS -lt 2 ]]; then
-                dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PartErrBody" 0 0
+                dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PartErrBody" 0 0
                 create_partitions
             elif [[ $SYSTEM == "BIOS" ]] && [[ $NUM_PARTS -eq 0 ]]; then
-                dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PartErrBody" 0 0
+                dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PartErrBody" 0 0
                 create_partitions
             fi ;;
         'part\|crypt')
             if [[ $NUM_PARTS -eq 0 ]]; then
-                dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LvmPartErrBody" 0 0
+                dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmPartErrBody" 0 0
                 create_partitions
             fi ;;
         'part\|lvm')
             if [[ $NUM_PARTS -lt 2 ]]; then
-                dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LuksPartErrBody" 0 0
+                dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LuksPartErrBody" 0 0
                 create_partitions
             fi
     esac
 }
 
-
 create_partitions() {
     secure_wipe() {
-        local MSG="$_AutoPartBody1 $DEVICE $_AutoPartBody2 $_AutoPartBody3"
-        if dialog --backtitle "$BTITLE" --title " $_PartOptWipe " --yesno "$MSG" 0 0; then
+        local msg="$_AutoPartBody1 $DEVICE $_AutoPartBody2 $_AutoPartBody3"
+        if dialog --backtitle "$BT" --title " $_PartOptWipe " --yesno "$msg" 0 0; then
             clear ; echo -e "Secure wiping $DEVICE this will take a while.."
             wipe -Ifre "$DEVICE"
         else
@@ -531,9 +501,9 @@ create_partitions() {
     }
 
     auto_partition() {
-        local MSG="$_AutoPartBody1 $DEVICE $_AutoPartBody2 $_AutoPartBody3"
+        local msg="$_AutoPartBody1 $DEVICE $_AutoPartBody2 $_AutoPartBody3"
 
-        if dialog --backtitle "$BTITLE" --title " $_PrepPartDisk " --yesno "$MSG" 0 0; then
+        if dialog --backtitle "$BT" --title " $_PrepPartDisk " --yesno "$msg" 0 0; then
             parted -s "$DEVICE" print | awk '/^ / {print $1}' >/tmp/.del_parts
 
             for del_part in $(tac /tmp/.del_parts); do
@@ -561,13 +531,13 @@ create_partitions() {
             check_for_error
 
             lsblk "$DEVICE" -o NAME,TYPE,FSTYPE,SIZE >/tmp/.devlist
-            dialog --backtitle "$BTITLE" --title "" --textbox /tmp/.devlist 0 0
+            dialog --backtitle "$BT" --title "" --textbox /tmp/.devlist 0 0
         else
             create_partitions
         fi
     }
 
-    dialog --backtitle "$BTITLE" --title "$_PartToolTitle" --menu "$_PartToolBody" 0 0 5 \
+    dialog --backtitle "$BT" --title "$_PartToolTitle" --menu "$_PartToolBody" 0 0 5 \
         "$_PartOptWipe" "BIOS & UEFI" \
         "$_PartOptAuto" "BIOS & UEFI" \
         "gparted"       "BIOS & UEFI" \
@@ -587,7 +557,7 @@ create_partitions() {
 
 select_filesystem() {
     fs_opts="" CHK_NUM=0
-    dialog --backtitle "$BTITLE" --title " $_FSTitle " --menu "$_FSBody" 0 0 12 \
+    dialog --backtitle "$BT" --title " $_FSTitle " --menu "$_FSBody" 0 0 12 \
         "$_FSSkip" "-" \
         "btrfs"    "mkfs.btrfs -f" \
         "ext2"     "mkfs.ext2 -q" \
@@ -671,8 +641,8 @@ select_filesystem() {
     esac
 
     if [[ $FS != "$_FSSkip" ]]; then
-        MSG="\n$FS $PART\n\n"
-        if dialog --backtitle "$BTITLE" --title " $_FSTitle " --yesno "$MSG" 0 0; then
+        msg="\n$FS $PART\n\n"
+        if dialog --backtitle "$BT" --title " $_FSTitle " --yesno "$msg" 0 0; then
             $FS "$PART" >/dev/null 2>>"$ERR"
             check_for_error
         else
@@ -681,29 +651,27 @@ select_filesystem() {
     fi
 }
 
-
 mount_partitions() {
-
     mount_opts() {
         FS_OPTS=""
-        local TITLE MSG
+        local title msg
         echo "" > $MOUNT_OPTS
 
         for i in "${fs_opts[@]}"; do
             FS_OPTS="$FS_OPTS $i - off"
         done
 
-        TITLE=" $(sed "s/.*\.//g" <<< "$FS" | sed "s/-.*//g") "
-        dialog --backtitle "$BTITLE" --title "$TITLE" \
+        title=" $(sed "s/.*\.//g" <<< "$FS" | sed "s/-.*//g") "
+        dialog --backtitle "$BT" --title "$title" \
             --checklist "$_MntBody" 0 0 $CHK_NUM $FS_OPTS 2>$MOUNT_OPTS
 
         sed -i 's/ /,/g' $MOUNT_OPTS
         sed -i '$s/,$//' $MOUNT_OPTS
 
         if [[ $(cat $MOUNT_OPTS) != "" ]]; then
-            MSG="${_MntConfBody}$(cat $MOUNT_OPTS)\n"
-            TITLE=" $_MntStatusTitle "
-            if ! dialog --backtitle "$BTITLE" --title "$TITLE" --yesno "$MSG" 10 75; then
+            msg="${_MntConfBody}$(cat $MOUNT_OPTS)\n"
+            title=" $_MntStatusTitle "
+            if ! dialog --backtitle "$BT" --title "$title" --yesno "$msg" 10 75; then
                 mount_opts
             fi
         fi
@@ -794,9 +762,8 @@ mount_partitions() {
         fi
     }
 
-
     make_swap() {
-        dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
+        dialog --backtitle "$BT" --title " $_PrepMntPart " \
             --menu "$_SelSwpBody" 0 0 7 \
             "$_SelSwpNone" $"-" \
             "$_SelSwpFile" $"-" \
@@ -807,27 +774,27 @@ mount_partitions() {
 
             if [[ $PART == "$_SelSwpFile" ]]; then
                 mem=$(grep MemTotal /proc/meminfo | awk '{print $2/1024}' | sed 's/\..*//')
-                dialog --backtitle "$BTITLE" --title " $_SelSwpFile " \
+                dialog --backtitle "$BT" --title " $_SelSwpFile " \
                     --inputbox "\nM = MB, G = GB\n" 9 30 "${mem}M" 2>$ANS || make_swap
                 m_or_g=$(cat $ANS)
 
                 while [[ $(echo ${m_or_g: -1} | grep "M\|G") == "" ]]; do
-                    MSG="\n$_SelSwpFile $_ErrTitle: M = MB, G = GB\n\n"
-                    dialog --backtitle "$BTITLE" --title " $_SelSwpFile " --msgbox "$MSG" 0 0
-                    dialog --backtitle "$BTITLE" --title " $_SelSwpFile " \
+                    msg="\n$_SelSwpFile $_ErrTitle: M = MB, G = GB\n\n"
+                    dialog --backtitle "$BT" --title " $_SelSwpFile " --msgbox "$msg" 0 0
+                    dialog --backtitle "$BT" --title " $_SelSwpFile " \
                         --inputbox "\nM = MB, G = GB\n" 9 30 "${mem}M" 2>$ANS || make_swap
                     m_or_g=$(cat $ANS)
                 done
 
-                fallocate -l $m_or_g $MNT/swapfile 2>>"$ERR"
+                fallocate -l "$m_or_g" $MNT/swapfile 2>>"$ERR"
                 chmod 600 $MNT/swapfile 2>>"$ERR"
-                mkswap $MNT/swapfile 2>>"$ERR"
-                swapon $MNT/swapfile 2>>"$ERR"
+                mkswap $MNT/swapfile >/dev/null 2>>"$ERR"
+                swapon $MNT/swapfile >/dev/null 2>>"$ERR"
                 check_for_error
             else
                 if [[ $(lsblk -o FSTYPE "$PART" | grep -i "swap") != "swap" ]]; then
-                    TITLE=" $_PrepMntPart " MSG="\nmkswap $PART\n\n"
-                    if dialog --backtitle "$BTITLE" --title "$TITLE" --yesno "$MSG" 0 0; then
+                    title=" $_PrepMntPart " msg="\nmkswap $PART\n\n"
+                    if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
                         mkswap "$PART" >/dev/null 2>>"$ERR"
                     else
                         mount_partitions
@@ -853,7 +820,7 @@ mount_partitions() {
     LUKS=0
     LVM=0
 
-    dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
+    dialog --backtitle "$BT" --title " $_PrepMntPart " \
         --msgbox "$_WarnMount1 '$_FSSkip' $_WarnMount2" 0 0
 
     lvm_detect
@@ -862,7 +829,7 @@ mount_partitions() {
     umount_partitions
     find_partitions
 
-    dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
+    dialog --backtitle "$BT" --title " $_PrepMntPart " \
         --menu "$_SelRootBody" 0 0 7 $PARTS 2>$ANS || prep_menu
     PART=$(cat $ANS)
     ROOT_PART=$PART
@@ -873,13 +840,13 @@ mount_partitions() {
 
     # Extra Step for VFAT EFI Partition.. Not in an LVM container.
     if [[ $SYSTEM == "UEFI" ]]; then
-        dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
+        dialog --backtitle "$BT" --title " $_PrepMntPart " \
             --menu "$_SelUefiBody" 0 0 7 $PARTS 2>$ANS || prep_menu
         PART=$(cat $ANS)
         if grep -q 'fat' <<< "$(fsck -N "$PART")"; then
-            local TITLE=" $_PrepMntPart "
-            local MSG="$_FormUefiBody $PART $_FormUefiBody2"
-            if dialog --backtitle "$BTITLE" --title "$TITLE" --yesno "$MSG" 0 0; then
+            local title=" $_PrepMntPart "
+            local msg="$_FormUefiBody $PART $_FormUefiBody2"
+            if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
                 mkfs.vfat -F32 "$PART" >/dev/null 2>>"$ERR"
             fi
         else
@@ -894,7 +861,7 @@ mount_partitions() {
 
     # leftover partitions
     while [[ $NUM_PARTS -gt 0 ]]; do
-        dialog --backtitle "$BTITLE" --title " $_PrepMntPart " \
+        dialog --backtitle "$BT" --title " $_PrepMntPart " \
             --menu "$_ExtPartBody" 0 0 7 "$_Done" $"-" $PARTS 2>$ANS || prep_menu
         PART=$(cat $ANS)
         if [[ $PART == "$_Done" ]]; then
@@ -908,13 +875,13 @@ mount_partitions() {
                 MNT_EXAMPLES="/boot /home /var"
             fi
 
-            dialog --backtitle "$BTITLE" --title " $_PrepMntPart $PARTITON " \
+            dialog --backtitle "$BT" --title " $_PrepMntPart $PARTITON " \
                 --inputbox "$_ExtPartBody1$MNT_EXAMPLES\n" 0 0 "/" 2>$ANS || prep_menu
             MOUNT=$(cat $ANS)
 
             while [[ ${MOUNT:0:1} != "/" ]] || [[ ${#MOUNT} -le 1 ]] || [[ $MOUNT =~ \ |\' ]]; do
-                dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_ExtErrBody" 0 0
-                dialog --backtitle "$BTITLE" --title " $_PrepMntPart $PARTITON " \
+                dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_ExtErrBody" 0 0
+                dialog --backtitle "$BT" --title " $_PrepMntPart $PARTITON " \
                     --inputbox "${_ExtPartBody1}$MNT_EXAMPLES\n" 0 0 "/" 2>$ANS || prep_menu
                 MOUNT=$(cat $ANS)
             done
@@ -946,16 +913,16 @@ mount_partitions() {
 ######################################################################
 
 luks_password() {
-    dialog --backtitle "$BTITLE" --title " $_PrepLUKS " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_PrepLUKS " --clear --insecure \
         --passwordbox "$_LuksPassBody" 0 0 2> $ANS || prep_menu
     PASSWD=$(cat $ANS)
 
-    dialog --backtitle "$BTITLE" --title " $_PrepLUKS " --clear --insecure \
+    dialog --backtitle "$BT" --title " $_PrepLUKS " --clear --insecure \
         --passwordbox "$_PassNUsrBody2 $LUKS_ROOT_NAME" 0 0 2> $ANS || prep_menu
     PASSWD2=$(cat $ANS)
 
     if [[ $PASSWD != "$PASSWD2" ]]; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
         luks_password
     else
         LUKS_PASSWD="$PASSWD"
@@ -967,17 +934,17 @@ luks_open() {
     umount_partitions
     find_partitions
 
-    dialog --backtitle "$BTITLE" --title " $_LuksOpen " \
+    dialog --backtitle "$BT" --title " $_LuksOpen " \
         --menu "$_LuksMenuBody" 0 0 7 $PARTS 2>$ANS || luks_menu
     PART=$(cat $ANS)
 
-    dialog --backtitle "$BTITLE" --title " $_LuksOpen " \
+    dialog --backtitle "$BT" --title " $_LuksOpen " \
         --inputbox "$_LuksOpenBody" 10 50 "cryptroot" 2>$ANS || luks_menu
     LUKS_ROOT_NAME=$(cat $ANS)
     luks_password
 
-    local MSG="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n"
-    dialog --backtitle "$BTITLE" --title " $_LuksOpen " --infobox "$MSG" 0 0
+    local msg="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n\n"
+    dialog --backtitle "$BT" --title " $_LuksOpen " --infobox "$msg" 0 0
     echo "$PASSWD" | cryptsetup open --type luks "$PART" "$LUKS_ROOT_NAME" 2>"$ERR"
     check_for_error
 }
@@ -987,19 +954,19 @@ luks_setup() {
     INC_PART='part\|lvm'
     umount_partitions
     find_partitions
-    dialog --backtitle "$BTITLE" --title " $_LuksEncrypt " \
+    dialog --backtitle "$BT" --title " $_LuksEncrypt " \
         --menu "$_LuksEncryptBody" 0 0 7 $PARTS 2>$ANS || luks_menu
     PART=$(cat $ANS)
 
-    dialog --backtitle "$BTITLE" --title " $_LuksEncrypt " \
+    dialog --backtitle "$BT" --title " $_LuksEncrypt " \
         --inputbox "$_LuksOpenBody" 0 0 "cryptroot" 2>$ANS || luks_menu
     LUKS_ROOT_NAME=$(cat $ANS)
     luks_password
 }
 
 luks_default() {
-    local MSG="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n"
-    dialog --backtitle "$BTITLE" --title " $_LuksEncrypt " --infobox "$MSG" 0 0
+    local msg="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n\n"
+    dialog --backtitle "$BT" --title " $_LuksEncrypt " --infobox "$msg" 0 0
 
     sleep 1
     echo "$PASSWD" | cryptsetup -q luksFormat "$PART" 2>"$ERR"
@@ -1008,11 +975,11 @@ luks_default() {
 }
 
 luks_key_define() {
-    dialog --backtitle "$BTITLE" --title " $_PrepLUKS " \
+    dialog --backtitle "$BT" --title " $_PrepLUKS " \
         --inputbox "$_LuksCipherKey" 0 0 "-s 512 -c aes-xts-plain64" 2>$ANS || luks_menu
 
-    local MSG="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n"
-    dialog --backtitle "$BTITLE" --title " $_LuksEncryptAdv " --infobox "$MSG" 0 0
+    local msg="${_LuksWaitBody} ${LUKS_ROOT_NAME}$_LuksWaitBody2 ${PART}\n\n"
+    dialog --backtitle "$BT" --title " $_LuksEncryptAdv " --infobox "$msg" 0 0
     sleep 1
 
     echo "$PASSWD" | cryptsetup -q "$(cat $ANS)" luksFormat "$PART" 2>"$ERR"
@@ -1025,13 +992,13 @@ luks_show(){
     echo -e "$_LuksEncryptSucc" >/tmp/.devlist
     lsblk -o NAME,TYPE,FSTYPE,SIZE "$PART" \
         | grep "part\|crypt\|NAME\|TYPE\|FSTYPE\|SIZE" >>/tmp/.devlist
-    dialog --backtitle "$BTITLE" --title " $_LuksEncrypt " --textbox /tmp/.devlist 0 0
+    dialog --backtitle "$BT" --title " $_LuksEncrypt " --textbox /tmp/.devlist 0 0
     luks_menu
 }
 
 luks_menu() {
-    local MSG="$_LuksMenuBody$_LuksMenuBody2$_LuksMenuBody3"
-    dialog --backtitle "$BTITLE" --title " $_PrepLUKS " --menu "$MSG" 0 0 4 \
+    local msg="$_LuksMenuBody$_LuksMenuBody2$_LuksMenuBody3"
+    dialog --backtitle "$BT" --title " $_PrepLUKS " --menu "$msg" 0 0 4 \
         "$_LuksOpen"       "cryptsetup open --type luks" \
         "$_LuksEncrypt"    "cryptsetup -q luksFormat" \
         "$_LuksEncryptAdv" "cryptsetup -q -s -c luksFormat" \
@@ -1057,7 +1024,7 @@ lvm_detect() {
     LV=$(lvs -o vg_name,lv_name --noheading --separator - 2>/dev/null)
 
     if [[ $LV != "" ]] && [[ $LV_VG != "" ]] && [[ $LVM_PV != "" ]]; then
-        dialog --backtitle "$BTITLE" --title " $_PrepLVM " --infobox "$_LvmDetBody" 0 0
+        dialog --backtitle "$BT" --title " $_PrepLVM " --infobox "$_LvmDetBody" 0 0
         modprobe dm-mod 2>>"$ERR"
         check_for_error
         vgscan >/dev/null 2>&1
@@ -1067,39 +1034,48 @@ lvm_detect() {
 
 lvm_show_vg() {
     VG_LIST=""
-    vg_list=$(lvs --noheadings | awk '{print $2}' | uniq)
+    list=$(lvs --noheadings | awk '{print $2}' | uniq)
 
-    for i in $vg_list; do
-        VG_LIST="$VG_LIST $i $(vgdisplay "$i" | grep -i "vg size" | awk '{print $3$4}')"
+    for i in $list; do
+        size=$(vgdisplay "$i" | grep -i "vg size" | awk '{print $3$4}')
+        VG_LIST="$VG_LIST $i $size"
     done
 
     if [[ $VG_LIST == "" ]]; then
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LvmVGErr" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmVGErr" 0 0
         lvm_menu
     fi
 
-    dialog --backtitle "$BTITLE" --title " $_PrepLVM " \
-        --menu "$_LvmSelVGBody" 0 0 5 $VG_LIST 2>$ANS || lvm_menu
+    local title=" $_PrepLVM "
+    local msg="$_LvmSelVGBody"
+    dialog --backtitle "$BT" --title "$title" --menu "$msg" 0 0 5 $VG_LIST 2>$ANS || lvm_menu
 }
 
 lvm_create() {
     check_lv_size() {
-        chars=0
         LV_SIZE_INVALID=0
-        LESS1=$((${#LV_SIZE} - 1))
-        if [[ ${#LV_SIZE} -eq 0 ]] || [[ ${LV_SIZE:0:1} -eq "0" ]]; then
+
+        local chars=0
+        local n=${#LV_SIZE}
+        local ln=${LV_SIZE:0:1}
+        local lv=$((${#LV_SIZE} - 1))
+
+        if [[ $n -eq 0 ]] || [[ $ln -eq "0" ]]; then
             LV_SIZE_INVALID=1
         fi
 
         if [[ $LV_SIZE_INVALID -eq 0 ]]; then
-            while [[ $chars -lt $LESS1 ]]; do
-                [[ ${LV_SIZE:chars:1} != [0-9] ]] && LV_SIZE_INVALID=1 && break
+            while [[ $chars -lt $lv ]]; do
+                if [[ ${LV_SIZE:chars:1} != [0-9] ]]; then
+                    LV_SIZE_INVALID=1
+                    break
+                fi
                 chars=$((chars + 1))
             done
         fi
 
         if [[ $LV_SIZE_INVALID -eq 0 ]]; then
-            LV_SIZE_TYPE=${LV_SIZE:$LESS1:1}
+            LV_SIZE_TYPE=${LV_SIZE:$lv:1}
             case $LV_SIZE_TYPE in
                 "m"|"M"|"g"|"G") LV_SIZE_INVALID=0 ;;
                 *)               LV_SIZE_INVALID=1
@@ -1109,16 +1085,16 @@ lvm_create() {
         if [[ $LV_SIZE_INVALID -eq 0 ]]; then
             case $LV_SIZE_TYPE in
                 "G"|"g")
-                    if [[ $((${LV_SIZE:0:$LESS1} * 1000)) -ge $LV_VG_MB ]]; then
+                    if [[ $((${LV_SIZE:0:$lv} * 1000)) -ge $LV_VG_MB ]]; then
                         LV_SIZE_INVALID=1
                     else
-                        LV_VG_MB=$((LV_VG_MB - $((${LV_SIZE:0:$LESS1} * 1000))))
+                        LV_VG_MB=$((LV_VG_MB - $((${LV_SIZE:0:$lv} * 1000))))
                     fi ;;
                 "M"|"m")
                     if [[ ${LV_SIZE:0:$LESS1} -ge $LV_VG_MB ]]; then
                         LV_SIZE_INVALID=1
                     else
-                        LV_VG_MB=$((LV_VG_MB - ${LV_SIZE:0:$LESS1}))
+                        LV_VG_MB=$((LV_VG_MB - ${LV_SIZE:0:$lv}))
                     fi ;;
                 *) LV_SIZE_INVALID=1
             esac
@@ -1133,43 +1109,53 @@ lvm_create() {
     find_partitions
     PARTS=$(sed 's/M\|G\|T/& off/g' <<< "$PARTS")
 
-    dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " \
-        --inputbox "$_LvmNameVgBody" 0 0 "" 2>$ANS || prep_menu
+    local msg="$_LvmNameVgBody"
+    local title=" $_LvmCreateVG "
+    dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "" 2>$ANS || prep_menu
     LV_VG=$(cat $ANS)
 
-    HAS_VG=$(grep -q "$LV_VG" <<< "$(lsblk)")
-    while [[ ${LV_VG:0:1} == "/" ]] || [[ ${#LV_VG} -eq 0 ]] || [[ $LV_VG =~ \ |\' ]] || [[ $HAS_VG ]]; do
-        dialog --backtitle "$BTITLE" --title "$_ErrTitle" --msgbox "$_LvmNameVgErr" 0 0
-        dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " \
-            --inputbox "$_LvmNameVgBody" 0 0 "" 2>$ANS || prep_menu
+    local n=${#LV_VG}
+    local ln=${LV_VG:0:1}
+    local has
+    has=$(grep -q "$LV_VG" <<< "$(lsblk)")
+    while [[ $ln == "/" ]] || [[ $n -eq 0 ]] || [[ $LV_VG =~ \ |\' ]] || [[ $has ]]; do
+        dialog --backtitle "$BT" --title "$_ErrTitle" --msgbox "$_LvmNameVgErr" 0 0
+        dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "" 2>$ANS || prep_menu
         LV_VG=$(cat $ANS)
     done
 
-    local MSG="$_LvmPvSelBody $_UseSpaceBar"
-    dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " \
-        --checklist "$MSG" 0 0 7 $PARTS 2>$ANS || prep_menu
-    [[ $(cat $ANS) != "" ]] && VG_PARTS=$(cat $ANS) || prep_menu
+    msg="$_LvmPvSelBody $_UseSpaceBar"
+    dialog --backtitle "$BT" --title "$title" --checklist "$msg" 0 0 7 $PARTS 2>$ANS || prep_menu
+    if [[ $(cat $ANS) != "" ]]; then
+        VG_PARTS=$(cat $ANS)
+    else
+        prep_menu
+    fi
 
-    MSG="$_LvmPvConfBody1${LV_VG} $_LvmPvConfBody2${VG_PARTS}"
-    if dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " --yesno "$MSG" 0 0; then
-        MSG="$_LvmPvActBody1${LV_VG}.$_PlsWaitBody"
-        dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " --infobox "$MSG" 0 0
+    msg="$_LvmPvConfBody1${LV_VG} $_LvmPvConfBody2${VG_PARTS}"
+    if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
+        msg="$_LvmPvActBody1${LV_VG}.$_PlsWaitBody"
+        dialog --backtitle "$BT" --title "$title" --infobox "$msg" 0 0
         sleep 1
         vgcreate -f "$LV_VG" "$VG_PARTS" >/dev/null 2>>"$ERR"
         check_for_error
+
         VG_SIZE=$(vgdisplay "$LV_VG" | grep 'VG Size' | awk '{print $3}' | sed 's/\..*//')
         VG_SIZE_TYPE=$(vgdisplay "$LV_VG" | grep 'VG Size' | awk '{print $4}')
+        if [[ ${VG_SIZE_TYPE:0:1} == "G" ]]; then
+            LV_VG_MB=$((VG_SIZE * 1000))
+        else
+            LV_VG_MB=$VG_SIZE
+        fi
 
-        [[ ${VG_SIZE_TYPE:0:1} == "G" ]] && LV_VG_MB=$((VG_SIZE * 1000)) || LV_VG_MB=$VG_SIZE
-
-        MSG="$_LvmPvDoneBody1 '$LV_VG' $_LvmPvDoneBody2 ($VG_SIZE $VG_SIZE_TYPE)."
-        dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " --msgbox "$MSG" 0 0
+        msg="$_LvmPvDoneBody1 '$LV_VG' $_LvmPvDoneBody2 ($VG_SIZE $VG_SIZE_TYPE)."
+        dialog --backtitle "$BT" --title "$title" --msgbox "$msg" 0 0
     else
         lvm_menu
     fi
 
-    MSG="$_LvmLvNumBody1 $LV_VG. $_LvmLvNumBody2"
-    dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " --radiolist "$MSG" 0 0 9 \
+    msg="$_LvmLvNumBody1 $LV_VG. $_LvmLvNumBody2"
+    dialog --backtitle "$BT" --title "$title" --radiolist "$msg" 0 0 9 \
         "1" "-" off \
         "2" "-" off \
         "3" "-" off \
@@ -1179,58 +1165,58 @@ lvm_create() {
         "7" "-" off \
         "8" "-" off \
         "9" "-" off 2>$ANS
-    [[ $(cat $ANS) == "" ]] && lvm_menu || NUM_LVS=$(cat $ANS)
+    if [[ $(cat $ANS) == "" ]]; then
+        lvm_menu
+    else
+        NUM_LVS=$(cat $ANS)
+    fi
 
     while [[ $NUM_LVS -gt 1 ]]; do
-        TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-        dialog --backtitle "$BTITLE" --title "$TITLE" \
-            --inputbox "$_LvmLvNameBody1" 0 0 "lvol" 2>$ANS || prep_menu
+        title=" $_LvmCreateVG (LV:$NUM_LVS) "
+        msg="$_LvmLvNameBody1"
+        dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "lvol" 2>$ANS || prep_menu
         LV_NAME=$(cat $ANS)
 
-        HAS_LV=$(grep -q "$LV_NAME" <<< "$(lsblk)")
-
-        while [[ ${LV_NAME:0:1} == "/" ]] || [[ ${#LV_NAME} -eq 0 ]] || [[ $LV_NAME =~ \ |\' ]] || [[ $HAS_LV ]]; do
-            dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
-            TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-            dialog --backtitle "$BTITLE" --title "$TITLE" \
-                --inputbox "$_LvmLvNameBody1" 0 0 "lvol" 2>$ANS || prep_menu
+        ln=${LV_NAME:0:1}
+        n=${#LV_NAME}
+        has=$(grep -q "$LV_NAME" <<< "$(lsblk)")
+        while [[ $ln == "/" ]] || [[ $n -eq 0 ]] || [[ $LV_NAME =~ \ |\' ]] || [[ $has ]]; do
+            dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
+            dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "lvol" 2>$ANS || prep_menu
             LV_NAME=$(cat $ANS)
         done
 
-        MSG="${LV_VG}: ${VG_SIZE}$VG_SIZE_TYPE (${LV_VG_MB}MB $_LvmLvSizeBody1).$_LvmLvSizeBody2"
-        TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-        dialog --backtitle "$BTITLE" --title "$TITLE" --inputbox "$MSG" 0 0 "" 2>$ANS || prep_menu
+        msg="${LV_VG}: ${VG_SIZE}$VG_SIZE_TYPE (${LV_VG_MB}MB $_LvmLvSizeBody1).$_LvmLvSizeBody2"
+        dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "" 2>$ANS || prep_menu
         LV_SIZE=$(cat $ANS)
         check_lv_size
 
         while [[ $LV_SIZE_INVALID -eq 1 ]]; do
-            dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LvmLvSizeErrBody" 0 0
-            TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-            MSG="${LV_VG}: ${VG_SIZE}$VG_SIZE_TYPE (${LV_VG_MB}MB $_LvmLvSizeBody1).$_LvmLvSizeBody2"
-            dialog --backtitle "$BTITLE" --title "$TITLE" --inputbox "$MSG" 0 0 "" 2>$ANS || prep_menu
+            dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvSizeErrBody" 0 0
+            dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "" 2>$ANS || prep_menu
             LV_SIZE=$(cat $ANS)
             check_lv_size
         done
 
         lvcreate -L "$LV_SIZE" "$LV_VG" -n "$LV_NAME" 2>>"$ERR"
         check_for_error
-        MSG="$_Done LV $LV_NAME ($LV_SIZE) $_LvmPvDoneBody2."
-        dialog --backtitle "$BTITLE" --title " $_LvmCreateVG (LV:$NUM_LVS) " --msgbox "$MSG" 0 0
+
+        msg="$_Done LV $LV_NAME ($LV_SIZE) $_LvmPvDoneBody2."
+        dialog --backtitle "$BT" --title "$title" --msgbox "$msg" 0 0
         NUM_LVS=$((NUM_LVS - 1))
     done
 
-    TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-    MSG="$_LvmLvNameBody1 $_LvmLvNameBody2 (${LV_VG_MB}MB)." 0 0 "lvol"
-    dialog --backtitle "$BTITLE" --title "$TITLE" --inputbox "$MSG" 2>$ANS || prep_menu
+    title=" $_LvmCreateVG (LV:$NUM_LVS) "
+    msg="$_LvmLvNameBody1 $_LvmLvNameBody2 (${LV_VG_MB}MB)."
+    dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "lvol" 2>$ANS || prep_menu
     LV_NAME=$(cat $ANS)
 
-    HAS_LV=$(grep -q "$LV_NAME" <<< "$(lsblk)")
-
-    while [[ ${LV_NAME:0:1} == "/" ]] || [[ ${#LV_NAME} -eq 0 ]] || [[ $LV_NAME =~ \ |\' ]] || [[ $HAS_LV ]]; do
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
-        TITLE=" $_LvmCreateVG (LV:$NUM_LVS) "
-        MSG="$_LvmLvNameBody1 $_LvmLvNameBody2 (${LV_VG_MB}MB)."
-        dialog --backtitle "$BTITLE" --title "$TITLE" --inputbox "$MSG" 0 0 "lvol" 2>$ANS || prep_menu
+    ln=${LV_NAME:0:1}
+    n=${#LV_NAME}
+    has=$(grep -q "$LV_NAME" <<< "$(lsblk)")
+    while [[ $ln == "/" ]] || [[ $n -eq 0 ]] || [[ $LV_NAME =~ \ |\' ]] || [[ $has ]]; do
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
+        dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "lvol" 2>$ANS || prep_menu
         LV_NAME=$(cat $ANS)
     done
 
@@ -1238,13 +1224,19 @@ lvm_create() {
     check_for_error
     NUM_LVS=$((NUM_LVS - 1))
     LVM=1
-    dialog --backtitle "$BTITLE" --title " $_LvmCreateVG " \
-        --yesno "$_LvmCompBody" 0 0 && show_devices || lvm_menu
+
+    title=" $_LvmCreateVG "
+    msg="$_LvmCompBody"
+    if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
+        show_devices
+    else
+        lvm_menu
+    fi
 }
 
 lvm_del_vg() {
     lvm_show_vg
-    if dialog --backtitle "$BTITLE" --title " $_LvmDelVG " --yesno "$_LvmDelQ" 0 0; then
+    if dialog --backtitle "$BT" --title " $_LvmDelVG " --yesno "$_LvmDelQ" 0 0; then
         vgremove -f "$(cat $ANS)" >/dev/null 2>&1
     fi
     lvm_menu
@@ -1255,7 +1247,7 @@ lvm_del_all() {
     LV_VG=$(vgs -o vg_name --noheading 2>/dev/null)
     LV=$(lvs -o vg_name,lv_name --noheading --separator - 2>/dev/null)
 
-    if dialog --backtitle "$BTITLE" --title " $_LvMDelAll " --yesno "$_LvmDelQ" 0 0; then
+    if dialog --backtitle "$BT" --title " $_LvMDelAll " --yesno "$_LvmDelQ" 0 0; then
         for i in $LV; do lvremove -f "/dev/mapper/$i" >/dev/null 2>&1; done
         for i in $LV_VG; do vgremove -f "$i" >/dev/null 2>&1; done
         for i in $LVM_PV; do pvremove -f "$i" >/dev/null 2>&1; done
@@ -1264,11 +1256,11 @@ lvm_del_all() {
 }
 
 lvm_menu() {
-    dialog --backtitle "$BTITLE" --title " $_PrepLVM " --infobox "$_PlsWaitBody" 0 0
+    dialog --backtitle "$BT" --title " $_PrepLVM " --infobox "$_PlsWaitBody" 0 0
     sleep 1
     lvm_detect
 
-    dialog --backtitle "$BTITLE" --title " $_PrepLVM " --menu "$_LvmMenu" 0 0 4 \
+    dialog --backtitle "$BT" --title " $_PrepLVM " --menu "$_LvmMenu" 0 0 4 \
         "$_LvmCreateVG" "vgcreate -f, lvcreate -L -n" \
         "$_LvmDelVG"    "vgremove -f" \
         "$_LvMDelAll"   "lvrmeove, vgremove, pvremove -f" \
@@ -1281,7 +1273,6 @@ lvm_menu() {
         *)               prep_menu
     esac
 }
-
 
 ######################################################################
 ##                    Installation Functions                        ##
@@ -1296,39 +1287,34 @@ install_root() {
         echo -e "IMG has not been properly configured... Exiting" ; exit 1
     fi
 
-    local XKB="/tmp/01-keyboard-layout.conf"
-    local XK="$MNT/etc/X11/xorg.conf.d"
-    local MLIST="/etc/pacman.d/mirrorlist"
-    local BOOTIMG="/run/archiso/bootmnt/arch/boot/$ARCHI/vmlinuz"
-    local AUTOSTART="$MNT/etc/skel/.config/openbox/autostart"
-
-    local RFILES=(
+    local rfiles=(
     "$BYPASS" "/archlabs-installer" "/etc/sudoers.d/g_wheel"
     "/etc/mkinitcpio-archiso.conf" "/usr/bin/install-al"
     "/etc/polkit-1/rules.d/49-nopasswd_global.rules"
     )
 
-    for f in "${RFILES[@]}"; do
+    for f in "${rfiles[@]}"; do
         rm -rf ${MNT}"$f"
     done
 
     find $MNT/usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
 
-    sed -i '/al-hello/ c sleep 10; termite --exec=/usr/bin/al-hello &' $AUTOSTART
-    sed -i 's|#$HOME/.config/setup &|$HOME/.config/setup &|g' $AUTOSTART
+    local autostart="$MNT/etc/skel/.config/openbox/autostart"
+    sed -i '/al-hello/ c sleep 10; termite --exec=/usr/bin/al-hello &' $autostart
+    sed -i 's|#$HOME/.config/setup &|$HOME/.config/setup &|g' $autostart
     sed -i 's/volatile/auto/g' $MNT/etc/systemd/journald.conf
 
-    cp -f "$BOOTIMG" $MNT/boot/vmlinuz-linux 2>>"$ERR"
-    cp -f  $MLIST ${MNT}$MLIST 2>>"$ERR"
+    local bootimg="/run/archiso/bootmnt/arch/boot/$ARCHI/vmlinuz"
+    cp -f "$bootimg" $MNT/boot/vmlinuz-linux 2>>"$ERR"
     check_for_error
 
-    # Keyboard files
-    [[ -e $XKB ]] && mkdir -p $XK ; cp -f $XKB $XK/01-keyboard.conf
+    # Console & Keyboard files
     [[ -e /tmp/keyboard ]] && cp -f /tmp/keyboard $MNT/etc/default/keyboard
+    [[ -e /tmp/01-keyboard.conf ]] && cp -f /tmp/01-keyboard.conf $MNT/etc/X11/xorg.conf.d/01-keyboard.conf
     [[ -e /tmp/vconsole.conf ]] && cp -f /tmp/vconsole.conf $MNT/etc/vconsole.conf
 
     # Setup mirrorlist
-    reflector --score 100 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist --verbose
+    reflector --score 50 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist --verbose
 
     # initialize pacman keyring
     arch_chroot "mkdir -p /var/lib/pacman/sync"
@@ -1361,29 +1347,27 @@ install_root() {
     arch_chroot "pacman -S base-devel --needed --noconfirm"
 }
 
-
 install_bootloader() {
-
     grub_configuration() {
-        if [[ $LUKS_DEV ]]; then
-            sed -i "s~GRUB_CMDLINE_LINUX=\"\"~GRUB_CMDLINE_LINUX=\"${LUKS_DEV}\"~g" $MNT/etc/default/grub
-            sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" $MNT/etc/default/grub
-        fi
+        local CFG="$MNT/etc/default/grub"
+        sed -i "s/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"${DIST}\"/g" $CFG
 
-        sed -i "s/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"${DIST}\"/g" $MNT/etc/default/grub
+        if [[ $LUKS_DEV ]]; then
+            sed -i "s~GRUB_CMDLINE_LINUX=\"\"~GRUB_CMDLINE_LINUX=\"${LUKS_DEV}\"~g" $CFG
+            sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" $CFG
+        fi
 
         if [[ $SYSTEM == "BIOS" ]]; then
             if ([[ $LVM -eq 1 ]] && [[ $LVM_SEP_BOOT -eq 0 ]]) || [[ $LVM_SEP_BOOT -eq 2 ]]; then
-                sed -i "s/GRUB_PRELOAD_MODULES=.*/GRUB_PRELOAD_MODULES=\"lvm\"/g" $MNT/etc/default/grub
+                sed -i "s/GRUB_PRELOAD_MODULES=.*/GRUB_PRELOAD_MODULES=\"lvm\"/g" $CFG
             fi
         fi
     }
 
     bios_bootloader() {
-        select_device
-        dialog --backtitle "$BTITLE" --title " $_InstBootldr " --infobox "$_PlsWaitBody" 0 0
+        select_device "Grub"
         grub_configuration
-        arch_chroot "grub-install --target=i386-pc --recheck --force $DEVICE" 2>>"$ERR"
+        arch_chroot "grub-install --target=i386-pc --recheck --force $DEVICE" 2>>$ERR
         check_for_error
     }
 
@@ -1391,31 +1375,29 @@ install_bootloader() {
         if grep -q "/sys/firmware/efi/efivars" <<< "$(mount)"; then
             mount -t efivarfs efivarfs /sys/firmware/efi/efivars
         fi
-
-        dialog --backtitle "$BTITLE" --title " $_InstBootldr " --infobox "$_PlsWaitBody" 0 0
         grub_configuration
         CMD="grub-install --target=x86_64-efi --efi-directory=$EFI_MNT --bootloader-id=$DIST --force"
         arch_chroot "$CMD" 2>>"$ERR"
 
-        local DIRS
-        DIRS=($(find ${MNT}$EFI_MNT/EFI -maxdepth 1 -type d))
-        for i in "${DIRS[@]}"; do
-            d=$(basename "$i")
-            if [[ $d == "BOOT" ]] || [[ $d == "Boot" ]] || [[ $d == "boot" ]]; then
-                BOOTDIR=$EFI_MNT/EFI/$d
+        local efi_dirs
+        efi_dirs=($(find ${MNT}$EFI_MNT/EFI -maxdepth 1 -type d))
+        for i in "${efi_dirs[@]}"; do
+            name=$(basename "$i")
+            if [[ $name == "BOOT" ]] || [[ $name == "Boot" ]] || [[ $name == "boot" ]]; then
+                BOOTDIR=$EFI_MNT/EFI/$name
                 break
             else
                 BOOTDIR=$EFI_MNT/EFI/boot
             fi
         done
-        arch_chroot "mkdir -p $BOOTDIR"
+        mkdir -p $MNT/$BOOTDIR
         arch_chroot "cp -rf $EFI_MNT/EFI/$DIST/grubx64.efi $BOOTDIR/grubx64.efi"
         arch_chroot "cp -rf $EFI_MNT/EFI/$DIST/grubx64.efi $BOOTDIR/bootx64.efi"
         check_for_error
     }
 
     check_mount
-    arch_chroot "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/bin/core_perl"
+    arch_chroot "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/bin/core_perl" 2>>$ERR
     check_for_error
 
     if [[ $SYSTEM == "BIOS" ]]; then
@@ -1425,14 +1407,63 @@ install_bootloader() {
     fi
 
     os-prober &>/dev/null
-    arch_chroot "os-prober"
-    arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>>"$ERR"
+    arch_chroot "os-prober" &>/dev/null
+    arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>>$ERR
     check_for_error
 }
 
+install_base_system() {
+    install_root
+
+    # FSTAB
+    genfstab -U -p $MNT > $MNT/etc/fstab 2>>"$ERR"
+    check_for_error
+    if [[ -f $MNT/swapfile ]]; then
+        sed -i "s/\\${MNT}//" $MNT/etc/fstab
+    fi
+
+    run_mkinitcpio
+    install_bootloader
+    config_base_menu
+}
+
+run_mkinitcpio() {
+    clear
+    local conf="$MNT/etc/mkinitcpio.conf"
+
+    if [[ $LVM -eq 1 ]] && [[ $LUKS -eq 0 ]]; then
+        sed -i 's/block filesystems/block lvm2 filesystems/g' $conf 2>>"$ERR"
+    elif [[ $LVM -eq 1 ]] && [[ $LUKS -eq 1 ]]; then
+        sed -i 's/block filesystems/block encrypt lvm2 filesystems/g' $conf 2>>"$ERR"
+    elif [[ $LVM -eq 0 ]] && [[ $LUKS -eq 1 ]]; then
+        sed -i 's/block filesystems/block encrypt filesystems/g' $conf 2>>"$ERR"
+    fi
+
+    local dev
+    if [[ $LUKS_DEV ]]; then
+        sed -i 's/block filesystems/block encrypt filesystems/g' $conf 2>>"$ERR"
+        if [[ $LUKS_PASSWD ]] && [[ $LUKS_UUID ]]; then
+            dev=$(lsblk -lno NAME,UUID,TYPE | grep "part")
+            dev="/dev/$(grep "$LUKS_UUID" <<< "$dev" | awk '{print $1}')"
+            arch_chroot "dd bs=512 count=8 if=/dev/urandom of=/crypto_keyfile.bin" &>/dev/null
+            arch_chroot "chmod 000 /crypto_keyfile.bin"
+            echo "INFO: Setting up single password decryption at boot"
+            echo "INFO: Creating encryption keyfile: /crypto_keyfile.bin"
+            arch_chroot "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $dev /crypto_keyfile.bin"
+            sed -i 's/FILES=()/FILES=(\/crypto_keyfile.bin)/g' $conf
+        fi
+    fi
+
+    if [[ $MNTHOOKS ]]; then
+        sed -i "s/keyboard fsck/keyboard ${MNTHOOKS} fsck/g" $conf 2>>"$ERR"
+    fi
+
+    arch_chroot "mkinitcpio -p linux" 2>>"$ERR"
+    check_for_error
+}
 
 ######################################################################
-##                       Main Interfaces                            ##
+##                       Menu Interfaces                            ##
 ######################################################################
 
 security_menu() {
@@ -1442,7 +1473,7 @@ security_menu() {
         [[ $HIGHLIGHT != 4 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
 
-    dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" \
+    dialog --default-item $HIGHLIGHT --backtitle "$BT" \
         --title " $_SecMenuTitle " --menu "$_SecMenuBody" 0 0 4 \
         "1" "$_SecJournTitle" \
         "2" "$_SecCoreTitle" \
@@ -1452,7 +1483,7 @@ security_menu() {
 
     case "$(cat $ANS)" in
         "1")
-            dialog --backtitle "$BTITLE" --title " $_SecJournTitle " --menu "$_SecJournBody" 0 0 7 \
+            dialog --backtitle "$BT" --title " $_SecJournTitle " --menu "$_SecJournBody" 0 0 7 \
                 "$_Edit" "/etc/systemd/journald.conf" \
                 "10M"  "SystemMaxUse=10M" \
                 "20M"  "SystemMaxUse=20M" \
@@ -1464,53 +1495,49 @@ security_menu() {
                 if  [[ $(cat $ANS) == "$_Disable" ]]; then
                     sed -i "s/#Storage.*\|Storage.*/Storage=none/g" $MNT/etc/systemd/journald.conf
                     sed -i "s/SystemMaxUse.*/#&/g" $MNT/etc/systemd/journald.conf
-                    dialog --backtitle "$BTITLE" --title " $_SecJournTitle " --infobox "$_Done!" 0 0
+                    dialog --backtitle "$BT" --title " $_SecJournTitle " --infobox "$_Done!" 0 0
                     sleep 2
                 elif [[ $(cat $ANS) == "$_Edit" ]]; then
                     nano $MNT/etc/systemd/journald.conf
                 else
                     sed -i "s/#Storage.*\|Storage.*/Storage=$(cat $ANS)/g" $MNT/etc/systemd/journald.conf
                     sed -i "s/SystemMaxUse.*/#&/g" $MNT/etc/systemd/journald.conf
-                    dialog --backtitle "$BTITLE" --title " $_SecJournTitle " --infobox "$_Done!" 0 0
+                    dialog --backtitle "$BT" --title " $_SecJournTitle " --infobox "$_Done!" 0 0
                     sleep 2
                 fi
             fi ;;
         "2")
-            dialog --backtitle "$BTITLE" --title " $_SecCoreTitle " --menu "$_SecCoreBody" 0 0 2 \
+            dialog --backtitle "$BT" --title " $_SecCoreTitle " --menu "$_SecCoreBody" 0 0 2 \
                 "$_Disable" "Storage=none" \
                 "$_Edit"    "/etc/systemd/coredump.conf" 2>$ANS
             if [[ $(cat $ANS) == "$_Disable" ]]; then
                 sed -i "s/#Storage.*\|Storage.*/Storage=none/g" $MNT/etc/systemd/coredump.conf
-                dialog --backtitle "$BTITLE" --title " $_SecCoreTitle " --infobox "$_Done!" 0 0
+                dialog --backtitle "$BT" --title " $_SecCoreTitle " --infobox "$_Done!" 0 0
                 sleep 2
             elif [[ $(cat $ANS) == "$_Edit" ]]; then
                 nano $MNT/etc/systemd/coredump.conf
             fi ;;
         "3")
-            dialog --backtitle "$BTITLE" --title " $_SecKernTitle " --menu "$_SecKernLogs" 0 0 2 \
+            dialog --backtitle "$BT" --title " $_SecKernTitle " --menu "$_SecKernLogs" 0 0 2 \
                 "$_Disable" "kernel.dmesg_restrict = 1" \
                 "$_Edit"    "/etc/systemd/coredump.conf.d/custom.conf" 2>$ANS
             case "$(cat $ANS)" in
                 "$_Disable")
                     echo "kernel.dmesg_restrict = 1" >$MNT/etc/sysctl.d/50-dmesg-restrict.conf
-                    dialog --backtitle "$BTITLE" --title " $_SecKernTitle " --infobox "$_Done!" 0 0
+                    dialog --backtitle "$BT" --title " $_SecKernTitle " --infobox "$_Done!" 0 0
                     sleep 2 ;;
                 "$_Edit")
                     if [[ -e $MNT/etc/sysctl.d/50-dmesg-restrict.conf ]]; then
                         nano $MNT/etc/sysctl.d/50-dmesg-restrict.conf
                     else
-                        MSG="$_SeeConfErrBody $MNT/etc/sysctl.d/50-dmesg-restrict.conf"
-                        dialog --backtitle "$BTITLE" --title " Config Missing " --msgbox "$MSG" 0 0
+                        msg="$_SeeConfErrBody $MNT/etc/sysctl.d/50-dmesg-restrict.conf"
+                        dialog --backtitle "$BT" --title " Config Missing " --msgbox "$msg" 0 0
                     fi
             esac ;;
         *) main_menu
     esac
 
     security_menu
-}
-
-greeting() {
-    dialog --backtitle "$BTITLE" --title " $_WelTitle $VERSION " --msgbox "$_WelBody" 0 0
 }
 
 prep_menu() {
@@ -1520,7 +1547,7 @@ prep_menu() {
         [[ $HIGHLIGHT != 8 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
 
-    dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" \
+    dialog --default-item $HIGHLIGHT --backtitle "$BT" \
         --title " $_PrepMenuTitle " --menu "$_PrepMenuBody" 0 0 8 \
         "1" "$_VCKeymapTitle" \
         "2" "$_PrepKBLayout" \
@@ -1545,60 +1572,32 @@ prep_menu() {
     prep_menu
 }
 
-install_root_menu() {
-    if [[ $SUB_MENU != "install_base_menu" ]]; then
-        SUB_MENU="install_base_menu" HIGHLIGHT=1
-    else
-        [[ $HIGHLIGHT != 5 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
-    fi
-
-    dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" --title "$_InstBseMenuTitle" \
-        --menu "$_InstBseMenuBody" 0 0 5 \
-        "1" "$_InstBse" \
-        "2" "$_MMRunMkinit" \
-        "3" "$_ConfBseFstab" \
-        "4" "$_InstBootldr" \
-        "5" "$_Back" 2>$ANS
-    HIGHLIGHT=$(cat $ANS)
-
-    case "$(cat $ANS)" in
-        "1") install_root       ;;
-        "2") run_mkinitcpio     ;;
-        "3") generate_fstab     ;;
-        "4") install_bootloader ;;
-        *)   main_menu
-    esac
-    install_root_menu
-}
-
 config_base_menu() {
-    arch_chroot "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl" 2>>"$ERR"
+    arch_chroot "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl" 2>>$ERR
     check_for_error
 
     if [[ $SUB_MENU != "config_base_menu" ]]; then
         SUB_MENU="config_base_menu" HIGHLIGHT=1
     else
-        [[ $HIGHLIGHT != 7 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
+        [[ $HIGHLIGHT != 6 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
 
-    dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" --title " $_ConfBseMenuTitle " \
-        --menu "$_ConfBseBody" 0 0 7 \
+    dialog --default-item $HIGHLIGHT --backtitle "$BT" --title " $_ConfBseMenuTitle " \
+        --menu "$_ConfBseBody" 0 0 6 \
         "1" "$_ConfBseHost" \
         "2" "$_ConfBseSysLoc" \
-        "3" "$_ConfBseTimeHC"\
-        "4" "$_ConfUsrRoot" \
-        "5" "$_ConfUsrNew" \
-        "6" "$_SecMenuTitle" \
-        "7" "$_Back" 2>$ANS
+        "3" "$_ConfUsrRoot" \
+        "4" "$_ConfUsrNew" \
+        "5" "$_SecMenuTitle" \
+        "6" "$_Back" 2>$ANS
     HIGHLIGHT=$(cat $ANS)
 
     case "$(cat $ANS)" in
-        "1") set_hostname      ;;
-        "2") set_locale        ;;
-        "3") set_timezone ; set_hw_clock ;;
-        "4") set_root_password ;;
-        "5") create_new_user   ;;
-        "6") security_menu     ;;
+        "1") set_hostname                ;;
+        "2") set_locale ; set_timezone ; set_hw_clock ;;
+        "3") set_root_password           ;;
+        "4") create_new_user             ;;
+        "5") security_menu               ;;
         *)   main_menu
     esac
 
@@ -1613,7 +1612,7 @@ edit_configs() {
         [[ $HIGHLIGHT != 12 ]] && HIGHLIGHT=$((HIGHLIGHT + 1))
     fi
 
-    dialog --default-item $HIGHLIGHT --backtitle "$BTITLE" --title " $_SeeConfOptTitle " \
+    dialog --default-item $HIGHLIGHT --backtitle "$BT" --title " $_SeeConfOptTitle " \
         --menu "$_SeeConfOptBody" 0 0 12 \
         "1" "/etc/vconsole.conf" \
         "2" "/etc/locale.conf" \
@@ -1655,29 +1654,30 @@ edit_configs() {
     elif [[ $FILE != "" ]]; then
         nano -p $FILE
     else
-        dialog --backtitle "$BTITLE" --title " $_ErrTitle " --msgbox "$_SeeConfErrBody" 0 0
+        dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_SeeConfErrBody" 0 0
     fi
 
     edit_configs
 }
 
-
 main_menu() {
-    if [[ $MHIGHLIGHT != 5 ]]; then
-        if ! [[ -e $MNT/etc ]] && [[ $MHIGHLIGHT != 1 ]]; then
-            MHIGHLIGHT=1
+    if [[ $MH != 5 ]]; then
+        if ! [[ -e $MNT/etc ]] && [[ $MH != 1 ]]; then
+            MH=1
+        elif [[ -e $MNT/boot/grub ]] && [[ $MH == 2 ]]; then 
+            MH=4
         else
-            MHIGHLIGHT=$((MHIGHLIGHT + 1))
+            MH=$((MH + 1))
         fi
     fi
-    dialog --default-item $MHIGHLIGHT --backtitle "$BTITLE" --title " $_MMTitle " \
+    dialog --default-item $MH --backtitle "$BT" --title " $_MMTitle " \
         --menu "$_MMBody" 0 0 5 \
         "1" "$_PrepMenuTitle" \
         "2" "$_InstBseMenuTitle" \
         "3" "$_ConfBseMenuTitle" \
         "4" "$_SeeConfOptTitle" \
         "5" "$_Done" 2>$ANS
-    MHIGHLIGHT=$(cat $ANS)
+    MH=$(cat $ANS)
 
     if [[ $(cat $ANS) -eq 2 ]]; then
         check_mount
@@ -1687,12 +1687,12 @@ main_menu() {
     fi
 
     case "$(cat $ANS)" in
-        "1") prep_menu         ;;
-        "2") install_root_menu ;;
-        "3") config_base_menu  ;;
-        "4") edit_configs      ;;
+        "1") prep_menu           ;;
+        "2") install_base_system ;;
+        "3") config_base_menu    ;;
+        "4") edit_configs        ;;
         *)
-            if dialog --backtitle "$BTITLE" --yesno "$_CloseInstBody" 8 45; then
+            if dialog --backtitle "$BT" --yesno "$_CloseInstBody" 8 45; then
                 umount_partitions
                 clear && exit 0
             else
@@ -1705,7 +1705,7 @@ main_menu() {
 id_system
 select_language
 check_requirements
-greeting
+dialog --backtitle "$BT" --title " $_WelTitle $VERSION " --msgbox "$_WelBody" 0 0
 
 while true; do
     main_menu

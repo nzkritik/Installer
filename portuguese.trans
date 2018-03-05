@@ -26,16 +26,6 @@ _SecMenuBody="\nAlguns ajustes úteis e amigáveis para iniciantes estão dispon
 _SecJournBody="\nO systemd-journald colecta e armazena os registos do kernel, de sistema, de auditoria, saídas padrão e mensagens de erro dos serviços.\n\nPor padrão, o tamanho limite de um arquivo de journaling permanente (não-volátil) é 10% do tamanho da partição root: uma partição root de 500G significa um limite de 50G para os dados armazenados em /var/log/journal. 50M deve ser suficiente. Pode-se também desabilitar o registo, embora possa ser bem mais difícil a resolução de problemas do sistema.\n\n"
 _SecCoreBody="\nUm despejo de memória é uma gravação da memória do computador quando um processo falha.\n\nMuito útil para os desenvolve-dores mas não para a maioria dos usuários, os despejos de memória core dumps desperdiçam recursos do sistema e podem conter dados confidenciais senhas e chaves de criptografia.\n\nO comportamento padrão do systemd é gerar os despejos para todos os processos em /var/lib/systemd/coredump. Este comportamento pode ser substituído pela criação de um arquivo de configuração no diretório /etc/systemd/coredump.conf.d/.\n\n"
 
-# btrfs
-_btrfsSVTitle="Sub-volumes btrfs"
-_btrfsSVBody="Criar sub-volumes btrfs?\n\nUm sub-volume inicial será criado e em seguida montado. Outras ramificações do sub-volume podem então ser criadas.\n\nCaso contrário, você pode pular directamente para as opções de montagem.\n"
-_btrfsMSubBody1="Digite o nome do sub-volume inicial para montar (ex. ROOT). Opções de montagem podem então ser seleccionadas. Uma vez montado, todos os outros sub-volumes criado para "
-_btrfsMSubBody2="irá ramificar dele."
-_btrfsSVErrBody="Espaços em brancos não são permitidos. Por favor tente novamente.\n"
-_btrfsSVBody1="Digite o nome do sub-volume"
-_btrfsSVBody2="para criar dentro"
-_btrfsSVBody3="\n\nEste processo será repetido até que um asterisco (*) é inserido como o nome do sub-volume.\n\nSub-volume Criado:"
-
 # Particionamento automático
 _AutoPartBody1="Atenção: TODOS os dados em"
 _AutoPartBody2="serão destruídos.\n\nUma partição de boot de 512MB será criada primeiro, seguida por uma segunda partição (root ou '/') utilizando todo o espaço restante."
@@ -211,23 +201,6 @@ _ExtErrBody="\nA partição não pode ser montada devido a um problema com o nom
 
 # Instalar Base
 _InstBseTitle="Instalar Base"
-_InstStandBseBody="\nO grupo pacote básico será instalado automaticamente. O grupo pacote base-devel é necessário para usar o repositório do usuário ArchLabs (AUR).\n\n"
-_InstStandBase="Instalação Padrão"
-_InstAdvBase="Instalação Avançada"
-_InstAdvBseBody="\nATENÇÃO: Isto é apenas para usuários experientes. Usuários novatos devem utilizar a opção de instalação 'padrão'."
-_InstAdvWait="\nReunindo descrições dos pacotes."
-
-# Instalar BIOS Bootloader
-_InstBiosBtTitle="Instalar BIOS Bootloader"
-_InstBiosBtBody="\nGrub2 é recomendado para iniciantes. O dispositivo de instalação também pode ser seleccionado.\n\nSyslinux é uma alternativa mais leve e simples, que só funcionará com sistemas de arquivos ext/btrfs."
-_InstSysTitle="Instalar o Syslinux"
-_InstSysBody="\nInstalar o syslinux no Master Boot Record (MBR) ou para Root (/)?\n\n"
-
-# Instale UEFI Bootloader
-_InstUefiBtTitle="Instale UEFI Bootloader"
-_InstUefiBtBody="\nO systemd-boot requer /boot. O Grub irá trabalhar com qualquer ponto de montagem."
-_SetBootDefBody="\nAlguns firmware UEFI pode não detectar o bootloader a menos que seja definido como padrão, copiando o seu stub efi para"
-_SetBootDefBody2="e renomeá-lo para bootx64.efi.\n\nRecomenda-se fazê-lo, a menos que já está usando um bootloader padrão, ou quando a intenção de usar vários bootloaders.\n\nDefinir o bootloader como padrão?\n\n"
 
 # Arquivo efi definido para o Grub
 _SetDefDoneBody="foi definido como o bootloader padrão.\n\n"
@@ -247,7 +220,7 @@ _Back="Voltar"
 
 # Instalar Base Menu
 _InstBseMenuTitle="Instalar Base"
-_InstBseMenuBody="\nPacotes a serem instalados deve ser baixado a partir de servidores mirror. O script pacstrap instala o sistema base. Para construir pacotes do AUR ou com ABS, também é exigido o grupo base-devel."
+_InstBseMenuBody="\nInstalar ArchLabs Base"
 _InstBse="Instalar Pacotes Base"
 _InstBootldr="Instalar Bootloader"
 

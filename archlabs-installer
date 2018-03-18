@@ -594,8 +594,7 @@ select_filesystem() {
         "ext4")
             FS="mkfs.ext4 -q" CHK_NUM=8
             fs_opts=(
-            "data=journal" "data=writeback" dealloc
-            discard noacl noatime nobarrier nodelalloc
+            dealloc discard noacl noatime nobarrier nodelalloc
             )
             ;;
         "f2fs")

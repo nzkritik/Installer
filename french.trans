@@ -248,3 +248,5 @@ _MMBody="\nChaque étape doit être suivie DANS L'ORDRE. Une fois effectué, sé
 
 # Fermer l'installateur
 _CloseInstBody="Fermer l'installateur ?"
+
+# vim:ft=sh:tw=0

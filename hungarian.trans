@@ -248,3 +248,5 @@ _MMBody="\nMinden szükséges lépést követned kell a telepítés érdekében.
 
 # Telepítő bezárása
 _CloseInstBody="Bezárod a telepítőt?"
+
+# vim:ft=sh:tw=0

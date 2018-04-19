@@ -243,3 +243,5 @@ _MMBody="\nElke stap moet IN VOLGORDE uitgevoerd worden. Eenmaal alles is afgewe
 
 # Sluit Installer
 _CloseInstBody="Installatieprogramma Afsluiten?"
+
+# vim:ft=sh:tw=0

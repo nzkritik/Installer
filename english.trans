@@ -35,7 +35,7 @@ _ConfUsrNew="Create New User"
 
 # Main Menu
 _MMTitle="Main Menu"
-_MMBody="Follow each step IN ORDER.\n\nOnce complete select 'Done'\nto finalize the installation."
+_MMBody="Follow each step IN ORDER, steps labeled (optional) are not required.\n\nAfter Installation you will be automatically taken to the configuration menu\n\nOnce complete select 'Done' to finalize the installation."
 _SecMenuTitle="System Tweaks (optional)"
 _SeeConfOptTitle="Edit Files (optional)"
 
@@ -47,15 +47,15 @@ _SeeConfErrBody="\nFile does not exist.\n\n"
 _CloseInstBody="\nClose the Installer?\n\n"
 
 # Error Messages
-_ErrNoMount="\nPartition(s) must be mounted first.\n"
-_ErrNoBase="\nThe base system must be unpacked first.\n"
+_ErrNoMount="\nPartition(s) must be mounted first.\n\n"
+_ErrNoBase="\nThe base system must be unpacked first.\n\n"
 _ExtErrBody="\nPartition cannot be mounted due to a problem with the mountpoint name.\n\nA name must be given after a forward slash."
 _PartErrBody="\nBIOS systems require at least one partition (ROOT).\nUEFI systems require at least two partitions (ROOT and EFI).\n\n"
 _NUsrErrTitle="User Name Error"
 _NUsrErrBody="\nIncorrect user name.\n\nPlease try again."
 
 # Set Keymap, Clock, Local and Timezone
-_VCKeymapBody="Virtual console is the shell prompt\nin a non-graphical environment.\n\nIts keymap is seperate from the desktop environment"
+_VCKeymapBody="Virtual console is the shell prompt in a non-graphical environment.\n\nIts keymap is seperate from the desktop environment"
 _XkbmapBody="Select System Xorg Keymap.\n\nThis will be the keymap used on the desktop"
 _localeBody="Locale determines the date, time, and language.\n\nThe format is language_COUNTRY eg.\n\nen_US is english United States\nen_GB is english Great Britain"
 _TimeZBody="The time zone is used to set the system clock."
@@ -82,7 +82,7 @@ _MntStatusSucc="\nMount Successful!\n\n"
 _MntStatusFail="\nMount Failed!\n\n"
 _WarnMount1="IMPORTANT: Partitions can be mounted without formatting them by selecting the"
 _WarnMount2="option listed at the top of the file system menu.\n\nEnsure the correct choices for mounting and formatting are made as no warnings will be provided, besides the EFI boot partition."
-_MntBody="Use [Space] to de/select the desired mount options.\nDo not select multiple versions of the same option.\n\nFor ext4 noatime is recommended.\nFor SSDs discard is also recommended."
+_MntBody="Use [Space] to de/select the desired mount options.\nDo not select multiple versions of the same option.\n\nFor ext4 noatime is recommended.\nFor SSDs discard is recommended for TRIM support."
 _MntConfBody="\nConfirm the following mount options:\n\n"
 
 # Select Device
@@ -96,9 +96,9 @@ _ExtPartBody1="Specify partition mountpoint.\n\nEnsure the name begins with a fo
 # Auto partition
 _AutoPartBody1="\nWARNING: ALL data on"
 _AutoPartBody2="will be destroyed.\n\nA 512MB boot partition will be created,\nfollowed by a main partition using all remaining space."
-_AutoPartBody3="If intending to use SWAP, select the 'Swapfile' option when mounting.\n\nDo you wish to continue?"
-_AutoPartWipeBody1="WARNING: ALL data on"
-_AutoPartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process takes a long time and will take longer depending on the size of the device.\n\nDo you wish to continue?"
+_AutoPartBody3="\n\nIf intending to use SWAP, select the 'Swapfile' option when mounting.\n\nDo you wish to continue?"
+_AutoPartWipeBody1="\nWARNING: ALL data on"
+_AutoPartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process can take a long time depending on the size of the drive.\n\nDo you wish to continue?"
 
 # Partitioning Menu
 _PartToolTitle="Partitioning Tool"
@@ -108,10 +108,10 @@ _PartOptWipe="Secure Wipe Device (optional)"
 
 # File System
 _FSTitle="Choose Filesystem"
-_FSBody="If unsure ext4 is recommended.\n\nNot all are viable for Root or Boot partitions\nand all have different features and limitations."
-_FSSkip="Skip / None"
-_SelRootBody="Select ROOT Partition.\n\nThis is where ArchLabs will be installed."
-_SelSwpBody="Select SWAP File or Partition (optional)\n\nSwapfile will be auto filled in to the same size as system RAM, but can be changed"
+_FSBody="If unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
+_FSSkip="Skip / No Format"
+_SelRootBody="Select ROOT (/) Partition.\n\nThis is where ArchLabs will be installed."
+_SelSwpBody="Select SWAP File or Partition (optional)\n\nSwapfile will be filled in to the size of system RAM, but can be changed."
 _SelSwpNone="None"
 _SelSwpFile="Swapfile"
 _SelUefiBody="Select EFI Partition.\n\nThis is a special partition\nfor booting newer UEFI systems."
@@ -183,3 +183,5 @@ _SecKernLogs="Kernel logs may contain information an attacker can use to identif
 _SecMenuBody="A few useful and beginner-friendly tweaks are available to improve system security and performance.\n\nSelecting an option will provide details about it."
 _SecJournBody="systemd-journald collects and stores kernel logs, system logs, audit records, and standard outputs and error messages from services.\n\nBy default, a persistent (non-volatile) journal size limit is 10% of the root partition size: a 500G root means a 50G limit to data stored in /var/log/journal. 50M should be sufficent. Logging can also be disabled, although solving system problems may be more difficult."
 _SecCoreBody="A core dump is a record of computer memory when a process crashes.\n\nUseful for developers but not the average user, core dumps waste system resources and can also contain sensitive data such as passwords and encryption keys.\n\nThe default systemd behavior is to generate core dumps for all processes in /var/lib/systemd/coredump. This behavior can be overridden by creating a configuration file in the /etc/systemd/coredump.conf.d/ directory."
+
+# vim:ft=sh:tw=0

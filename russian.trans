@@ -243,3 +243,5 @@ _MMBody="\nКаждый шаг должен идти ПО ПОРЯДКУ. Пос
 
 # Close Installer
 _CloseInstBody="Закрыть установщик?"
+
+# vim:ft=sh:tw=0

@@ -243,3 +243,5 @@ _MMBody="\nOgni passaggio deve essere eseguito IN ORDINE. Una volta completati, 
 
 # Chiudere il programma di istallazione
 _CloseInstBody="Chiudere il programma di installazione?"
+
+# vim:ft=sh:tw=0

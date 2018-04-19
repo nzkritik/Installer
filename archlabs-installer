@@ -574,15 +574,13 @@ select_filesystem() {
             FS="mkfs.ext3 -q"
             ;;
         "ext4")
-            FS="mkfs.ext4 -q" CHK_NUM=8
+            FS="mkfs.ext4 -q" CHK_NUM=6
             FS_OPTS=(
-            "data=journal" "data=writeback" dealloc
-            discard noacl noatime nobarrier nodelalloc
+            dealloc discard noacl noatime nobarrier nodelalloc
             )
             ;;
         "f2fs")
-            FS="mkfs.f2fs"
-            CHK_NUM=16
+            FS="mkfs.f2fs" CHK_NUM=16
             FS_OPTS=(
             data_flush disable_roll_forward disable_ext_identify
             discard fastboot flush_merge inline_xattr inline_data

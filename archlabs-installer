@@ -96,8 +96,9 @@ check_for_error() {
     if [[ $? -eq 1 ]] && grep -wqi "error" "$ERR"; then
         msg=$(cat "$ERR")
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$msg" 0 0
-        msg="An Error was encountered\n\nIt is recommended to wipe the installation and start over\n\n"
-        msg="${msg}However you may select 'No' to attempt a fix yourself"
+        msg="An Error was encountered
+        \nIt is recommended to wipe the installation and start over
+        \nHowever you may select 'No' to attempt a fix yourself"
         if dialog --backtitle "$BT" --title " $_ErrTitle " --yesno "$msg" 0 0; then
             rm -rf ${MNT:?}/* ; main_menu
         else
@@ -159,6 +160,7 @@ set_keymap() {
         dk="$dk\nXKBOPTIONS=\"\"\nBACKSPACE=\"guess\""
         echo -e "$k" >/tmp/01-keyboard.conf
         echo -e "$dk" >/tmp/keyboard
+        echo "Setting xorg keymap to $map" >>$ERR
     }
 
     set_console_keymap() {
@@ -173,6 +175,7 @@ set_keymap() {
         title=" $_VCKeymapTitle "
         dialog --backtitle "$BT" --title "$title" --menu "$msg" 22 60 16 $maps 2>$ANS || prep_menu
         echo "KEYMAP=$(cat $ANS)" >/tmp/vconsole.conf
+        echo "Setting vconsole keymap to $(cat $ANS)" >>$ERR
     }
     set_console_keymap
     set_xorg_keymap
@@ -194,6 +197,7 @@ set_locale() {
     sed -i "s/#${LOC}/${LOC}/g" $MNT/etc/locale.gen
     sed -i "s/en_US.UTF-8/${LOC}/g" $MNT/etc/default/locale
     arch_chroot "locale-gen" >/dev/null 2>>"$ERR"
+    echo "Setting locale to $LOC" >>$ERR
     check_for_error
     set_timezone
 }
@@ -210,11 +214,12 @@ set_timezone() {
         ZONE=$(awk -F/ '{print $1}' <<< "$GEO")
         SUB=$(awk -F/ '{print $2}' <<< "$GEO")
     else
+        local title msg
         for i in $(grep "/" <<< "$FULL" | sed "s|/.*||g" | sort -ud); do
             ZONE="$ZONE $i -"
         done
-        local title=" $_ConfBseTimeHC "
-        local msg="$_TimeZBody"
+        title=" $_ConfBseTimeHC "
+        msg="$_TimeZBody"
         dialog --backtitle "$BT" --title "$title" --menu "$msg" 20 45 10 $ZONE 2>$ANS || config_menu
         ZONE=$(cat $ANS)
 
@@ -230,6 +235,7 @@ set_timezone() {
         title=" $_ConfBseTimeHC "
         msg="$_TimeZQ $ZONE/$SUB?\n\n"
         if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
+            echo "Setting timezone to $ZONE/$SUB" >>$ERR
             arch_chroot "ln -sf /usr/share/zoneinfo/$ZONE/$SUB /etc/localtime" 2>>$ERR
             check_for_error
         else
@@ -246,6 +252,7 @@ set_timezone() {
 }
 
 set_hw_clock() {
+    echo "Setting hwclock" >>$ERR
     arch_chroot "hwclock --systohc --utc"
     if [[ $? -eq 1 ]]; then
         arch_chroot "hwclock --systohc --utc --directisa" 2>>"$ERR"
@@ -332,8 +339,6 @@ create_new_user() {
 
         WHEEL="%wheel ALL=(ALL) ALL"
         OPENBOX="$MNT/home/$ISO_USER/.config/openbox"
-
-        # /etc/lightdm/lightdm.conf
         L_FILES=(/etc/systemd/system/autologin@.service
         "/home/$ISO_USER/.config/openbox/autostart"
         /etc/group /etc/gshadow /etc/passwd /etc/shadow
@@ -346,19 +351,13 @@ create_new_user() {
         if grep -q "welcome.sh" $OPENBOX/autostart; then
             sed -i '/welcome.sh/d' $OPENBOX/autostart
         fi
-        if grep -q 'item label="ArchLabs Welcome"' $OPENBOX/menu.xml; then
-            sed -i '/item label="ArchLabs Welcome"/ i\
-    <separator label="ArchLabs"/>' $OPENBOX/menu.xml
-            sed -i '/item label="ArchLabs Welcome"/ { N; N; N; N; N; d; }' $OPENBOX/menu.xml
+        if grep -q 'item label="W e l c o m e"' $OPENBOX/menu.xml; then
+            sed -i '/item label="W e l c o m e"/ i\    <separator label="A r c h L a b s"/>' $OPENBOX/menu.xml
+            sed -i '/item label="W e l c o m e"/ { N; N; N; N; N; N; N; N; N; N; N; d; }' $OPENBOX/menu.xml
         fi
-
         if grep -q "archlabs-installer" $OPENBOX/rc.xml; then
             sed -i '/archlabs-installer/ { N; N; d; }' $OPENBOX/rc.xml
         fi
-        if grep -q "Install Archlabs" $OPENBOX/menu.xml; then
-            sed -i '/Install Archlabs/ { N; N; N; N; N; d; }' $OPENBOX/menu.xml
-        fi
-
         sed -i 's/#$HOME/$HOME/g' $OPENBOX/autostart
         sed -i '/keypack/d' $OPENBOX/autostart
         sed -i '/al-hello/ c sleep 10; termite -e al-hello &' $OPENBOX/autostart
@@ -391,6 +390,8 @@ create_new_user() {
         _InsSuccBody="\nSelect Yes to close the installer and reboot the machine immediately\n\nSelect No to select modify the new system configurations"
         if dialog --backtitle "$BT" --title " $_InsSuccTitle " --yesno "$_InsSuccBody" 0 0; then
             umount_partitions ; clear ; reboot
+        else
+            edit_configs
         fi
     fi
 }
@@ -549,7 +550,8 @@ select_filesystem() {
         "vfat"     "mkfs.vfat -F32" \
         "xfs"      "mkfs.xfs -f" 2>$ANS
 
-    case "$(cat $ANS)" in
+    select="$(cat $ANS)"
+    case $select in
         "$_FSSkip")
             FS="$_FSSkip"
             ;;
@@ -612,6 +614,9 @@ select_filesystem() {
     if [[ $FS != "$_FSSkip" ]]; then
         local msg="\n$FS $PART\n\n"
         if dialog --backtitle "$BT" --title " $_FSTitle " --yesno "$msg" 0 0; then
+            echo "Formatting $PART as $FS" >>$ERR
+            msg="\nFormatting $PART as $select.\n$_PlsWaitBody"
+            dialog --backtitle "$BT" --title " $_FSTitle " --infobox "$msg" 8 45
             $FS $PART >/dev/null 2>>"$ERR"
             check_for_error
         else
@@ -770,6 +775,7 @@ mount_partitions() {
     dialog --backtitle "$BT" --title "$title" --menu "$msg" 0 0 7 $PARTS 2>$ANS || prep_menu
     PART=$(cat $ANS)
     ROOT_PART=$(cat $ANS)
+    echo "Setting root partition as $ROOT_PART" >>$ERR
 
     select_filesystem
     mount_chosen_partition
@@ -781,6 +787,7 @@ mount_partitions() {
         dialog --backtitle "$BT" --title "$title" --menu "$msg" 0 0 7 $PARTS 2>$ANS || prep_menu
         PART=$(cat $ANS)
         EFI_PART=$(cat $ANS)
+        echo "Setting EFI partition as $EFI_PART" >>$ERR
         if grep -q 'fat' <<< "$(fsck -N "$PART")"; then
             msg="$_FormUefiBody $PART $_FormUefiBody2"
             if dialog --backtitle "$BT" --title "$title" --yesno "$msg" 0 0; then
@@ -820,13 +827,14 @@ mount_partitions() {
                 dialog --backtitle "$BT" --title "$title" --inputbox "$msg" 0 0 "/" 2>$ANS || prep_menu
                 MOUNT=$(cat $ANS)
             done
+            echo "Mounting $PART as $MOUNT" >>$ERR
             mount_chosen_partition
             if [[ $MOUNT == "/usr" ]]; then
-                ( ! grep -q "usr shutdown" <<< "$HOOKS" ) && HOOKS="$HOOKS usr shutdown" || HOOKS="usr shutdown"
+                (! grep -q "usr shutdown" <<< "$HOOKS") && HOOKS="$HOOKS usr shutdown"
             fi
 
             if [[ $MOUNT == "/boot" ]]; then
-                ( grep -q "lvm" <<< "$(lsblk -lno TYPE "$PART")" ) && LVM_SEP_BOOT=2 || LVM_SEP_BOOT=1
+                (grep -q "lvm" <<< "$(lsblk -lno TYPE "$PART")") && LVM_SEP_BOOT=2 || LVM_SEP_BOOT=1
             fi
         fi
     done
@@ -1231,8 +1239,17 @@ install_root() {
     check_for_error
 
     [[ -e /tmp/keyboard ]] && cp -f /tmp/keyboard $MNT/etc/default/keyboard
-    [[ -e /tmp/01-keyboard.conf ]] && cp -f /tmp/01-keyboard.conf $MNT/etc/X11/xorg.conf.d/01-keyboard.conf
+    if [[ -e /tmp/01-keyboard.conf ]]; then
+        cp -f /tmp/01-keyboard.conf $MNT/etc/X11/xorg.conf.d/01-keyboard.conf
+    fi
+
     [[ -e /tmp/vconsole.conf ]] && cp -f /tmp/vconsole.conf $MNT/etc/vconsole.conf
+    if [[ -d /etc/NetworkManager/system-connections ]]; then
+        for f in /etc/NetworkManager/system-connections/*; do
+            [[ -e ${MNT}$f ]] && continue || cp -rf "$f" ${MNT}"$f"
+        done
+    fi
+    [[ -e /etc/resolv.conf ]] && cp -f /etc/resolv.conf $MNT/etc/resolv.conf
 
     reflector --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist --verbose
 
@@ -1252,15 +1269,19 @@ install_root() {
 install_bootloader() {
     grub_configuration() {
         local CFG="$MNT/etc/default/grub"
+        echo "Updating $CFG" >>$ERR
         sed -i "s/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"${DIST}\"/g" $CFG
         if [[ $LUKS -eq 1 ]]; then
+            echo "System using LUKS.. Adding GRUB_ENABLE_CRYPTODISK=y" >>$ERR
             if [[ $LUKS_DEV ]]; then
+                echo "Updating boot parameters: GRUB_CMDLINE_LINUX=$LUKS_DEV" >>$ERR
                 sed -i "s~GRUB_CMDLINE_LINUX=\"\"~GRUB_CMDLINE_LINUX=\"${LUKS_DEV}\"~g" $CFG
             fi
             sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" $CFG
         fi
         if [[ $SYSTEM == "BIOS" ]]; then
             if ([[ $LVM -eq 1 ]] && [[ $LVM_SEP_BOOT -eq 0 ]]) || [[ $LVM_SEP_BOOT -eq 2 ]]; then
+                echo "BIOS System LVM.. Adding 'lvm' to $CFG" >>$ERR
                 sed -i "s/GRUB_PRELOAD_MODULES=.*/GRUB_PRELOAD_MODULES=\"lvm\"/g" $CFG
             fi
         fi
@@ -1269,54 +1290,52 @@ install_bootloader() {
     bios_bootloader() {
         select_device "grub"
         grub_configuration
+        echo "Installing Grub for BIOS" >>$ERR
         arch_chroot "grub-install --target=i386-pc --recheck --force $DEVICE" 2>>$ERR
         check_for_error
     }
 
     uefi_bootloader() {
-        local ldr cmd part num
+        local ldr cmd part num efi_dirs
         if grep -q "/sys/firmware/efi/efivars" <<< "$(mount)"; then
             mount -t efivarfs efivarfs /sys/firmware/efi/efivars &>/dev/null
             arch_chroot "mount -t efivarfs efivarfs /sys/firmware/efi/efivars" &>/dev/null
         fi
         grub_configuration
-        cmd="grub-install --target=x86_64-efi --efi-directory=$EFI_MNT --bootloader-id=$DIST --force"
+        cmd="grub-install --target=x86_64-efi --bootloader-id=$DIST --force"
+        echo "Installing Grub for UEFI" >>$ERR
         arch_chroot "$cmd" 2>>$ERR
 
-        local efi_dirs
-        efi_dirs=($(find ${MNT}$EFI_MNT/EFI -maxdepth 1 -type d))
-        for i in "${efi_dirs[@]}"; do
-            name=$(basename "$i")
-            if grep -qi "boot" <<< "$name"; then
-                BDIR=/EFI/$name
+        efi_dirs=$(find ${MNT}$EFI_MNT/EFI -maxdepth 1 -type d)
+        for i in $efi_dirs; do
+            if grep -qi "boot" <<< "$(basename $i)"; then
+                BD="/EFI/$(basename $i)"
                 break
             else
-                BDIR=/EFI/boot
+                BD="/EFI/boot"
             fi
         done
-        mkdir -p $MNT/$EFI_MNT/$BDIR
-        arch_chroot "cp -rf $EFI_MNT/EFI/$DIST/grubx64.efi $EFI_MNT/$BDIR/bootx64.efi"
-
-        part=$(sed 's|/dev/||g' <<< "$EFI_PART" | sed 's|[0-9]*||g')
-        num=$(grep -o '[1-9]' <<< "$EFI_PART")
-        ldr="$BDIR/bootx64.efi"
-        cmd="efibootmgr --create --disk $part --part $num --loader $ldr --label '$DIST Linux'"
-        arch_chroot "$cmd" 2>>$ERR
+        echo "Copying $MNT${EFI_MNT}/EFI/$DIST/grubx64.efi -> $MNT${EFI_MNT}$BD/bootx64.efi" >>$ERR
+        mkdir -p $MNT${EFI_MNT}$BD
+        arch_chroot "cp -rf $EFI_MNT/EFI/$DIST/grubx64.efi ${EFI_MNT}$BD/bootx64.efi"
         check_for_error
     }
 
     check_mount
     arch_chroot "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/bin/core_perl"
     if [[ $BOOTLDR_DONE != "True" ]]; then
-        echo "installing bootloader" >>$ERR
+        echo "Installing bootloader" >>$ERR
         [[ $SYSTEM == "BIOS" ]] && bios_bootloader || uefi_bootloader
         BOOTLDR_DONE="True"
     fi
+
+    arch_chroot "pacman -S linux --noconfirm"
     os-prober &>/dev/null
     arch_chroot "os-prober" &>/dev/null
     arch_chroot "grub-mkconfig -o /boot/grub/grub.cfg" 2>>$ERR
     check_for_error
 
+    echo "Bootloader Install Finished" >>$ERR
     if [[ $SYSTEM != "UEFI" ]]; then
         msg="Bootloader installation completed successfully"
         dialog --backtitle "$BT" --title " $_InstBootldr " --msgbox "$msg" 0 50
@@ -1360,7 +1379,7 @@ install_system() {
 }
 
 run_mkinitcpio() {
-    echo "running mkinitcpio for linux kernel" >>$ERR
+    echo "Running mkinitcpio" >>$ERR
     local conf="$MNT/etc/mkinitcpio.conf"
 
     if [[ $LVM -eq 1 && $LUKS -eq 0 ]]; then
@@ -1401,7 +1420,7 @@ prep_menu() {
     elif [[ $HL != 7 ]]; then
         HL=$((HL + 1))
     fi
-
+    (( $HL == 7 )) && HL=1 && main_menu
     dialog --default-item $HL --backtitle "$BT" \
         --title " $_PrepMenuTitle " --menu "$_PrepMenuBody" 17 60 7 \
         "1" "$_PrepKBLayout" \
@@ -1432,6 +1451,8 @@ config_menu() {
     elif [[ $HL != 5 ]]; then
         HL=$((HL + 1))
     fi
+
+    (( $HL == 5 )) && HL=1 && main_menu
 
     local title=" $_ConfBseMenuTitle "
     dialog --default-item $HL --backtitle "$BT" --title "$title" \
@@ -1497,15 +1518,16 @@ edit_configs() {
         *) main_menu
     esac
 
-    if [[ $FILE && $DISPLAY ]] && hash geany &>/dev/null; then
-        geany -i $FILE
-    elif [[ $FILE ]]; then
-        vim -O $FILE
+    if [[ $FILE ]]; then
+        if [[ $DISPLAY ]] && hash geany &>/dev/null; then
+            geany -i $FILE
+        else
+            vim -O $FILE
+        fi
     else
         local msg="$_SeeConfErrBody"
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$msg" 0 0
     fi
-
     edit_configs
 }
 
@@ -1513,8 +1535,6 @@ main_menu() {
     if [[ $MH != 5 ]]; then
         if ! [[ -e $MNT/etc ]] && [[ $MH != 1 ]]; then
             MH=1
-        elif [[ -e $MNT/boot/grub ]] && [[ $MH == 2 ]]; then
-            MH=4
         else
             MH=$((MH + 1))
         fi
@@ -1556,4 +1576,6 @@ id_system
 dialog --backtitle "$BT" --title " $_WelTitle $VER " --msgbox "$_WelBody" 0 0
 
 MH=0 HL=0
-while true; do main_menu; done
+while true; do
+    main_menu
+done

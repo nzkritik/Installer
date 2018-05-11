@@ -14,17 +14,8 @@ _PassErrBody="\nAs senhas digitadas não coincidem. Por favor, tente novamente.\
 _MntBody="Use [Espaço] para desmarcar ou seleccionar as opções de montagem desejadas e reveja com cuidado. Por favor, não seleccione múltiplas versões da mesma opção."
 _MntConfBody="Confirme as seguintes opções de montagem:\n\n"
 
-# Segurança e Ajustes
-_SecMenuTitle="Segurança e Ajustes de systemd"
-_SecJournTitle="Melhorar o registo de journald"
-_SecCoreTitle="Desabilitar o registo de despejos de memória"
-_SecKernTitle="Restringir o acesso aos registos do kernel"
 _Edit="Editar arquivo de configuração"
 _Disable="Desabilitar"
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecMenuBody="\nAlguns ajustes úteis e amigáveis para iniciantes estão disponíveis para melhorar a segurança e performance do sistema.\n\nSelecionar uma opção irá fornecer mais detalhes sobre a mesma."
-_SecJournBody="\nO systemd-journald colecta e armazena os registos do kernel, de sistema, de auditoria, saídas padrão e mensagens de erro dos serviços.\n\nPor padrão, o tamanho limite de um arquivo de journaling permanente (não-volátil) é 10% do tamanho da partição root: uma partição root de 500G significa um limite de 50G para os dados armazenados em /var/log/journal. 50M deve ser suficiente. Pode-se também desabilitar o registo, embora possa ser bem mais difícil a resolução de problemas do sistema.\n\n"
-_SecCoreBody="\nUm despejo de memória é uma gravação da memória do computador quando um processo falha.\n\nMuito útil para os desenvolve-dores mas não para a maioria dos usuários, os despejos de memória core dumps desperdiçam recursos do sistema e podem conter dados confidenciais senhas e chaves de criptografia.\n\nO comportamento padrão do systemd é gerar os despejos para todos os processos em /var/lib/systemd/coredump. Este comportamento pode ser substituído pela criação de um arquivo de configuração no diretório /etc/systemd/coredump.conf.d/.\n\n"
 
 # Particionamento automático
 _AutoPartBody1="Atenção: TODOS os dados em"
@@ -114,17 +105,6 @@ _TimeZBody="\nO fuso horário é usado para definir correctamente o relógio do 
 _TimeSubZBody="\nSeleccione a cidade mais próxima de você."
 _TimeZQ="\nDefinir fuso horário como"
 
-# Definir Relógio de Hardware
-_HwCBody="\nUTC é o padrão de tempo universal e é recomendado a menos que tenha dual-boot com o Windows."
-
-# Gerar FSTAB
-_FstabBody="\nO arquivo FSTAB (File System Table) define o que dispositivos de armazenamento e partições são para ser montado, e como eles devem ser usados.\n\nUUID (Universally Unique IDentifier) é recomendado.\n\nIf sem rótulos foram criados para as partições anteriormente, nomes de dispositivos serão utilizados para a opção rótulo."
-_FstabErr="\nA opção Partição UUID é apenas para instalações UEFI/GPT.\n\n"
-_FstabDevName="Nome do Dispositivo"
-_FstabDevLabel="Rótulo do Dispositivo"
-_FstabDevUUID="UUID do Dispositivo"
-_FstabDevPtUUID="UEFI Partição UUID"
-
 # Definir Hostname
 _HostNameBody="\nO hostname é usado para identificar o sistema em uma rede.\n\nE é restrito aos caracteres alfa numéricos, pode conter um hífen (-) - mas não no inicio ou no fim - e não deve ser maior que 63 caracteres.\n"
 
@@ -192,11 +172,7 @@ _MntUefiBody="\nSeleccione o ponto de montagem UEFI.\n\nO systemd-boot requer /b
 
 # Partições Extras
 _ExtPartBody="\nSeleccionar partições adicionais em qualquer ordem, ou 'Pronto' para finalizar."
-
-# Partições Extras
 _ExtPartBody1="\nEspecifique o ponto de montagem da partição. Verifique se o nome começa com uma barra (/). Exemplos incluem:\n\n"
-
-# Erro de Nome em Partição Extra
 _ExtErrBody="\nA partição não pode ser montada devido a um problema com o nome do ponto de montagem. Um nome deve ser dado depois da barra.\n\n"
 
 # Instalar Base
@@ -231,7 +207,6 @@ _ConfBseFstab="Gerar FSTAB"
 _ConfBseHost="Definir Nome da Máquina"
 _ConfBseTimeHC="Definir Fuso horário e Relógio"
 _ConfBseSysLoc="Definir a Localização do Sistema"
-_MMRunMkinit="Executar Mkinitcpio"
 
 #Menu Usuário
 _ConfUsrRoot="Definir Senha ROOT"

@@ -114,9 +114,9 @@ _SelRootBody="Select ROOT (/) Partition.\n\nThis is where ArchLabs will be insta
 _SelSwpBody="Select SWAP File or Partition (optional)\n\nSwapfile will be filled in to the size of system RAM, but can be changed."
 _SelSwpNone="None"
 _SelSwpFile="Swapfile"
-_SelUefiBody="Select EFI Partition.\n\nThis is a special partition\nfor booting newer UEFI systems."
+_SelUefiBody="Select EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
 _FormUefiBody="The EFI partition"
-_FormUefiBody2="is already formatted.\n\nDo you want to reformat it?\n\nDoing so will erase ALL data (bootloaders) on the partition.\n\n"
+_FormUefiBody2="is already formatted.\n\nDo you want to reformat it?\n\nDoing so will erase ALL data (bootloaders) on the partition.\n\nIf unsure pick No.\n"
 
 # Generic
 _All="All"
@@ -125,7 +125,7 @@ _Disable="Disable"
 _Edit="Edit configuration file"
 _ErrTitle="Installation Error"
 _AlreadyInst="Already installed:"
-_PlsWaitBody="\nPlease wait...\n\n"
+_PlsWaitBody="\nPlease wait...\n"
 _PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
 
 # LUKS / DM-Crypt / Encryption

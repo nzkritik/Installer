@@ -15,16 +15,8 @@ _MntBody="Usare [Spazio] per de/selezionare le opzioni di montaggio desiderate e
 _MntConfBody="Confermare le seguenti opzioni di montaggio:\n\n"
 
 # Security and Tweaks
-_SecMenuTitle="Securezza e systemd migliorie"
-_SecJournTitle="Modificare il logging di journald"
-_SecCoreTitle="Disabilitare il logging di Coredump"
-_SecKernTitle="Limitare l'accesso ai logs del Kernel"
 _Edit="Modifica il file di configurazione"
 _Disable="Disabilita"
-_SecMenuBody="\nSono disponibili alcuni semplici miglioramenti utili a migliorare le prestazioni e la sicurezza del sistema.\n\nSelezionare un'opzone mostrerà ulteriori dettagli."
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecJournBody="\nsystemd-journald raccoglie ed archivia i log del kernel, log di sistema, rapporti audit, messaggi da standard outputs e messaggi di errore dai servizi.\n\nDi default, il limite  alla dimensione di un journal persistente (non-volatile) è impostato al 10% della partizione di root: ad una root da 500G corrisponde un limiti di 50G per i dati aggregati in /var/log/journal. 50M dovrbebero essere abbastanza. È possibile disabilitare il logging, sebbene ciò renda più difficile diagnosticare problemi del sistema.\n\n"
-_SecCoreBody="\nUn core dump è un'instantanea della memoria del computer durante il crash di un processo.\n\nUtile per  gi sviluppatore ma non per l'utente medio, i core dumps utilizzano molte risorse di sistema e possono contenere dati sensibili come passwords e chiavi di cifratura.\n\nIl comportamento di default di systemd è di generare dei core dumps per tutti i processi in /var/lib/systemd/coredump. Tale comportamento può essere modificato creando un file di configurazione nella directory /etc/systemd/coredump.conf.d/.\n\n"
 
 # Partizionamento automatico
 _AutoPartBody1="Attenzione: TUTTI i dati contenuti in"
@@ -114,17 +106,6 @@ _TimeZBody="\nIl fuso orario è utilizzato per impostare correttamente l'ora del
 _TimeSubZBody="\nSeleziona la città più vicina alla tua posizione."
 _TimeZQ="\nImposta Time Zone"
 
-# Impostazione orologio hardware
-_HwCBody="\nUTC è il tempo universale standard ed è generalmente raccomandato eccetto in configurazioni di dual-boot con Windows."
-
-# Generare FSTAB
-_FstabBody="\nIl file FSTAB (File System TABle) imposta quali dispositivi e partizioni devono essere montate, e come devono essere utilizzate.\n\nÈ consigliato l'uso di identificatori UUID (Universally Unique IDentifier).\n\nSe non sono stati precedentemente indicati nomi per le partizioni, saranno usati i nomi dispositivo"
-_FstabErr="\nL'opzione Part UUID è solo per installazioni su sistemi UEFI/GPT.\n\n"
-_FstabDevName="Nome Dispositivo"
-_FstabDevLabel="Etichetta Dispositivo"
-_FstabDevUUID="UUID Dispositivo"
-_FstabDevPtUUID="Part UUID UEFI"
-
 # Impostazione Hostname
 _HostNameBody="\nL'hostname è utilizzato per identificare il sistema all'interno di una rete.\n\nPuò essere composto di soli caratteri alfanumerici, può inoltre contenere un trattino (-) - ma non all'inizio o alla fine del nome - e non può essere più lungo di 63 caretteri.\n"
 
@@ -192,11 +173,7 @@ _MntUefiBody="\nSelezionare mountpoint UEFI.\n\nsystemd-boot richiede /boot. Gru
 
 # Extra Partitions
 _ExtPartBody="\nSeleziona le partizioni addizionali in qualsiasi ordine, altrimenti scegli 'Fatto' per concludere."
-
-# Extra Partitions
 _ExtPartBody1="\nSpecificare mountpoint partizione. Assicurarsi che il nome cominci con uno slash (/). Ad esempio:\n\n"
-
-# Extra Partition Naming Error
 _ExtErrBody="\nImpossibile montare la partizione a case di un problema con il nome mountpoint. Deve essere indicato un nome dopo lo slash.\n\n"
 
 # Install Base

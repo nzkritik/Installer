@@ -15,16 +15,8 @@ _MntBody="Használd a  [Szóköz] billentyűt a csatolni kívánt meghajtó kije
 _MntConfBody="Erősítsd meg a következő csatolási lehetőségeket:\n\n"
 
 # Biztonság és furmányos kiegészítések
-_SecMenuTitle="Biztonság és systemd lehetőségek"
-_SecJournTitle="Módosítandó journald naplózás"
-_SecCoreTitle="Memóriakép naplózás kikapcsolása"
-_SecKernTitle="Kernel naplók hozzáférésének korlátozása"
 _Edit="Konfigurációs fájl szerkesztése"
 _Disable="Letiltás"
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecMenuBody="\nNéhány hasznos és kezdő felhasználóbarát lehetőség elérhető a rendszerbiztonság és teljesítmény javítása érdekében.\n\nVálassz lehetőséget, és elérhetővé válnak a részletek."
-_SecJournBody="\nsystemd-journald gyűjti és tárolja a kernel és rendszernaplókat, az audit-nyilvántartást, a szabványos kimeneteket és a szolgáltatások hibaüzeneteit.\n\nAlapértelmezés szerint, egy tartós (nem felejtő) jurnal maximális mérete a gyökér partíciónak a 10%-a lehet. Például 500G gyökér partíció esetén 50G a limit a /var/log/journal fájlban az adat tárolásra. 50M elegendő lehet.\n\n"
-_SecCoreBody="\nA 'core dump' felvétel a számítógép memóriájáról, amikor a folyamatok összeomlanak.\n\nEz a fejlesztők számára hasznos de az átlagos felhasználónak nem, mivel pazarolja a rendszer erőforrásait és érzékeny adatokat tartalmazhat a jelszavakról és titkosítási kulcsokról.\n\nAz alapértelmezett 'systemd' viselkedés az, hogy memóriaképet készít az összes folyamatról a /var/lib/systemd/coredump fájlba. Ez a viselkedés felülírható egy beállítófájl létrehozásával az /etc/systemd/coredump.conf.d/ könyvtárba.\n\n"
 
 # Automata partícionálás
 _AutoPartBody1="Figyelmeztetés: Az összes adat a"
@@ -114,17 +106,6 @@ _TimeZBody="\nAz időzónát a rendszeróra helyes beállítására használják
 _TimeSubZBody="\nVálaszd ki a hozzád legközelebb álló várost ."
 _TimeZQ="\nIdőzóna beállítása mint"
 
-# Hardveres óra beállítása
-_HwCBody="\nA 'UTC' az univerzális időszabvány, és ez a javasolt ha kettős indítást használsz windows-al.."
-
-# FSTAB generálása
-_FstabBody="\Az fstab fájl (File System Table) meghatározza, hogy melyik tároló eszközöket és partíciókat kell felcsatolni, és hogyan kell használni.\n\n \UUID (univerzálisan egyedi azonosító) ajánlott\n\n.Ha a korábbiakban nem volt címke állítva a partíciókhoz, az eszközök nevei fogják használni a címke lehetőséget."
-_FstabErr="\nA UUID csatolási ehetőség csak UEFI/GPT telepítéshez használható.\n\n"
-_FstabDevName="Eszköz neve"
-_FstabDevLabel="Eszköz címke"
-_FstabDevUUID="Eszköz UUID"
-_FstabDevPtUUID="UEFI rész UUID"
-
 # Gazdagépnév (hosztnév) beállítása
 _HostNameBody="\n\A házigazda nevének azonosítására használja rendszer a hálózaton keresztül.n\nEz a név alfanumerikus karakterekből állhat és tartalmazhat kötőjelet (-), de nem az elején és a végén, és nem lehet hosszabb 63 karakternél.\n"
 
@@ -176,7 +157,7 @@ _FSSkip="Kihagyás / egyik sem"
 _SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az ArchLabsot telepítjük."
 
 # Cserepartíció (SWAP) kiválasztása
-_SelSwpBody="\nVálassz cserepartíciót (SWAP). Ha lapozófájlt használsz ezzel létrejön a RAMmal azonos méretű cserefájl."
+_SelSwpBody="\nVálassz cserepartíciót (SWAP). Ha lapozófájlt használsz ezzel létrejön a RAM azonos méretű cserefájl."
 _SelSwpNone="Egyik sem"
 _SelSwpFile="Cserefájl"
 
@@ -192,27 +173,15 @@ _MntUefiBody="\nVálasszUEFI csatolási pontot.\n\n'systemd-boot' megköveteli a
 
 # Extra partíciók
 _ExtPartBody="\nVálassz a további partíciók közül bármilyen sorrendben, vagy nyomd meg a  'Kész' gombot ha végeztél."
-
-# Extra partíciók
 _ExtPartBody1="\nAdj meg partíció csatolási pontot. Biztosítsd, hogy a név per (/) jellel kezdődjön. Például:\n\n"
-
-# Extra partíció elnevezési hiba
 _ExtErrBody="\nA partíció nem csatolható a csatolási pont nevének hibája miatt.. A nevet per '/' jel után add meg.\n\n"
-
-# Alaptelepítés
-_InstBseTitle="Alaptelepítés"
-_InstStandBseBody="\nA  'base' csomagcsoport automatikusan feltelepül. A 'base-devel'  csomagcsoportnak szükséges az ArchLabs User Repository (AUR) használata.\n\n"
-_InstStandBase="Szabvány telepítés"
-_InstAdvBase="Haladó telepítés"
-_InstAdvBseBody="\nFigyelem: Ez csak tapasztalt felhasználók részére ajánlott. Újabb felhasználók használják a szabvány telepítési módot."
-_InstAdvWait="\nCsomagleírások összegyűjtése"
 
 # 'efi' fájl beállítása a 'grub' számára
 _SetDefDoneBody="beállítva alapértelmezett rendszertöltőnek.\n\n"
 
 # Üdvözöllek
 _WelTitle="Üdvözöllek az"
-_WelBody="\nEz a telepítő letölti a legújabb csomagokat az ARCH tárolókból. Csak minimálisan szükséges beállítás vállalt.\n\nMENÜ OPCIÓK: Válassz az opciók számának  beütésével, vagy használd a fel/le nyilakat mielőtt [enter]t nyomnál a kiválasztáshoz. A gombok közötti váltáshoz használd a [Tab] billentyűt  vagy használd a bal/jobb nyilakat mielőtt [enter]t nyomnál a megerősítéshez. A hosszú listában navigálhatsz a [pg up] és [pg down] billentyűkkel, és/vagy nyomd le az első betűjét a kiválasztani kívánt opciónak.\n\nKonfiguráció és csomag opciók: Az alapértelmezett csomagok a csekklistán elleőrizve lesznek. Használd a [szóköz] billentyűt a kiválasztásoz illetve a kiválasztás törléséhez."
+_WelBody="\nEz a telepítő letölti a legújabb csomagokat az ArchLabs tárolókból. Csak minimálisan szükséges beállítás vállalt.\n\nMENÜ OPCIÓK: Válassz az opciók számának  beütésével, vagy használd a fel/le nyilakat mielőtt [enter]t nyomnál a kiválasztáshoz. A gombok közötti váltáshoz használd a [Tab] billentyűt  vagy használd a bal/jobb nyilakat mielőtt [enter]t nyomnál a megerősítéshez. A hosszú listában navigálhatsz a [pg up] és [pg down] billentyűkkel, és/vagy nyomd le az első betűjét a kiválasztani kívánt opciónak.\n\nKonfiguráció és csomag opciók: Az alapértelmezett csomagok a csekklistán elleőrizve lesznek. Használd a [szóköz] billentyűt a kiválasztásoz illetve a kiválasztás törléséhez."
 
 # Előkészületek menü
 _PrepMenuTitle="Telepítés előkészítése"

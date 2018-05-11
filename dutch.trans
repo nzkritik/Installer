@@ -15,16 +15,8 @@ _MntConfBody="Bevestig volgende aankoppelopties:\n\n"
 _MntBody="Gebuik [Spatie] om de gewenste aankoppel-opties te (de)selecteren en controleer deze nauwkeurig. Vermijd de selectie van meerdere versies van de zelfde optie, aub."
 
 # Veiligheid en aanpassingen
-_SecMenuTitle="Beveiliging en systemd instellen"
-_SecJournTitle="Verbeter journald logging"
-_SecCoreTitle="Schakel Coredump logging uit"
-_SecKernTitle="Beperk de toegang tot Kernel Logs"
 _Edit="Pas het configuratiebestand aan"
 _Disable="Uitschakelen"
-_SecMenuBody="\nEr zijn enkele handige en beginners-vriendelijke instelmogelijkheden voorzien om de beveiliging van het systeem en de prestaties te verbeteren.\n\nBij het selecteren van een optie krijg je meer details te zien."
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecJournBody="\nsystemd-journald verzamelt en slaat kernel logs, systeem logs, audit records op, alsook standaard rapporten en foutmeldingen van services.\n\nStandaard wordt de persistente rapport-grootte gelimiteerd op 10% van de root partitie:  Bij een root-partitie van 500G betekent dit dat maximum 50G aan gegevens kunnen worden opgeslagen in/var/log/journal.  50G zou voldoende moeten zijn. De rapportering kan ook worden uitgeschakeld, maar dat kan het oplossen van problemen met het systeem bemoeilijken.\n\n"
-_SecCoreBody="\nEen core-dump is de registratie van de staat van het computergeheugen wanneer een proces vastloopt.\n\nHandig voor ontwikkelaars, maar niet voor de gemiddelde gebruiker. Core-dumps verkwisten systeembronnen en kunnen ook gevoelige gegevens bevatten zoals wachtwoorden en encryptiesleutels. /n/nStandaard genereert systemd core-dumps voor alle processen in /var/lib/systemd/coredump. Dit gedrag kan worden aangepast door het creëren van een configuratiebestand in de /etc/systemd/coredump.conf.d/ map.\n\n"
 
 # Autopartitionering
 _AutoPartBody1="Opgelet: ALLE data op"
@@ -113,17 +105,6 @@ _localeBody="Landinstellingen bepalen welke talen en hoe tijd en datum enz... wo
 _TimeZBody="\nAan de hand van de tijdzone wordt uw systeemklok correct ingesteld."
 _TimeSubZBody="\nSelecteer de dichtstbij zijnde stad."
 _TimeZQ="\nStel als tijdzone in"
-
-# Stel de Hardware klok in
-_HwCBody="\nUTC is de universele standaard tijd, en is aangewezen behalve bij een dual-installatie met Windows."
-
-# Genereer FSTAB
-_FstabBody="\nHet FSTAB bestand (File System TABle) bepaalt waar en welke opslagmedia/partities worden aangekoppeld, en hoe ze worden gebruikt.\n\nUUID (Universally Unique IDentifier) is aanbevolen.\n\nIndien er geen labels werden ingesteld bij oudere partities, dan zullen de schijfnamen worden gebruikt als label."
-_FstabErr="\nDe Part UUID optie is enkel voor UEFI/GPT installaties.\n\n"
-_FstabDevName="Naam van het opslagmedium"
-_FstabDevLabel="Label van het opslagmedium"
-_FstabDevUUID="UUID van het opslagmedium"
-_FstabDevPtUUID="UEFI Part UUID"
 
 # Stel Host naam in
 _HostNameBody="\nAan de hand van de Host-Naam wordt een systeem in een netwerk geïdentificeerd.\n\nDe Host-Naam mag enkel uit alfa-numerieke karakters bestaan maar kan ook een streepje (-) bevatten - doch niet in het begin of op het einde - en mag uit maximum 63 karakters bestaan.\n"

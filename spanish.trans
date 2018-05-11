@@ -14,17 +14,8 @@ _PassErrBody="\nLas contraseñas introducidas no coinciden. Vuelva a intentarlo.
 _MntBody="Utilice la [BarraEspaciadora] para de/seleccionar las opciones de montaje deseadas y revisarlas cuidadosamente. No seleccione varias versiones de la misma opción."
 _MntConfBody="Confirme las siguientes opciones de montaje:\n\n"
 
-# Seguridad y ajustes
-_SecMenuTitle="Seguridad y ajustes de systemd"
-_SecJournTitle="Mejorar el registro de journald"
-_SecCoreTitle="Deshabilitar el registro de volcados de memoria"
-_SecKernTitle="Limitar acceso a los registros del núcleo"
 _Edit="Editar archivo de configuración"
 _Disable="Deshabilitar"
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecMenuBody="\nHay disponibles varios ajustes útiles y fáciles de usar para mejorar el rendimiento y la seguridad del sistema.\n\nSeleccionar una opción porporcionará detalles sobre la misma."
-_SecJournBody="\nsystemd-journald recopila y almacena registros del núcleo, del sistema, de auditoría, y mensajes de salida estándar y error de los servicios.\n\nPor defecto, el tamaño límite de un archivo de journaling permanente (no volátil) es el 10% del tamaño de la partición raíz: una partición raíz de 500GB significa un límite de 50GB para los datos almacenados en /var/log/journal. 50MB deberían ser suficientes. También se puede desactivar el registro, aunque puede hacer más difícil la resolución de problemas del sistema.\n\n"
-_SecCoreBody="\nUn volcado de memoria es una grabación de la memoria del ordenador cuando un proceso se bloquea.\n\nAunque son útiles para los desarrolladores, no lo son tanto para la mayoría de usuarios. Los volcados de memoria malgastan recursos del sistema y pueden contener datos privados como contraseñas y claves de encriptación.\n\nEl comportamiento por defecto de systemd es generar volcados de memoria para todos los procesos en /var/lib/systemd/coredump. Este comportamiento se puede sobreescribir creando un archivo de configuración en el directorio /etc/systemd/coredump.conf.d/\n\n"
 
 # Autopartición
 _AutoPartBody1="Aviso: TODA la información en "
@@ -114,17 +105,6 @@ _TimeZBody="\nLa zona horaria es usada para ajustar el reloj del sistema correct
 _TimeSubZBody="\nSeleccione la ciudad más cercana a usted."
 _TimeZQ="\nEstablecer zona horaria como"
 
-# Ajustar el reloj del hardware
-_HwCBody="\nUTC es el tiempo universal estándar, y es recomendado a no ser que se utilice una configuración de doble arranque con Windows."
-
-# Generar FSTAB
-_FstabBody="\nEl archivo FSTAB (File System TABle) determina qué dispositivos de almacenamiento y particiones se han de montar, y cómo se han de utilizar.\n\nSe recomienda utilizar UUID (Universally Unique IDentifier).\n\nSi no se definieron etiquetas para las particiones anteriormente, se utilizarán los nombres de los dispositivos para la opción de etiquetas."
-_FstabErr="\nLa opción Part UUID sólo es válida para instalaciones UEFI/GPT.\n\n"
-_FstabDevName="Nombre del dispositivo"
-_FstabDevLabel="Etiqueta del dispositivo"
-_FstabDevUUID="UUID del dispositivo"
-_FstabDevPtUUID="UUID de Part UEFI"
-
 # Establecer nombre del equipo
 _HostNameBody="\nEl nombre del equipo se usa para identificar al sistema dentro de una red.\n\nEstá restringido a carcteres alfanuméricos, y puede contener guiones (-) pero no al principio o al final del nombre, y no puede exceder los 63 caracteres de longitud.\n"
 
@@ -192,11 +172,7 @@ _MntUefiBody="\nSeleccione el punto de montaje UEFI.\n\nsystemd-boot requiere /b
 
 # Particiones extra
 _ExtPartBody="\nSeleccione particiones adicionales en cualquier orden, o 'Finalizar' para terminar el proceso."
-
-# Particiones extra
 _ExtPartBody1="\nPunto de montaje de partición específica. Asegúrese de que el nombre empieza con una barra inclinada (/). Ejemplos:\n\n"
-
-# Error de nombre de partición extra
 _ExtErrBody="\nLa partición no se puede montar debido a un problema con el nombre del punto de montaje. Se debe indicar un nombre después de una barra inclinada (/).\n\n"
 
 # Instalar sistema base
@@ -231,7 +207,6 @@ _ConfBseFstab="Generar FSTAB"
 _ConfBseHost="Establecer nombre del equipo"
 _ConfBseTimeHC="Establecer zona horaria y reloj"
 _ConfBseSysLoc="Establecer idioma del sistema"
-_MMRunMkinit="Ejecutar Mkinitcpio"
 
 # Menú de usuario
 _ConfUsrRoot="Establecer contraseña de superusuario"

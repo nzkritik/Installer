@@ -15,16 +15,8 @@ _MntBody="Utiliser [Espace] pour sélectionner/désélectionner les options de m
 _MntConfBody="Confirmer les options de montage suivantes :\n\n"
 
 # Sécurité et réglages
-_SecMenuTitle="Sécurité et réglages de systemd"
-_SecJournTitle="Modifier la journalisation de journald"
-_SecCoreTitle="Désactiver la journalisation de Coredump"
-_SecKernTitle="Restreindre l'accès aux journaux du noyau"
 _Edit="Éditer le fichier de configuration"
 _Disable="Désactiver"
-_SecMenuBody="\nDe nouveaux réglages utiles et accessibles à tous sont disponibles afin d'améliorer la sécurité et les performances du système.\n\nLa sélection d'une option vous fournira les détails à ce propos."
-_SecKernLogs="Kernel logs may contain information an attacker can use to identify and exploit kernel vulnerabilities including sensitive memory addresses. If systemd-journald logging has not been disabled, it is possible to create a rule in /etc/sysctl.d/ to disable access to these logs unless using root privilages (e.g. via sudo)"
-_SecJournBody="\nsystemd-journald collecte et stocke les journaux du noyau et du système, les enregistrements de diagnostic, les sorties standards et les messages d'erreur provenant des services.\n\nPar défaut, la limite de la taille du journal permanent (non-volatile) est de 10% de la taille totale de la partition racine (root) : Pour une partition racine de 500G, 50G de données seront stockées dans /var/log/journal. 50M devrait être suffisant. La journalisation peut également être désactivée, mais dans ce cas, les problèmes système pourraient être difficile à résoudre.\n\n"
-_SecCoreBody="\nUn core dump est un fichier contenant l'espace d'adressage d'un processus (mémoire) lorsque celui-ci se termine de manière inattendue.\n\nUtile pour les développeurs mais pas pour l'utilisateur moyen, les core dumps sont gourmands en ressource système et contiennent également des données sensibles (clés de cryptage et mots de passe).\n\nPar défaut, systemd génère des core dumps pour tous les processus dans /var/lib/systemd/coredump. Cette action peut être modifiée en créant un fichier de configuration dans le répertoire /etc/systemd/coredump.conf.d/.\n\n"
 
 # Partition auto
 _AutoPartBody1="AVERTISSEMENT : TOUTES les données sur"
@@ -74,11 +66,11 @@ _LvmPvConfBody1="\nConfirmer la création du groupe de volume"
 _LvmPvConfBody2="avec les partitions suivantes :\n\n"
 _LvmPvActBody1="\nCréation et activation du groupe de volume"
 _LvmPvDoneBody1="\nLe groupe de volume"
-LvmPvDoneBody2="a été créé"
+_LvmPvDoneBody2="a été créé"
 _LvmLvNumBody1="\nUtiliser [barre espace] pour sélectionner le nombre de volumes logiques (LVs) à créer dans"
 _LvmLvNumBody2="\n\nLe dernier (ou seul) LV utilisera automatiquement 100% de l'espace restant dans le groupe de volume."
 _LvmLvNameBody1="\nEntrer le nom du volume logique (LV) à créer.\n\nCeci ressemble à une configuration de nom / d'étiquette pour une partition.\n"
-LvmLvNameBody2="\nNOTE : Ce LV utilisera automatiquement tout l'espace restant dans le groupe de volume"
+_LvmLvNameBody2="\nNOTE : Ce LV utilisera automatiquement tout l'espace restant dans le groupe de volume"
 _LvmLvNameErrBody="\nNom entré incorrect. Le nom du volume logique (LV) peut contenir des caractères alphanumériques, mais ne peut pas contenir d'espaces ou être précédé par un « / ».\n\n"
 _LvmLvSizeBody1="restant"
 _LvmLvSizeBody2="\n\nEntrer la taille du volume logique (LV) en Mégaoctets (M) ou en Gigaoctets (G). Par exemple, 100M créera un VL de 100 Mégaoctets. 10G créera un VL de 10 Gigaoctets.\n"
@@ -113,17 +105,6 @@ _localeBody="Les locales déterminent les langages affichées, les formats de da
 _TimeZBody="\nLe fuseau horaire est utilisé pour configurer correctement votre horloge système."
 _TimeSubZBody="\nSélectionner la ville la plus proche de chez vous."
 _TimeZQ="\nDéfinir le fuseau horaire sous"
-
-# Définir l'horloge matérielle
-_HwCBody="\nUTC est le temps universel standard, et il est recommandé (sauf si vous utilisez un dual-boot avec Windows.)"
-
-# Générer FSTAB
-_FstabBody="\nLe fichier FSTAB (File System TABle) définit les périphériques de stockage (et partitions) qui vont être montés, et comment ils vont être utilisés.\n\nUUID (Universally Unique IDentifier) est recommandé.\n\nSi aucune étiquette n'a été définie auparavant pour les partitions, les noms de périphérique seront utilisés pour l'option d'étiquette."
-_FstabErr="\nL'option PARTUUID est uniquement conçue pour les installations UEFI/GPT.\n\n"
-_FstabDevName="Nom du périphérique"
-_FstabDevLabel="Étiquette du périphérique"
-_FstabDevUUID="UUID du périphérique"
-_FstabDevPtUUID="UUID de la section UEFI"
 
 # Définir le nom d'hôte
 _HostNameBody="\nLe nom d'hôte est utilisé pour identifier le système sur un réseau.\n\nIl est limité aux caractères alphanumériques, peut contenir un trait d'union (-) - mais pas au début ni à la fin - et ne doit pas être plus long que 63 caractères.\n"
@@ -180,32 +161,18 @@ _SelSwpBody="\nSélectionner une partition SWAP. Le fichier d'échange créé do
 _SelSwpNone="Aucun"
 _SelSwpFile="Fichier d'échange"
 
-# Sélectionner UEFI
-_SelUefiBody="\nSélectionner une partition UEFI. C'est une partition spéciale permettant le démarrage sur des systèmes UEFI."
-
 # Formater UEFI
 _FormUefiBody="La partition UEFI"
 _FormUefiBody2="a déjà été formatée.\n\nLa reformater ? Ceci effacera TOUTES les données déjà présentes sur la partition.\n\n"
 
 # Point de montage UEFI
+_SelUefiBody="\nSélectionner une partition UEFI. C'est une partition spéciale permettant le démarrage sur des systèmes UEFI."
 _MntUefiBody="\nSélectionner un point de montage UEFI.\n\nsystemd-boot requiert /boot. Grub n'a pas de préférence de point de montage."
 
 # Partitions supplémentaires
 _ExtPartBody="\nSélectionner des partitions additionnelles dans n'importe quel ordre, ou cliquer sur « Terminé » afin de poursuivre."
-
-# Partitions supplémentaires
 _ExtPartBody1="\nSpécifier le point de montage de la partition. Assurez-vous que le nom débute par une barre oblique (/). Exemples inclus :\n\n"
-
-# Erreur de nom de partition supplémentaire
 _ExtErrBody="\nLa partition ne peut être montée, cela est dû à un problème avec le nom du point de montage. Un nom doit être déterminé après la barre oblique.\n\n"
-
-# Installer Base
-_InstBseTitle="Installer Base"
-_InstStandBseBody="\nLe groupe de paquets 'base' va être installé automatiquement. Le groupe de paquets 'base-devel' est nécessaire afin d'utiliser le dépôt AUR (ArchLabs User Repository ).\n\n"
-_InstStandBase="Installation standard"
-_InstAdvBase="Installation avancée"
-_InstAdvBseBody="\nAVERTISSEMENT : Utilisateurs avancés uniquement. Pour les nouveaux utilisateurs, utiliser l'option d'installation standard."
-_InstAdvWait="\nCollecte des descriptions de paquet."
 
 # fichier efi défini pour Grub
 _SetDefDoneBody="a été défini comme le chargeur d'amorçage par défaut.\n\n"

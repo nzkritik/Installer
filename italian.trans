@@ -7,6 +7,7 @@ _UseSpaceBar="Usa la [Barra Spaziatrice] per de/selezionare le opzioni elencate.
 _AlreadyInst="Già installato ma non abilitato:"
 _All="Tutte"
 _Done="Fatto"
+_Skip="Salta/Nessuno"
 _PlsWaitBody="\nAttendere prego...\n\n"
 _ErrTitle="Errore"
 _PassErrBody="\nLe password digitate non corrispondono. Provare nuovamente.\n\n"
@@ -151,22 +152,20 @@ _PartErrBody="\nI sistemi BIOS richiedono almeno una partizione (ROOT).\n\nI sis
 # File System
 _FSTitle="Selezione Filesystem"
 _FSBody="\nExt4 è la scelta consigliata. Non tutti i filesystem sono utilizzabili per la partizione di Root o quella di Boot. Ciascuno dispone di funzionalità e limitazioni differenti."
-_FSSkip="Salta / Nessuno"
 
 # Select Root
 _SelRootBody="\nSelezionare partizione ROOT. ArchLabs sarà installata qui."
 
 # Select SWAP
 _SelSwpBody="\nSelezionare partizione SWAP. Se si opta per uno Swapfile, sarà creato della stessa dimensione della RAM."
-_SelSwpNone="Nessuna"
 _SelSwpFile="File di Swap"
 
 # Select UEFI
 _SelUefiBody="\nSelezionare partizione UEFI. È una partizione speciale per l'avvio nei sistemi UEFI."
 
 # Format UEFI
-_FormUefiBody="La partizione UEFI"
-_FormUefiBody2="è già stata formattata.\n\nVuoi formattarla nuovamente? In caso affermativo verranno eliminati TUTTI i dati memorizzati su di essa.\n\n"
+_FormUefiBody="[IMPORTANTE]\nLa partizione EFI"
+_FormUefiBody2="è già formattato correttamente.\n\nVuoi saltare la formattazione? Scegliendo 'No' verranno cancellati TUTTI i dati (bootloader) sulla partizione.\n\nScegli incerto 'Sì'\n"
 
 # Mountpoint UEFI
 _MntUefiBody="\nSelezionare mountpoint UEFI.\n\nsystemd-boot richiede /boot. Grub funzionerà in ogni caso."

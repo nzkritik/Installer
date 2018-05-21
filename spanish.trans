@@ -7,6 +7,7 @@ _UseSpaceBar="Utilice la [BarraEspaciadora] para de/seleccionar las opciones de 
 _AlreadyInst="Ya instalado/s pero no habilitado/s:"
 _All="Todos"
 _Done="Finalizar"
+_Skip="Saltar/Ninguno"
 _PlsWaitBody="\nPor favor espere...\n\n"
 _ErrTitle="Error"
 _PassErrBody="\nLas contraseñas introducidas no coinciden. Vuelva a intentarlo.\n\n"
@@ -150,22 +151,20 @@ _PartErrBody="\nLos sistemas BIOS requieren un mínimo de una partición (RAÍZ)
 # Sistema de archivos
 _FSTitle="Elegir sistema de archivos"
 _FSBody="\nSe recomienda el sistema de archivos Ext4. No todos los sistemas de archivos son adecuados para particiones raíz o de arranque. Todas tienen sus características y limitaciones."
-_FSSkip="Saltar / Ninguno"
 
 # Seleccionar raíz
 _SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará ArchLabs."
 
 # Seleccionar SWAP
 _SelSwpBody="\nSeleccione la partición SWAP. Si va a usar un archivo SWAP, se creará con un tamaño igual al de la memoria RAM del equipo."
-_SelSwpNone="Ninguno"
 _SelSwpFile="ArchLabsivo SWAP"
 
 # Seleccionar UEFI
 _SelUefiBody="\nSeleccione la partición UEFI. Ésta es una partición especial para arrancar los sistemas UEFI."
 
 # Formatear UEFI
-_FormUefiBody="La partición UEFI"
-_FormUefiBody2="ya ha sido formateada.\n\n¿Desea reformatearla? Ésto borrara TODA la información existente en dicha partición.\n\n"
+_FormUefiBody="[IMPORTANTE]\nLa partición EFI"
+_FormUefiBody2="ya está formateado correctamente.\n\n¿Quieres omitir el formateo? Elegir 'No' borrará TODOS los datos (cargadores de arranque) en la partición.\n\nSi no está seguro, elija 'Sí'.\n"
 
 # Punto de montaje UEFI
 _MntUefiBody="\nSeleccione el punto de montaje UEFI.\n\nsystemd-boot requiere /boot. Grub funcionará en cualquier punto de montaje."

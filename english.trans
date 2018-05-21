@@ -1,9 +1,20 @@
 ## English Translation File
 ## Written Nathaniel Maia (Feb-2018)
 
+# Generic
+_All="All"
+_Done="Done"
+_Skip="Skip/None"
+_Disable="Disable"
+_Edit="Edit configuration file"
+_ErrTitle="Installation Error"
+_AlreadyInst="Already installed:"
+_PlsWaitBody="\nPlease wait...\n"
+_PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
+
 # Welcome
 _WelTitle="Welcome to"
-_WelBody="This will unpack and setup ArchLabs on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys.\nSwitch between buttons using [Tab] or the arrow keys.\nLong lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse the [Spacebar] to select/deselect options and [Enter] to confirm."
+_WelBody="This will unpack and setup ArchLabs on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys. Switch between buttons using [Tab] or the arrow keys. Long lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse [Space] to select/deselect options and [Enter] to confirm. [Ctrl]-[Shift]-+ and [Ctrl]-- to increase/decrease font size"
 
 # Requirements
 _RtFailBody="\nThe installer must be run as root.\n\nExiting."
@@ -90,7 +101,7 @@ _DevSelTitle="Select Device"
 _DevSelBody="Devices (/dev/) are the available drives on the system. The first is /sda, the second /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
 
 # Extra Partitions
-_ExtPartBody="If you have any additional partitions you want mounted now is when that can be done or select the 'Done' option to finish and continue."
+_ExtPartBody="Select additional partitions you want mounted (you will be prompted to enter mountpoint).\nSelect 'Done' to finish and continue."
 _ExtPartBody1="Specify where you want the partition mounted.\n\nEnsure the name begins with a forward slash (/).\nSome examples would be:\n\n"
 
 # Auto partition
@@ -102,31 +113,19 @@ _AutoPartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process can ta
 
 # Partitioning Menu
 _PartToolTitle="Partitioning Tool"
-_PartToolBody="Auto partitioning is available for beginners.\nOtherwise gparted is recommended.\n\nDO NOT use UEFI/GPT-only partitioning tools for BIOS/MBR systems as this could cause serious problems.\n\nUEFI systems require a vfat partition around 100-500MB in size for the bootloader to be installed"
+_PartToolBody="Auto partitioning is available for beginners.\nOtherwise gparted is recommended.\n\nDO NOT use UEFI/GPT-only partitioning tools for BIOS/MBR systems as this could cause serious problems.\n\nUEFI systems require a vfat partition between 100-500MB in size for the bootloader to be installed"
 _PartOptAuto="Automatic Partitioning"
 _PartOptWipe="Secure Wipe Device (optional)"
 
 # File System
 _FSTitle="Choose Filesystem"
 _FSBody="If unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
-_FSSkip="Skip / No Format"
 _SelRootBody="Select ROOT (/) Partition.\n\nThis is where ArchLabs will be installed."
-_SelSwpBody="Select SWAP File or Partition (optional)\n\nSwapfile will be filled in to the size of system RAM, but can be changed."
-_SelSwpNone="None"
+_SelSwpBody="Do you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after being picked."
 _SelSwpFile="Swapfile"
 _SelUefiBody="Select EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
-_FormUefiBody="The EFI partition"
-_FormUefiBody2="is already formatted.\n\nDo you want to reformat it?\n\nDoing so will erase ALL data (bootloaders) on the partition.\n\nIf unsure pick No.\n"
-
-# Generic
-_All="All"
-_Done="Done"
-_Disable="Disable"
-_Edit="Edit configuration file"
-_ErrTitle="Installation Error"
-_AlreadyInst="Already installed:"
-_PlsWaitBody="\nPlease wait...\n"
-_PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
+_FormUefiBody="[IMPORTANT]\nThe EFI partition"
+_FormUefiBody2="is already correctly formatted.\n\nDo you want to skip formatting it?\n\nChoosing 'No' will erase ALL data (bootloaders) on the partition.\n\nIf unsure pick 'Yes'.\n"
 
 # LUKS / DM-Crypt / Encryption
 _LuksMenuBody="Devices and volumes encrypted using dm_crypt cannot be accessed or even seen without being unlocked via a key or password."

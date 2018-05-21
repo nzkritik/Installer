@@ -7,6 +7,7 @@ _UseSpaceBar="Gebruik de [spatietoets] om opties in de lijst te (de)selecteren."
 _AlreadyInst="Reeds geïnstalleerd maar nog niet actief:"
 _All="Alle"
 _Done="Klaar"
+_Skip="Sla over/Geen"
 _PlsWaitBody="\nEven geduld aub...\n\n"
 _ErrTitle="Fout"
 _PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
@@ -151,22 +152,20 @@ _PartErrBody="\nDe installatie van BIOS systemen vereist minimum één partitie 
 # Bestand Systeem
 _FSTitle="Kies een bestandsysteem"
 _FSBody="\nExt4 is hier aanbevolen. Niet alle bestandsystemen zijn geschikt voor de Root of Boot-Partities. Elk bestandsysteem heeft verschillende eigenschappen en beperkingen."
-_FSSkip="Sla over / Geen"
 
 # Selecteer Root
 _SelRootBody="Selecteer de ROOT Partitie.\n\nDit is waar ArchLabs zal worden geïnstalleerd."
 
 # Selecteer SWAP
 _SelSwpBody="Selecteer de SWAP Partitie.\n\nBij gebruik van SWAP, zal deze even groot ingesteld worden als de hoeveelheid RAM."
-_SelSwpNone="Geen"
 _SelSwpFile="Swapbestand"
 
 # Selecteer UEFI
 _SelUefiBody="Selecteer een UEFI Partitie.\n\nDit is een speciale partitie voor het starten van UEFI systemen."
 
 # Formateer UEFI
-_FormUefiBody="\nDe UEFI partitie"
-_FormUefiBody2="werd reeds geformateerd.\n\nHerformateren? Dit zal ALLE data op deze partitie wissen.\n\n"
+_FormUefiBody="[BELANGRIJK]\nDe EFI-partitie"
+_FormUefiBody2="is al correct geformatteerd.\n\nWilt u het formatteren overslaan? Als u 'Nee' kiest, worden ALLE gegevens (bootloaders) op de partitie gewist.\n\nKies 'Ja' als u niet zeker bent.\n"
 
 # UEFI aankoppelpunt
 _MntUefiBody="\nSelecteer een UEFI aankoppelpunt.\n\nsystemd-boot vereist /boot. Grub zal werken met willekeurig aankoppelpunt."

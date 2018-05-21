@@ -7,6 +7,7 @@ _UseSpaceBar="Utiliser [barre espace] pour sélectionner/désélectionner les op
 _AlreadyInst="Déjà installé mais pas activé :"
 _All="Tous"
 _Done="Terminé"
+_Skip="Passer/Aucun"
 _PlsWaitBody="\nVeuillez patienter...\n\n"
 _ErrTitle="Erreur"
 _PassErrBody="\nLes mots de passe entrés ne correspondent pas. Veuillez réessayer.\n\n"
@@ -151,19 +152,17 @@ _PartErrBody="\nLes systèmes BIOS requièrent une partition minimum (ROOT).\n\n
 # Système de fichiers
 _FSTitle="Choisir un système de fichiers"
 _FSBody="\nExt4 est recommandé. Tous les systèmes de fichiers ne sont pas exploitables pour les partitions racine ou pour les partitions de démarrage. Tous ont des caractéristiques différentes et des restrictions."
-_FSSkip="Passer / Aucun"
 
 # Sélectionner Root
 _SelRootBody="\nSélectionner la partition racine (ROOT) où ArchLabs sera installé."
 
 # Sélectionner le fichier d'échange (SWAP)
 _SelSwpBody="\nSélectionner une partition SWAP. Le fichier d'échange créé doit être de la même taille que votre mémoire vive (RAM)."
-_SelSwpNone="Aucun"
 _SelSwpFile="Fichier d'échange"
 
 # Formater UEFI
-_FormUefiBody="La partition UEFI"
-_FormUefiBody2="a déjà été formatée.\n\nLa reformater ? Ceci effacera TOUTES les données déjà présentes sur la partition.\n\n"
+_FormUefiBody="[IMPORTANT]\nLa partition EFI"
+_FormUefiBody2="est déjà correctement formaté.\n\nVoulez-vous passer la mise en forme? Choisir 'Non' effacera TOUTES les données (bootloaders) sur la partition.\n\nEn cas de doute, choisissez 'Oui'\n"
 
 # Point de montage UEFI
 _SelUefiBody="\nSélectionner une partition UEFI. C'est une partition spéciale permettant le démarrage sur des systèmes UEFI."

@@ -7,6 +7,7 @@ _UseSpaceBar="Használd a [szóköz] billentyűt a felsorolt lehetőségek kijel
 _AlreadyInst="Már telepítve van, de nincs engedélyezve."
 _All="Összes"
 _Done="Kész"
+_Skip="Kihagyás/egyik sem"
 _PlsWaitBody="\nKérlek várj...\n\n"
 _ErrTitle="Hiba"
 _PassErrBody="\nA megadott jelszavak nem egyeznek. Kérlek próbáld újra.\n\n"
@@ -151,25 +152,20 @@ _PartErrBody="\nBIOS rendszereknél a minimális követelmény egy partíció (R
 # Fájlrendszer
 _FSTitle="Válassz fájlrendszert"
 _FSBody="\nExt4 az ajánlott. Nem minden fájlrendszer alkalmas  Root vagy Boot partíció számára. A fájrendszerek különböző funkciókat és korlátokat tartalmaznak."
-_FSSkip="Kihagyás / egyik sem"
 
 # Gyökérpartíció (ROOT) kiválasztása
 _SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az ArchLabsot telepítjük."
 
 # Cserepartíció (SWAP) kiválasztása
 _SelSwpBody="\nVálassz cserepartíciót (SWAP). Ha lapozófájlt használsz ezzel létrejön a RAM azonos méretű cserefájl."
-_SelSwpNone="Egyik sem"
 _SelSwpFile="Cserefájl"
 
 # UEFI kiválasztása
 _SelUefiBody="\nVálassz UEFI partíciót. Ez egy speciális partíció az UEFI rendszerek indítása számára."
 
 # UEFI formázása
-_FormUefiBody="AzUEFI partíció"
-_FormUefiBody2="már formázva van.\n\nÚjraformázod? Ezzel az összes adat elveszik a partíción.\n\n"
-
-# UEFI csatolási pont
-_MntUefiBody="\nVálasszUEFI csatolási pontot.\n\n'systemd-boot' megköveteli a  /boot csatosási pontot. A 'grub' más csatolási ponttal is működik."
+_FormUefiBody="[FONTOS]\nAz EFI partíció"
+_FormUefiBody2="már formázott.\n\nÁt akarja hagyni a formázást? A 'Nem' kiválasztása törli az összes adatot (bootloader) a partíción.\n\nHa bizonytalan, válassza az 'Igen' lehetőséget.\n"
 
 # Extra partíciók
 _ExtPartBody="\nVálassz a további partíciók közül bármilyen sorrendben, vagy nyomd meg a  'Kész' gombot ha végeztél."

@@ -12,7 +12,7 @@ MNT="/mnt"          # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
 ERR="/tmp/errlog"   # Error logging
-LOG="/tmp/log"      # Basic logging
+LOG="/tmp/log"      # set -x logging
 EFI_MNT="boot/efi"  # EFI mountpoint
 VG_MB=0             # Remaining VG MB
 SBOOT=0             # Seperate /boot
@@ -1395,11 +1395,11 @@ edit_configs() {
 
 # full debug mode
 if [[ $1 == "--debug" || $1 == "-d" ]]; then
-    echo "" >/tmp/log.txt
+    echo "" >$LOG
     set -x
-    exec 3>| /tmp/log.txt
+    exec 3>| $LOG
     BASH_XTRACEFD=3
-    ( termite --exec="tail -f /tmp/log.txt" & )
+    ( termite --exec="tail -f $LOG" & )
 fi
 
 select_lang

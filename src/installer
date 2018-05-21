@@ -61,12 +61,7 @@ chr() {
 }
 
 log() {
-    echo "$1" >> /tmp/log.txt
-    # Run commands for more output logged to /tmp/log.txt
-    # sudo -s
-    # exec 3>| /tmp/log.txt
-    # BASH_XTRACEFD=3
-    # bash -x /installer/installer
+    echo "$1" >>$LOG
 }
 
 select_lang() {

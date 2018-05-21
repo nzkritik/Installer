@@ -25,7 +25,7 @@ _AutoPartBody3="Se pretende utilizar o SWAP, seleccione a opção de 'Arquivo de
 
 # Mensagens de erro. Todos os outros são gerados por BASH.
 _ErrNoMount="\nA(s) partição(ões) deve(m) ser montada(s) primeiro.\n\n"
-_ErrNoBase="\nA base do ArchLabs deve ser instalada primeiro.\n\n"
+_ErrNoBase="\nA base do $DIST deve ser instalada primeiro.\n\n"
 _ErrNoKernel="\nPelo menos um kernel (linux ou linux-lts) deve ser seleccionado.\n\n"
 
 # Seleccionar arquivos de configuração
@@ -45,7 +45,7 @@ _LuksEncryptAdv="Defina o Tamanho da Chave e Criptografia"
 _LuksEncryptBody="\nSeleccione uma partição para criptografar."
 _LuksEncryptSucc="\nPronto! Aberto e pronto para o LVM (recomendado) ou montar directamente.\n"
 _LuksPartErrBody="\nSão necessárias no mínimo duas partições para a criptografia:\n\n1. Root (/) - tipo de partição padrão ou lvm.\n\n2. Boot (/boot ou /boot/efi) - apenas o tipo de partição padrão (exceto LVM onde utiliza Grub BIOS).\n"
-_SelLuksRootBody="\nSeleccione a partição ROOT (/) para criptografar. Este é o lugar onde o ArchLabs será instalado..\n\n"
+_SelLuksRootBody="\nSeleccione a partição ROOT (/) para criptografar. Este é o lugar onde o $DIST será instalado..\n\n"
 _LuksPassBody="\nDigite a senha para des/criptografar a partição. Esta não deve ser a mesma da conta Root ou das contas dos usuários.\n"
 _LuksWaitBody="\nCriando partição Root criptografada:"
 _LuksWaitBody2="Dispositivo ou volume utilizado:"
@@ -135,7 +135,7 @@ _WarnMount2="listada no inicio do menu do sistemas de arquivos.\n\nCertifique-se
 
 # Seleccionar Dispositivo (instalação)
 _DevSelTitle="Seleccionar Dispositivo"
-_DevSelBody="\nDispositivos (/dev/) estão disponíveis no disco-rígido e pendrive USB para serem instalados. O primeiro é /sda, o segundo é /sdb, e assim por adiante.\n\nQuando se utiliza uma pendrive USB para inicializar o ArchLabs, tenha cuidado porque o mesmo também será listado!"
+_DevSelBody="\nDispositivos (/dev/) estão disponíveis no disco-rígido e pendrive USB para serem instalados. O primeiro é /sda, o segundo é /sdb, e assim por adiante.\n\nQuando se utiliza uma pendrive USB para inicializar o $DIST, tenha cuidado porque o mesmo também será listado!"
 
 # Ferramenta de Particionamento
 _PartToolTitle="Ferramenta de Particionamento"
@@ -153,7 +153,7 @@ _FSTitle="Escolha o Sistema de Arquivo"
 _FSBody="\nExt4 é recomendado. Nem todos os sistemas de arquivos são viáveis para partições Root ou Boot. Todas tem diferentes funcionalidades e limitações."
 
 # Seleccionar Root
-_SelRootBody="\nSeleccione a partição ROOT. Este é o lugar onde ArchLabs será instalado."
+_SelRootBody="\nSeleccione a partição ROOT. Este é o lugar onde $DIST será instalado."
 
 # Seleccionar SWAP
 _SelSwpBody="\nSeleccione a partição SWAP. Se você utiliza um arquivo Swap, ele será criado do mesmo tamanho da sua memória RAM."
@@ -179,7 +179,7 @@ _SetDefDoneBody="foi definido como o bootloader padrão.\n\n"
 
 # Bem-vindo(a)
 _WelTitle="Bem-vindo(a) ao"
-_WelBody="\nEste instalador baixa os últimos pacotes dos repositórios ArchLabs. Apenas a configuração mínima necessária é executada.\n\nOPÇÕES DO MENU: Seleccione pressionando o número da opção ou usando as teclas de seta para cima e para baixo antes de pressionar [Enter] para confirmar. Alterne entre os botões usando o [Tab] ou as teclas de seta para esquerda ou direita antes de pressionar o [Enter] para confirmar. Listas longas podem ser navegadas usando as teclas [Pg Up] e [Pg Dn] e/ou pressionando a primeira letra da opção desejada.\n\nCONFIGURAÇÃO & OPÇÕES DE PACOTES: Pacotes padrão na lista de verificação serão pré-marcados. Utilize a [barra de espaço] para des/seleccionar."
+_WelBody="\nEste instalador baixa os últimos pacotes dos repositórios $DIST. Apenas a configuração mínima necessária é executada.\n\nOPÇÕES DO MENU: Seleccione pressionando o número da opção ou usando as teclas de seta para cima e para baixo antes de pressionar [Enter] para confirmar. Alterne entre os botões usando o [Tab] ou as teclas de seta para esquerda ou direita antes de pressionar o [Enter] para confirmar. Listas longas podem ser navegadas usando as teclas [Pg Up] e [Pg Dn] e/ou pressionando a primeira letra da opção desejada.\n\nCONFIGURAÇÃO & OPÇÕES DE PACOTES: Pacotes padrão na lista de verificação serão pré-marcados. Utilize a [barra de espaço] para des/seleccionar."
 
 # Menu Preparação
 _PrepMenuTitle="Preparar Instalação"
@@ -192,7 +192,7 @@ _Back="Voltar"
 
 # Instalar Base Menu
 _InstBseMenuTitle="Instalar Base"
-_InstBseMenuBody="\nInstalar ArchLabs Base"
+_InstBseMenuBody="\nInstalar $DIST Base"
 _InstBse="Instalar Pacotes Base"
 _InstBootldr="Instalar Bootloader"
 
@@ -215,4 +215,4 @@ _MMBody="\nCada passo deve ser seguido NA ORDEM. Uma vez completado, seleccione 
 # Fechar o instalador
 _CloseInstBody="Fechar o instalador?"
 
-# vim:ft=sh:tw=0
+# vim:ft=sh:tw=0:syntax=off:nospell

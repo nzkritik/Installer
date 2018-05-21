@@ -14,7 +14,7 @@ _PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
 
 # Welcome
 _WelTitle="Welcome to"
-_WelBody="This will unpack and setup ArchLabs on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys. Switch between buttons using [Tab] or the arrow keys. Long lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse [Space] to select/deselect options and [Enter] to confirm. [Ctrl]-[Shift]-+ and [Ctrl]-- to increase/decrease font size"
+_WelBody="This will unpack and setup $DIST on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys. Switch between buttons using [Tab] or the arrow keys. Long lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse [Space] to select/deselect options and [Enter] to confirm. [Ctrl]-[Shift]-+ and [Ctrl]-- to increase/decrease font size"
 
 # Requirements
 _RtFailBody="\nThe installer must be run as root.\n\nExiting."
@@ -33,7 +33,7 @@ _PrepMntPart="Mount Partitions"
 _Back="Back"
 
 # Install Base
-_InstBseMenuTitle="Install ArchLabs"
+_InstBseMenuTitle="Install $DIST"
 _InstBootldr="Install Bootloader"
 
 # Configure Menu
@@ -120,7 +120,7 @@ _PartOptWipe="Secure Wipe Device (optional)"
 # File System
 _FSTitle="Choose Filesystem"
 _FSBody="If unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
-_SelRootBody="Select ROOT (/) Partition.\n\nThis is where ArchLabs will be installed."
+_SelRootBody="Select ROOT (/) Partition.\n\nThis is where $DIST will be installed."
 _SelSwpBody="Do you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after being picked."
 _SelSwpFile="Swapfile"
 _SelUefiBody="Select EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
@@ -138,7 +138,7 @@ _LuksEncryptAdv="Define Key-Size and Cypher"
 _LuksEncryptBody="Select a partition to encrypt."
 _LuksEncryptSucc="Done! encrypted partition opened and ready for mounting.\n\n"
 _LuksPartErrBody="A minimum of two partitions are required for encryption:\n\n1. Root (/) - standard or lvm partition types.\n\n2. Boot (/boot or /boot/efi) - standard partition types only (except lvm where using BIOS Grub)."
-_SelLuksRootBody="Select the ROOT (/) partition to encrypt.\n\nThis is where ArchLabs will be installed."
+_SelLuksRootBody="Select the ROOT (/) partition to encrypt.\n\nThis is where $DIST will be installed."
 _LuksPassBody="Enter a password for un/encryption.\n\nThis should not be the same as the system account passwords."
 _LuksWaitBody="\nCreating encrypted partition:"
 _LuksWaitBody2="\n\nDevice or volume used:"
@@ -174,4 +174,4 @@ _LvmPartErrBody="There are no viable partitions available to use for Logical Vol
 _LvmLvNameErrBody="Invalid Name Entered. The Logical Volume (LV) name may be alpha-numeric, but may not contain spaces or be preceded with a '/'.\n\n"
 _LvmLvSizeErrBody="\nInvalid value Entered.\n\nMust be a numeric value with 'M' (Megabytes) or 'G' (Gigabytes) at the end.\n\nExamples include, 100M, 10G, or 250M.\nThe value may also not be equal to or greater than the remaining size of the VG."
 
-# vim:ft=sh:tw=0
+# vim:ft=sh:tw=0:syntax=off:nospell

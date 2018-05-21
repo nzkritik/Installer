@@ -21,12 +21,11 @@ _Disable="Deshabilitar"
 # Autopartición
 _AutoPartBody1="Aviso: TODA la información en "
 _AutoPartBody2="será eliminada por completo.\n\nPrimero se creará una partición de arranque de 512MB, seguida por una segunda partición (raíz o '/') que utilizará todo el espacio restante."
-_AutoPartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción 'ArchLabsivo SWAP' durante el montaje.\n\n¿Desea continuar?"
+_AutoPartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción archivo SWAP durante el montaje.\n\n¿Desea continuar?"
 
 # Mensajes de Error. Todos los demás son generados por BASH.
 _ErrNoMount="\nPrimero se debe/n montar la/s partición/es.\n\n"
-_ErrNoBase="\nPrimero se debe instalar el sistema base de ArchLabs.\n\n"
-_ErrNoKernel="\nSe debe seleccionar al menos un núcleo (linux o iinux-lts).\n\n"
+_ErrNoBase="\nPrimero se debe instalar el sistema base de $DIST.\n\n"
 
 # Seleccionar archivos de configuración
 _SeeConfOptTitle="Revisar archivos de configuración"
@@ -45,7 +44,7 @@ _LuksEncryptAdv="Establecer cifrado y tamaño de la clave"
 _LuksEncryptBody="\nSeleccione una partición para encriptar."
 _LuksEncryptSucc="\n¡Listo! Abierto y listo para LVM (recomendado) o montaje directo.\n"
 _LuksPartErrBody="\nSe requiere un mínimo de dos particiones para la encriptación:\n\n1. Raíz (/) - tipos de partición estándar o LVM.\n\n2. Arranque (/boot o /boot/efi) - sólo tipos de partición estándar (excepto LVM cuando se utiliza Grub BIOS).\n"
-_SelLuksRootBody="\nSeleccione la partición RAÍZ (/) para encriptar. Aquí es donde se instalará ArchLabs.\n\n"
+_SelLuksRootBody="\nSeleccione la partición RAÍZ (/) para encriptar. Aquí es donde se instalará $DIST.\n\n"
 _LuksPassBody="\nIntroduzca una contraseña para des/encriptar la partición. Ésta no debería ser la misma que las contraseñas de superusuario o de usuario normal.\n"
 _LuksWaitBody="\nCreando partición raíz encriptada:"
 _LuksWaitBody2="Dispositivo o volumen en uso:"
@@ -135,7 +134,7 @@ _WarnMount2="listada al principio del menú de sistemas de archivos.\n\nAsegúre
 
 # Seleccionar dispositivo (instalación)
 _DevSelTitle="Seleccionar dispositivo"
-_DevSelBody="\nLos dispositivos (/dev) son los discos duros y unidades USB disponibles para la instalación. El primero es /sda, el segundo es /sdb, y así sucesivamente.\n\nSi se está utilizando una memoria USB para ejecutar ArchLabs, ¡tenga cuidado porque también saldrá en la lista!"
+_DevSelBody="\nLos dispositivos (/dev) son los discos duros y unidades USB disponibles para la instalación. El primero es /sda, el segundo es /sdb, y así sucesivamente.\n\nSi se está utilizando una memoria USB para ejecutar $DIST, ¡tenga cuidado porque también saldrá en la lista!"
 
 # Herramienta de particionado
 _PartToolTitle="Herramienta de particionado"
@@ -153,11 +152,11 @@ _FSTitle="Elegir sistema de archivos"
 _FSBody="\nSe recomienda el sistema de archivos Ext4. No todos los sistemas de archivos son adecuados para particiones raíz o de arranque. Todas tienen sus características y limitaciones."
 
 # Seleccionar raíz
-_SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará ArchLabs."
+_SelRootBody="\nSeleccione la partición RAÍZ. Aquí es donde se instalará $DIST."
 
 # Seleccionar SWAP
 _SelSwpBody="\nSeleccione la partición SWAP. Si va a usar un archivo SWAP, se creará con un tamaño igual al de la memoria RAM del equipo."
-_SelSwpFile="ArchLabsivo SWAP"
+_SelSwpFile="Archivo SWAP"
 
 # Seleccionar UEFI
 _SelUefiBody="\nSeleccione la partición UEFI. Ésta es una partición especial para arrancar los sistemas UEFI."
@@ -182,7 +181,7 @@ _SetDefDoneBody="ha sido definido como el gestor de arranque predeterminado.\n\n
 
 # Bienvenido
 _WelTitle="Bienvenido a"
-_WelBody="\nEste instalador descargará los paquetes más recientes de los repositorios de ArchLabs. Sólo se realiza la configuración mínima necesaria.\n\nOPCIONES DE MENÚ: Seleccione pulsando el número de opción o usando las teclas flecha arriba/flecha abajo antes de pulsar [Intro] para confirmar. Cambie entre distintos botones con la tecla [Tabulador] o las teclas flecha izquierda/derecha antes de pulsar [Intro] para confirmar. Se puede navegar por listas largas utilizando las teclas [Re Pág] y [Av Pág], o bien pulsando la primera letra de la opción deseada.\n\nOPCIONES DE CONFIGURACIÓN Y PAQUETES: Los paquetes por defecto en las listas de verificación estarán premarcados. Utilice la tecla [BarraEspaciadora] para des/marcar."
+_WelBody="\nEste instalador descargará los paquetes más recientes de los repositorios de $DIST. Sólo se realiza la configuración mínima necesaria.\n\nOPCIONES DE MENÚ: Seleccione pulsando el número de opción o usando las teclas flecha arriba/flecha abajo antes de pulsar [Intro] para confirmar. Cambie entre distintos botones con la tecla [Tabulador] o las teclas flecha izquierda/derecha antes de pulsar [Intro] para confirmar. Se puede navegar por listas largas utilizando las teclas [Re Pág] y [Av Pág], o bien pulsando la primera letra de la opción deseada.\n\nOPCIONES DE CONFIGURACIÓN Y PAQUETES: Los paquetes por defecto en las listas de verificación estarán premarcados. Utilice la tecla [BarraEspaciadora] para des/marcar."
 
 # Menú de preparación
 _PrepMenuTitle="Preparar instalación"
@@ -195,7 +194,7 @@ _Back="Atrás"
 
 # Menú de instalación del sistema base
 _InstBseMenuTitle="Instalar sistema base"
-_InstBseMenuBody="\nInstalar sistema ArchLabs base"
+_InstBseMenuBody="\nInstalar sistema $DIST base"
 _InstBse="Instalar paquetes base"
 _InstBootldr="Instalar gestor de arranque"
 
@@ -218,4 +217,4 @@ _MMBody="\nCada paso se ha de seguir en ESTRICTO ORDEN. Una vez que haya termina
 # Cerrar instalador
 _CloseInstBody="¿Desea cerrar el instalador?"
 
-# vim:ft=sh:tw=0
+# vim:ft=sh:tw=0:syntax=off:nospell

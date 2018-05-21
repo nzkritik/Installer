@@ -26,7 +26,7 @@ _AutoPartBody3="Ha használni akarsz cserefájlt, válaszd a 'Swap File' lehető
 
 # Hibaüzenetek. Az összes többi létre lesz hozva a BASH által.
 _ErrNoMount="\nA partíciót (partíciókat) csatold először.\n\n"
-_ErrNoBase="\nAz 'ArchLabs base'-t kell először telepíteni.\n\n"
+_ErrNoBase="\nAz '$DIST base'-t kell először telepíteni.\n\n"
 _ErrNoKernel="\nLegalább egy kernelt (linux vagy linux-lts) kell választanod.\n\n"
 
 # Konfigurációs fájlok kiválasztása
@@ -46,7 +46,7 @@ _LuksEncryptAdv="Határozd meg a kulcs méretét és a rejtjelezés típusát"
 _LuksEncryptBody="\nVálaszd ki a titkosítandó partíciót."
 _LuksEncryptSucc="\nKész! Kinyílt, és kész az LVM (ajánlott) vagy direkt csatolásra.\n"
 _LuksPartErrBody="\nMinimum kettő partícióra van szükség a titkosításhoz:\n\n1. Root (/) - normál vagy lvm partíció.\n\n2. Boot (/boot or /boot/efi) - csak normál partíció (kivéve lvm-nél ha BIOS Grub-ot használsz).\n"
-_SelLuksRootBody="\nVálaszd a gyökér (/) partíciót titkosításra. Ez az, ahová az ArchLabs lesz telepítve.\n\n"
+_SelLuksRootBody="\nVálaszd a gyökér (/) partíciót titkosításra. Ez az, ahová az $DIST lesz telepítve.\n\n"
 _LuksPassBody="\nAdj meg egy jelszót a partíció titkosításához, illetve a titkosítás feloldásához. Ez nem egyezhet sem a rendszergazda, sem a felhasználói jelszóval.\n"
 _LuksWaitBody="\nTitkosított gyökér partíció létrehozása:"
 _LuksWaitBody2="Használt eszköz vagy kötet:"
@@ -154,7 +154,7 @@ _FSTitle="Válassz fájlrendszert"
 _FSBody="\nExt4 az ajánlott. Nem minden fájlrendszer alkalmas  Root vagy Boot partíció számára. A fájrendszerek különböző funkciókat és korlátokat tartalmaznak."
 
 # Gyökérpartíció (ROOT) kiválasztása
-_SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az ArchLabsot telepítjük."
+_SelRootBody="\nVálassz gyökérpartíciót (ROOT). Ez lesz ahová az $DIST telepítjük."
 
 # Cserepartíció (SWAP) kiválasztása
 _SelSwpBody="\nVálassz cserepartíciót (SWAP). Ha lapozófájlt használsz ezzel létrejön a RAM azonos méretű cserefájl."
@@ -177,7 +177,7 @@ _SetDefDoneBody="beállítva alapértelmezett rendszertöltőnek.\n\n"
 
 # Üdvözöllek
 _WelTitle="Üdvözöllek az"
-_WelBody="\nEz a telepítő letölti a legújabb csomagokat az ArchLabs tárolókból. Csak minimálisan szükséges beállítás vállalt.\n\nMENÜ OPCIÓK: Válassz az opciók számának  beütésével, vagy használd a fel/le nyilakat mielőtt [enter]t nyomnál a kiválasztáshoz. A gombok közötti váltáshoz használd a [Tab] billentyűt  vagy használd a bal/jobb nyilakat mielőtt [enter]t nyomnál a megerősítéshez. A hosszú listában navigálhatsz a [pg up] és [pg down] billentyűkkel, és/vagy nyomd le az első betűjét a kiválasztani kívánt opciónak.\n\nKonfiguráció és csomag opciók: Az alapértelmezett csomagok a csekklistán elleőrizve lesznek. Használd a [szóköz] billentyűt a kiválasztásoz illetve a kiválasztás törléséhez."
+_WelBody="\nEz a telepítő letölti a legújabb csomagokat az $DIST tárolókból. Csak minimálisan szükséges beállítás vállalt.\n\nMENÜ OPCIÓK: Válassz az opciók számának  beütésével, vagy használd a fel/le nyilakat mielőtt [enter]t nyomnál a kiválasztáshoz. A gombok közötti váltáshoz használd a [Tab] billentyűt  vagy használd a bal/jobb nyilakat mielőtt [enter]t nyomnál a megerősítéshez. A hosszú listában navigálhatsz a [pg up] és [pg down] billentyűkkel, és/vagy nyomd le az első betűjét a kiválasztani kívánt opciónak.\n\nKonfiguráció és csomag opciók: Az alapértelmezett csomagok a csekklistán elleőrizve lesznek. Használd a [szóköz] billentyűt a kiválasztásoz illetve a kiválasztás törléséhez."
 
 # Előkészületek menü
 _PrepMenuTitle="Telepítés előkészítése"
@@ -214,4 +214,4 @@ _MMBody="\nMinden szükséges lépést követned kell a telepítés érdekében.
 # Telepítő bezárása
 _CloseInstBody="Bezárod a telepítőt?"
 
-# vim:ft=sh:tw=0
+# vim:ft=sh:tw=0:syntax=off:nospell

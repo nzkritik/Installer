@@ -3,14 +3,20 @@
 ## Vertalers: Erwin Crepieux
 
 # Generic
-_UseSpaceBar="Gebruik de [spatietoets] om opties in de lijst te (de)selecteren."
-_AlreadyInst="Reeds geïnstalleerd maar nog niet actief:"
 _All="Alle"
 _Done="Klaar"
 _Skip="Sla over/Geen"
-_PlsWaitBody="\nEven geduld aub...\n\n"
 _ErrTitle="Fout"
+_PlsWaitBody="\nEven geduld aub...\n\n"
 _PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
+
+# Welkom
+_WelTitle="Welkom bij"
+_WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de $DIST repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
+
+# Requirements Voorwaarden
+_RtFailBody="\nHet installatieprogramma moet worden uitgevoerd als root. Afsluiten.\n\n"
+_ConFailBody="\nGeen internetverbinding. Afsluiten.\n\n"
 
 _MntConfBody="Bevestig volgende aankoppelopties:\n\n"
 _MntBody="Gebuik [Spatie] om de gewenste aankoppel-opties te (de)selecteren en controleer deze nauwkeurig. Vermijd de selectie van meerdere versies van de zelfde optie, aub."
@@ -26,7 +32,7 @@ _AutoPartBody3="Indien je SWAP wenst te gebruiken, selecteer de 'Swap File' opti
 
 #Foutmeldingen. Alle andere worden door BASH gegenereerd.
 _ErrNoMount="\nPartitie(s) moet(en) eerst worden aangekoppeld\n\n"
-_ErrNoBase="\nHet ArchLabs basissysteem moet eerst worden geïnstalleerd.\n\n"
+_ErrNoBase="\nHet $DIST basissysteem moet eerst worden geïnstalleerd.\n\n"
 _ErrNoKernel="\nEr moet ten minste één kernel (linux of linux-lts) worden geselecteer.\n\n"
 
 # Selecteer Configuratiebestanden
@@ -46,7 +52,7 @@ _LuksEncryptAdv="Bepaal de sleutelgrootte en Cypher"
 _LuksEncryptBody="\nSelecteer een partitie om te versleutelen."
 _LuksEncryptSucc="\nKlaar! Geopend en klaar voor LVM (aanbevolen) of rechtstreekse aankoppeling.\n"
 _LuksPartErrBody="\nEr zijn minimum twee partities nodig om te kunnen versleutelen:\n\n1. Root (/) - standaard-of LVM partitie-types.\n\n2. Boot (/boot of /boot/efi) - alleen standaard partitietypes  (behalve LVM waar men BIOS Grub gebruikt).\n"
-_SelLuksRootBody="\nSelecteer de ROOT (/) partitie die moet worden versleuteld. Dit is waar ArchLabs zal worden geïnstalleerd.\n\n"
+_SelLuksRootBody="\nSelecteer de ROOT (/) partitie die moet worden versleuteld. Dit is waar $DIST zal worden geïnstalleerd.\n\n"
 _LuksPassBody="\nGeef een wachtwoord in om de partitie te versleutelen. Dit mag niet hetzelfde zijn als het Root-wachtwoord of uw gebruikerswachtwoord.\n"
 _LuksWaitBody="\nAanmaken van een versleutelde Root partitie:"
 _LuksWaitBody2="Gebruikt opslagmedium of volume:"
@@ -83,14 +89,6 @@ _LvmVGErr="\nGeen Volume Groepen gevonden.\n\n"
 
 # Toon opslagapparaten en partities
 _DevShowOpt="Lijst van Opslagmedia (optioneel)"
-
-# Check Voorwaarden
-_ChkTitle="Controleer opnieuw de voorwaarden"
-_ChkBody="\nControleer opnieuw: werd de installatie uitgevoerd als root? en is er een actieve internetverbinding? Even geduld aub...\n\n"
-_RtFailBody="\nHet installatieprogramma moet worden uitgevoerd als root. Afsluiten.\n\n"
-_ConFailBody="\nGeen internetverbinding. Afsluiten.\n\n"
-_ReqMetTitle="Alle voorwaarden voldaan"
-_ReqMetBody="\nAlle controles ok!\n\n"
 
 # Stel het toetsenbord in (vconsole)
 _VCKeymapTitle="Stel de Virtuele Console in"
@@ -136,7 +134,7 @@ _WarnMount2="optie te vinden bovenaan in het systeem menubestand.\n\nVerzeker u 
 
 # Selecteer Opslagmedium (installatie)
 _DevSelTitle="Selecteer Opslagmedium"
-_DevSelBody="\nOpslagmedia (/dev) zijn de beschikbare en beschrijfbare harde schijven en USB-sticks. De eerste is /sda, de tweede /sdb, en zo verder.\n\nWanneer er een USB-stick gebruikt wordt om ArchLabs op te starten zal deze ook op deze lijst voorkomen!"
+_DevSelBody="\nOpslagmedia (/dev) zijn de beschikbare en beschrijfbare harde schijven en USB-sticks. De eerste is /sda, de tweede /sdb, en zo verder.\n\nWanneer er een USB-stick gebruikt wordt om $DIST op te starten zal deze ook op deze lijst voorkomen!"
 
 # Partitionering
 _PartToolTitle="Partities instellen"
@@ -154,7 +152,7 @@ _FSTitle="Kies een bestandsysteem"
 _FSBody="\nExt4 is hier aanbevolen. Niet alle bestandsystemen zijn geschikt voor de Root of Boot-Partities. Elk bestandsysteem heeft verschillende eigenschappen en beperkingen."
 
 # Selecteer Root
-_SelRootBody="Selecteer de ROOT Partitie.\n\nDit is waar ArchLabs zal worden geïnstalleerd."
+_SelRootBody="Selecteer de ROOT Partitie.\n\nDit is waar $DIST zal worden geïnstalleerd."
 
 # Selecteer SWAP
 _SelSwpBody="Selecteer de SWAP Partitie.\n\nBij gebruik van SWAP, zal deze even groot ingesteld worden als de hoeveelheid RAM."
@@ -185,9 +183,6 @@ _InstBseTitle="Installeer Basissysteem"
 #Stel efi bestand in voor Grub
 _SetDefDoneBody="werd ingesteld als standaard bootloader.\n\n"
 
-# Welkom
-_WelTitle="Welkom bij"
-_WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de ArchLabs repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
 
 #Voorbereidings Menu
 _PrepMenuTitle="Voorbereiding  Installatieproces"
@@ -200,7 +195,7 @@ _Back="Terug"
 
 # Menu: installeren van het Basissysteem
 _InstBseMenuTitle=" Installeer het Basissysteem"
-_InstBseMenuBody="Installeer het Basissysteem de ArchLabs."
+_InstBseMenuBody="Installeer het Basissysteem de $DIST."
 _InstBse="Installeer het Basissysteem"
 _InstBootldr="Installeer de Bootlader"
 
@@ -224,4 +219,4 @@ _MMBody="\nElke stap moet IN VOLGORDE uitgevoerd worden. Eenmaal alles is afgewe
 # Sluit Installer
 _CloseInstBody="Installatieprogramma Afsluiten?"
 
-# vim:ft=sh:tw=0
+# vim:ft=sh:tw=0:syntax=off:nospell

@@ -7,7 +7,7 @@
 
 ISO_USER="liveuser"                   # Live user account
 DIST="Archlabs"                       # Distributor name for grub etc
-VER="$DIST Installer 1.3.2"           # Installer Name / Version
+VER="$DIST Installer 1.3.3"           # Installer Name / Version
 ANS="/tmp/.archlabs-installer"        # Temp file to store answers
 MNT_OPTS="/tmp/.mnt_opts"             # file system mount options
 MNT="/mnt"                            # Installation mountpoint
@@ -49,7 +49,7 @@ select_lang() {
 }
 
 check_req() {
-    if [[ $(whoami) != "root" || ! $(ping -c 1 google.com) ]]; then
+    if [[ $(whoami) != "root" ]] || ! ping -c 1 google.com &>/dev/null; then
         [[ $(whoami) != "root" ]] && msg="$_RtFailBody" || msg="$_ConFailBody"
         dlg " $_ErrTitle " --infobox "$msg" 0 0
         sleep 3 && exit 1
@@ -1080,10 +1080,9 @@ unpack_image() {
     check_errors
     local files
     local autostart="$MNT/etc/skel/.config/openbox/autostart"
-    files=(archlabs-installer etc/sudoers.d/g_wheel
-    etc/mkinitcpio-archiso.conf usr/bin/install-al
-    etc/polkit-1/rules.d/49-nopasswd_global.rules)
-    for f in "${files[@]}"; do rm -rf $MNT/$f ; done
+    files=(etc/sudoers.d/g_wheel etc/mkinitcpio-archiso.conf usr/bin/install-al
+    usr/bin/al-installer etc/polkit-1/rules.d/49-nopasswd_global.rules)
+    for f in "${files[@]}"; do [[ -e $MNT/$f ]] && rm -rf $MNT/$f; done
     find $MNT/usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
     sed -i '/al-hello/ c sleep 10; termite --exec=/usr/bin/al-hello &' $autostart
     sed -i 's|#$HOME/.config/setup &|$HOME/.config/setup &|g' $autostart

@@ -1216,9 +1216,8 @@ install_boot() {
     }
 
     chr "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/bin/core_perl"
-    if [[ $BOOTD != "True" ]]; then
-        mkdir -p $MNT/run/udev
-        mount -o bind /run/udev $MNT/run/udev
+    if [[ $BOOTD ]]; then
+        mkdir -p $MNT/run/udev && mount -o bind /run/udev $MNT/run/udev
         [[ $SYSTEM == "BIOS" ]] && bios_bootloader || uefi_bootloader
         BOOTD="True"
     fi
@@ -1271,7 +1270,7 @@ main_menu() {
         else
             [[ $ROOT_PART ]] && check_mount && install_system
         fi
-        return
+        return 0
     fi
     if [[ ! -e $MNT/etc && $MENU != "main" ]]; then
         MENU="main" MH=1
@@ -1283,7 +1282,7 @@ main_menu() {
         "2" "$_InstBseMenuTitle" \
         "3" "$_ConfBseMenuTitle" \
         "4" "$_SeeConfOptTitle" \
-        "5" "$_Done" 2> $ANS
+        "5" "$_Done" 2>$ANS
     MH=$(cat $ANS)
     if (( $MH == 2 )) && ! check_mount; then
         return 1
@@ -1320,7 +1319,7 @@ prep_menu() {
         "4" "$_PrepLUKS" \
         "5" "$_PrepLVM" \
         "6" "$_PrepMntPart" \
-        "7" "$_Back" 2> $ANS || return 0
+        "7" "$_Back" 2>$ANS
     HL=$(cat $ANS)
     case $HL in
         1) set_keymap ;;
@@ -1348,7 +1347,7 @@ config_menu() {
         "2" "$_ConfBseSysLoc" \
         "3" "$_ConfUsrRoot" \
         "4" "$_ConfUsrNew" \
-        "5" "$_Back" 2> $ANS || return 0
+        "5" "$_Back" 2>$ANS
     HL=$(cat $ANS)
     case $HL in
         1) set_hostname ;;
@@ -1377,7 +1376,7 @@ edit_configs() {
         "8" "/etc/crypttab" \
         "9" "/etc/default/grub" \
         "10" "/etc/pacman.conf" \
-        "11" "$_Back" 2> $ANS || return 0
+        "11" "$_Back" 2>$ANS
     HL=$(cat $ANS)
     FILE=""
     xkeyfile="$MNT/etc/X11/xorg.conf.d/01-keyboard.conf"

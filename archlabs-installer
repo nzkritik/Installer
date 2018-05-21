@@ -168,15 +168,12 @@ set_keymap() {
     }
 
     set_console_keymap() {
-        local msg ttl cmaps maps
-        maps=""
-        cmaps=$(ls -R /usr/share/kbd/keymaps | grep "map.gz")
-        cmaps=$(sed 's/\.map\.gz//g' <<< "$cmaps" | sort)
+        local msg ttl cmaps maps=""
+        cmaps=$(ls -R /usr/share/kbd/keymaps | grep "map.gz" | sed 's/\.map\.gz//g' | sort)
         for i in $cmaps; do maps="$maps $i -"; done
-        msg="$_VCKeymapBody"
-        ttl=" $_VCKeymapTitle "
-        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 22 60 16 $maps 2> $ANS || prep_menu
-        echo "KEYMAP=$(cat $ANS)" > /tmp/vconsole.conf
+        msg="$_VCKeymapBody" ttl=" $_VCKeymapTitle "
+        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 22 60 16 $maps 2>$ANS || prep_menu
+        echo "KEYMAP=$(cat $ANS)" >/tmp/vconsole.conf
         log "Setting vconsole keymap to $(cat $ANS)"
     }
     set_console_keymap
@@ -618,41 +615,41 @@ mount_parts() {
         mem=$(grep MemTotal /proc/meminfo | awk '{print $2/1024}' | sed 's/\..*//')
         dialog --backtitle "$BT" --title " $_PrepMntPart " --menu "$_SelSwpBody" 0 0 7 \
             "$_Skip" "-" \
-            "$_SelSwpFile" "$mem" \
-            $PARTS 2> $ANS || prep_menu
-        if [[ $(cat $ANS) != "$_Skip" ]]; then
+            "$_SelSwpFile" "${mem}M" \
+            $PARTS 2>$ANS || return 0
+        if [[ $(cat $ANS) != "$_Skip" && $(cat $ANS) != "" ]]; then
             PART=$(cat $ANS)
             if [[ $PART == "$_SelSwpFile" ]]; then
                 local ttl msg
                 ttl=" $_SelSwpFile "
                 msg="Enter size for swapfile below\n\nM = MB, G = GB"
-                dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 10 40 "${mem}M" 2> $ANS || make_swap
+                dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 10 40 "${mem}M" 2> $ANS || return 0
                 tot=$(cat $ANS)
                 while ! [[ ${tot: -1} =~ [MG] ]]; do
                     msg="\n$_SelSwpFile $_ErrTitle: M = MB, G = GB\n\n"
                     dialog --backtitle "$BT" --title "$ttl" --msgbox "$msg" 7 40
                     msg="\nM = MB, G = GB\n"
-                    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 10 40 "${mem}M" 2> $ANS || make_swap
+                    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 10 40 "${mem}M" 2> $ANS || break && return 0
                     tot=$(cat $ANS)
                 done
                 log "Creating a $tot swapfile at: $MNT/swapfile"
-                fallocate -l "$tot" $MNT/swapfile 2>>"$ERR"
-                chmod 600 $MNT/swapfile 2>>"$ERR"
-                mkswap $MNT/swapfile >/dev/null 2>>"$ERR"
-                swapon $MNT/swapfile >/dev/null 2>>"$ERR"
+                fallocate -l "$tot" $MNT/swapfile 2>$ERR
+                chmod 600 $MNT/swapfile 2>>$ERR
+                mkswap $MNT/swapfile >/dev/null 2>>$ERR
+                swapon $MNT/swapfile >/dev/null 2>>$ERR
                 check_errors
             else
                 if [[ $(lsblk -o FSTYPE "$PART" | grep -i "swap") != "swap" ]]; then
                     ttl=" $_PrepMntPart " msg="\nmkswap $PART\n\n"
                     if dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0; then
                         log "Creating swap partition: $PART"
-                        mkswap "$PART" >/dev/null 2>>"$ERR"
+                        mkswap "$PART" >/dev/null 2>$ERR
                     else
                         mount_parts
                     fi
                 fi
                 log "Mounting swap partition: $PART"
-                swapon "$PART" >/dev/null 2>>"$ERR"
+                swapon "$PART" >/dev/null 2>>$ERR
                 check_errors
                 PARTS=$(sed "s~${PART} [0-9]*[G-M]~~" <<< "$PARTS")
                 PARTS=$(sed "s~${PART} [0-9]*\.[0-9]*[G-M]~~" <<< "$PARTS" | sed s~${PART}$' -'~~)
@@ -671,7 +668,7 @@ mount_parts() {
     umount_parts
     find_parts
     msg="$_SelRootBody"
-    dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 $PARTS 2>$ANS || prep_menu
+    dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 $PARTS 2>$ANS || return
     PART=$(cat $ANS)
     ROOT_PART=$(cat $ANS)
     log "Setting root partition as $ROOT_PART"
@@ -682,7 +679,7 @@ mount_parts() {
     # efi partition
     if [[ $SYSTEM == "UEFI" ]]; then
         msg="$_SelUefiBody"
-        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 $PARTS 2>$ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 $PARTS 2>$ANS || return
         PART=$(cat $ANS)
         EFI_PART=$(cat $ANS)
         log "Setting EFI partition as $EFI_PART"
@@ -711,10 +708,10 @@ mount_parts() {
     while (( $NUM_PARTS > 0 )); do
         msg="$_ExtPartBody"
         ttl=" $_PrepMntPart "
-        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 "$_Done" "-" $PARTS 2>$ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 "$_Done" "-" $PARTS 2>$ANS || break; return
         PART=$(cat $ANS)
         if [[ $PART == "$_Done" ]]; then
-            break; main_menu
+            break; return
         else
             MOUNT=""
             choose_fs
@@ -725,12 +722,12 @@ mount_parts() {
             fi
             ttl=" $_PrepMntPart $PARTITON "
             msg="${_ExtPartBody1}$MNT_EXAMPLES\n"
-            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "/" 2>$ANS || prep_menu
+            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "/" 2>$ANS || break; return
             MOUNT=$(cat $ANS)
             while [[ ${MOUNT:0:1} != "/" || ${#MOUNT} -le 1 || $MOUNT =~ \ |\' ]]; do
                 msg="${_ExtPartBody1}$MNT_EXAMPLES\n"
                 dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_ExtErrBody" 0 0
-                dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "/" 2>$ANS || prep_menu
+                dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "/" 2>$ANS || break; break; return 0
                 MOUNT=$(cat $ANS)
             done
             log "Mounting $PART as $MOUNT"
@@ -920,22 +917,22 @@ lvm_create() {
     PARTS=$(sed 's/M\|G\|T/& off/g' <<< "$PARTS")
     local msg="$_LvmNameVgBody"
     local ttl=" $_LvmCreateVG "
-    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2> $ANS || prep_menu
+    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2> $ANS || return
     LV_VG=$(cat $ANS)
     has=$(grep -q "$LV_VG" <<< "$(lsblk)")
     while [[ ${LV_VG:0:1} == "/" || ${#LV_VG} -eq 0 || $LV_VG =~ \ |\' || $has ]]; do
         dialog --backtitle "$BT" --title "$_ErrTitle" --msgbox "$_LvmNameVgErr" 0 0
-        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2>$ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2>$ANS || break; return
         LV_VG=$(cat $ANS)
     done
     msg="$_LvmPvSelBody $_UseSpaceBar"
-    dialog --backtitle "$BT" --title "$ttl" --checklist "$msg" 0 0 7 $PARTS 2> $ANS || prep_menu
-    [[ $(cat $ANS) != "" ]] && VG_PARTS=$(cat $ANS) || prep_menu
+    dialog --backtitle "$BT" --title "$ttl" --checklist "$msg" 0 0 7 $PARTS 2>$ANS || return
+    [[ $(cat $ANS) != "" ]] && VG_PARTS=$(cat $ANS) || return
     msg="${_LvmPvConfBody1}: ${LV_VG}\n\n$_LvmPvConfBody2${VG_PARTS}"
     if dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0; then
         msg="$_LvmPvActBody1${LV_VG}.$_PlsWaitBody"
         dialog --backtitle "$BT" --title "$ttl" --infobox "$msg" 10 50
-        sleep 1 && vgcreate -f "$LV_VG" "$VG_PARTS" >/dev/null 2>>"$ERR"
+        sleep 1 && vgcreate -f "$LV_VG" "$VG_PARTS" >/dev/null 2>$ERR
         check_errors
         VG_SIZE=$(vgdisplay "$LV_VG" | grep 'VG Size' | sed 's/\..*//' | sed 's/[^0-9]*//g')
         VG_SIZE_TYPE=$(vgdisplay "$LV_VG" | grep 'VG Size' | awk '{print $4}')
@@ -950,28 +947,28 @@ lvm_create() {
         "1" "-" off "2" "-" off "3" "-" off  "4" "-" off \
         "5" "-" off "6" "-" off "7" "-" off "8" "-" off "9" "-" off 2>$ANS
     [[ $(cat $ANS) == "" ]] && lvm_menu || NUM_LVS=$(cat $ANS)
-    while [[ $NUM_LVS -gt 1 ]]; do
+    while (( $NUM_LVS > 1 )); do
         ttl=" $_LvmCreateVG (LV:$NUM_LVS) "
         msg="$_LvmLvNameBody1"
-        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2> $ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2>$ANS || break; return
         LV_NAME=$(cat $ANS)
         has=$(grep -q "$LV_NAME" <<< "$(lsblk)")
         while [[ ${LV_NAME:0:1} == "/" || ${#LV_NAME} -eq 0 || $LV_NAME =~ \ |\' || $has ]]; do
             dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
-            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2> $ANS || prep_menu
+            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2>$ANS || break; break; return
             LV_NAME=$(cat $ANS)
         done
         msg="${LV_VG}: ${VG_SIZE}$VG_SIZE_TYPE (${VG_MB}MB $_LvmLvSizeBody1).$_LvmLvSizeBody2"
-        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2> $ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2>$ANS || break; return
         LV_SIZE=$(cat $ANS)
         check_lv_size
-        while [[ $ERR_SIZE -eq 1 ]]; do
+        while (( $ERR_SIZE == 1 )); do
             dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvSizeErrBody" 0 0
-            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2> $ANS || prep_menu
+            dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "" 2>$ANS || break; break; return
             LV_SIZE=$(cat $ANS)
             check_lv_size
         done
-        lvcreate -L "$LV_SIZE" "$LV_VG" -n "$LV_NAME" 2>>"$ERR"
+        lvcreate -L "$LV_SIZE" "$LV_VG" -n "$LV_NAME" 2>$ERR
         check_errors
         msg="$_Done LV $LV_NAME ($LV_SIZE) $_LvmPvDoneBody2."
         dialog --backtitle "$BT" --title "$ttl" --msgbox "$msg" 0 0
@@ -979,21 +976,21 @@ lvm_create() {
     done
     ttl=" $_LvmCreateVG (LV:$NUM_LVS) "
     msg="$_LvmLvNameBody1 $_LvmLvNameBody2 (${VG_MB}MB)."
-    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2> $ANS || prep_menu
+    dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2>$ANS || return
     LV_NAME=$(cat $ANS)
     has=$(grep -q "$LV_NAME" <<< "$(lsblk)")
     while [[ ${LV_NAME:0:1} == "/" || ${#LV_NAME} -eq 0 || $LV_NAME =~ \ |\' || $has ]]; do
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_LvmLvNameErrBody" 0 0
-        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2> $ANS || prep_menu
+        dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "lvol" 2>$ANS || break; return
         LV_NAME=$(cat $ANS)
     done
-    lvcreate -l +100%FREE "$LV_VG" -n "$LV_NAME" 2>>"$ERR"
+    lvcreate -l +100%FREE "$LV_VG" -n "$LV_NAME" 2>$ERR
     check_errors
     ((NUM_LVS--))
     LVM=1
     ttl=" $_LvmCreateVG "
     msg="$_LvmCompBody"
-    dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0 && show_devices || lvm_menu
+    dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0 && show_devices || return
 }
 
 lvm_del_vg() {
@@ -1025,13 +1022,14 @@ lvm_menu() {
         "$_LvmCreateVG" "vgcreate -f, lvcreate -L -n" \
         "$_LvmDelVG"    "vgremove -f" \
         "$_LvMDelAll"   "lvrmeove, vgremove, pvremove -f" \
-        "$_Back" "-" 2> $ANS
+        "$_Back" "-" 2> $ANS || return
     case "$(cat $ANS)" in
-        "$_LvmCreateVG") lvm_create  ;;
-        "$_LvmDelVG")    lvm_del_vg  ;;
-        "$_LvMDelAll")   lvm_del_all ;;
-        *)               prep_menu
+        "$_LvmCreateVG") lvm_create ;;
+        "$_LvmDelVG") lvm_del_vg ;;
+        "$_LvMDelAll") lvm_del_all ;;
+        *) prep_menu; return
     esac
+    lvm_menu
 }
 
 ######################################################################
@@ -1202,7 +1200,11 @@ run_mkinitcpio() {
 main_menu() {
     if [[ $MENU == "prep" && $HL -eq 7 ]]; then
         MENU="main" MH=3
-        check_mount && install_system
+        if [[ $SYSTEM == "UEFI" ]]; then
+            [[ $ROOT_PART && $EFI_PART ]] && check_mount && install_system
+        else
+            [[ $ROOT_PART ]] && check_mount && install_system
+        fi
     fi
     if [[ ! -e $MNT/etc && $MENU != "main" ]]; then
         MENU="main" MH=1

@@ -22,6 +22,18 @@ KERN_IMG="/run/archiso/bootmnt/arch/boot/x86_64/vmlinuz"
 ##                  Utility and Check Functions                     ##
 ######################################################################
 
+dlg() {
+    dialog ${BT[@]} --column-separator "|" --exit-label "$_Back" --title "$@"
+}
+
+chr() {
+    arch-chroot $MNT /bin/bash -c "$1"
+}
+
+log() {
+    echo "$1" >> /tmp/log.txt
+}
+
 select_lang() {
     dlg " Select Language " --menu \
         "Language - sprache - taal - språk - lingua - idioma - nyelv - língua" 0 0 9 \
@@ -126,18 +138,6 @@ show_devices() {
     lsblk -o NAME,MODEL,TYPE,FSTYPE,SIZE,MOUNTPOINT |
         grep "disk\|part\|lvm\|crypt\|NAME\|TYPE\|SIZE" >/tmp/.devlist
     dlg " $_DevShowOpt " --textbox /tmp/.devlist 0 0
-}
-
-chr() {
-    arch-chroot $MNT /bin/bash -c "$1"
-}
-
-log() {
-    echo "$1" >> /tmp/log.txt
-}
-
-dlg() {
-    dialog ${BT[@]} --column-separator "|" --exit-label "$_Back" "$@"
 }
 
 ######################################################################

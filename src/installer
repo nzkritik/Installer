@@ -1248,7 +1248,8 @@ run_mkinitcpio() {
 
 main_menu() {
     if [[ $MENU == "prep" && $HL -eq 7 ]]; then
-        MENU="main" MH=3
+        MH=3
+        MENU="main"
         if [[ $SYSTEM == "UEFI" ]]; then
             [[ $ROOT_PART && $EFI_PART ]] && check_mount && install_system
         else
@@ -1257,8 +1258,9 @@ main_menu() {
         return 0
     fi
     if [[ ! -e $MNT/etc && $MENU != "main" ]]; then
-        MENU="main" MH=1
-    elif (( $MH < 5 )); then
+        MH=1
+        MENU="main"
+    elif (( MH < 5 )); then
         ((MH++))
     fi
     dialog --backtitle "$BT" --title " $_MMTitle " --default-item $MH --menu "$_MMBody" 20 60 5 \
@@ -1268,10 +1270,12 @@ main_menu() {
         "4" "$_SeeConfOptTitle" \
         "5" "$_Done" 2>$ANS
     MH=$(cat $ANS)
-    if (( $MH == 2 )) && ! check_mount; then
-        return 1
-    elif (( $MH >= 3 && $MH <= 4 )) && ! (check_mount && check_base); then
-        return 1
+    if [[ $MH ]]; then
+        if (( MH == 2 )) && ! check_mount; then
+            return 1
+        elif (( MH >= 3 && MH <= 4 )) && ! (check_mount && check_base); then
+            return 1
+        fi
     fi
     case $MH in
         1) prep_menu ;;
@@ -1291,11 +1295,12 @@ main_menu() {
 
 prep_menu() {
     if [[ $MENU != "prep" ]]; then
-        MENU="prep" HL=1
-    elif (( $HL < 7 )); then
+        HL=1
+        MENU="prep"
+    elif (( HL < 7 )); then
         ((HL++))
     fi
-    (( $HL == 7 )) && { main_menu; return 0; }
+    (( HL == 7 )) && { main_menu; return 0; }
     dialog --backtitle "$BT" --title " $_PrepMenuTitle " --default-item $HL --menu "$_PrepMenuBody" 17 60 7 \
         "1" "$_PrepKBLayout" \
         "2" "$_DevShowOpt" \
@@ -1320,11 +1325,12 @@ prep_menu() {
 config_menu() {
     chr "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl"
     if [[ $MENU != "config" ]]; then
-        MENU="config" HL=1
-    elif (( $HL < 5 )); then
+        HL=1
+        MENU="config"
+    elif (( HL < 5 )); then
         ((HL++))
     fi
-    (( $HL == 5 )) && { main_menu; return 0; }
+    (( HL == 5 )) && { main_menu; return 0; }
     local ttl=" $_ConfBseMenuTitle "
     dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 14 60 5 \
         "1" "$_ConfBseHost" \
@@ -1345,11 +1351,13 @@ config_menu() {
 
 edit_configs() {
     if [[ $MENU != "edit" ]]; then
-        MENU="edit" HL=1
-    elif (( $HL < 11 )); then
+        HL=1
+        MENU="edit"
+    elif (( HL < 11 )); then
         ((HL++))
     fi
-    dialog --backtitle "$BT" --title " $_SeeConfOptTitle " --default-item $HL --menu "$_SeeConfOptBody" 21 60 11 \
+    dialog --backtitle "$BT" --title " $_SeeConfOptTitle " --default-item $HL \
+        --menu "$_SeeConfOptBody" 21 60 11 \
         "1" "keymap configs" \
         "2" "locale configs" \
         "3" "/etc/hostname" \
@@ -1366,10 +1374,10 @@ edit_configs() {
     xkeyfile="$MNT/etc/X11/xorg.conf.d/01-keyboard.conf"
     case $HL in
         1) [[ -e $xkeyfile ]] && FILE="$FILE $xkeyfile"
-           [[ -e $MNT/etc/vconsole.conf ]] && FILE="$MNT/etc/vconsole.conf"
-           [[ -e $MNT/etc/default/keyboard ]] && FILE="$FILE $MNT/etc/default/keyboard" ;;
+            [[ -e $MNT/etc/vconsole.conf ]] && FILE="$MNT/etc/vconsole.conf"
+            [[ -e $MNT/etc/default/keyboard ]] && FILE="$FILE $MNT/etc/default/keyboard" ;;
         2) [[ -e $MNT/etc/locale.conf ]] && FILE="$MNT/etc/locale.conf"
-           [[ -e $MNT/etc/default/locale ]] && FILE="$FILE $MNT/etc/default/locale" ;;
+            [[ -e $MNT/etc/default/locale ]] && FILE="$FILE $MNT/etc/default/locale" ;;
         3) [[ -e $MNT/etc/hostname ]] && FILE="$MNT/etc/hostname" ;;
         4) [[ -e $MNT/etc/hosts ]] && FILE="$MNT/etc/hosts" ;;
         5) [[ -e $MNT/etc/sudoers ]] && FILE="$MNT/etc/sudoers" ;;

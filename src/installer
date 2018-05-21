@@ -16,6 +16,7 @@ LOG="/tmp/log"      # Basic logging
 EFI_MNT="boot/efi"  # EFI mountpoint
 VG_MB=0             # Remaining VG MB
 SBOOT=0             # Seperate /boot
+HOOKS="shutdown"    # mkinitcpio hooks
 
 # geolocation timezone used for automatic setup
 GEOLC="$(curl --silent freegeoip.net/xml/)"
@@ -65,7 +66,7 @@ log() {
     # sudo -s
     # exec 3>| /tmp/log.txt
     # BASH_XTRACEFD=3
-    # bash -x /archlabs-installer/archlabs-installer
+    # bash -x /installer/installer
 }
 
 select_lang() {
@@ -77,15 +78,15 @@ select_lang() {
         "7" "Italiano           (it_IT)" "8" "Nederlands         (nl_NL)" \
         "9" "Magyar             (hu_HU)" 2> $ANS
     case "$(cat $ANS)" in
-        1) . /archlabs-installer/english.trans ; LOC="en_US.UTF-8" ;;
-        2) . /archlabs-installer/spanish.trans ; LOC="es_ES.UTF-8" ;;
-        3) . /archlabs-installer/p_brasil.trans ; LOC="pt_BR.UTF-8" ;;
-        4) . /archlabs-installer/portuguese.trans ; LOC="pt_PT.UTF-8" ;;
-        5) . /archlabs-installer/french.trans ; LOC="fr_FR.UTF-8" ;;
-        6) . /archlabs-installer/russian.trans ; LOC="ru_RU.UTF-8" ;;
-        7) . /archlabs-installer/italian.trans ; LOC="it_IT.UTF-8" ;;
-        8) . /archlabs-installer/dutch.trans ; LOC="nl_NL.UTF-8" ;;
-        9) . /archlabs-installer/hungarian.trans ; LOC="hu_HU.UTF-8" ;;
+        1) . /installer/english.trans ; LOC="en_US.UTF-8" ;;
+        2) . /installer/spanish.trans ; LOC="es_ES.UTF-8" ;;
+        3) . /installer/p_brasil.trans ; LOC="pt_BR.UTF-8" ;;
+        4) . /installer/portuguese.trans ; LOC="pt_PT.UTF-8" ;;
+        5) . /installer/french.trans ; LOC="fr_FR.UTF-8" ;;
+        6) . /installer/russian.trans ; LOC="ru_RU.UTF-8" ;;
+        7) . /installer/italian.trans ; LOC="it_IT.UTF-8" ;;
+        8) . /installer/dutch.trans ; LOC="nl_NL.UTF-8" ;;
+        9) . /installer/hungarian.trans ; LOC="hu_HU.UTF-8" ;;
         *) clear && exit 0
     esac
     sed -i "s/#en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen
@@ -101,13 +102,6 @@ check_req() {
         sleep 3 && clear && exit 1
     fi
     echo "" > $ERR
-    if [[ $DBG ]]; then
-        echo "" >/tmp/log.txt
-        set -x
-        exec 3>| /tmp/log.txt
-        BASH_XTRACEFD=3
-        ( termite -e "tail -f /tmp/log.txt" & )
-    fi
 }
 
 id_system() {
@@ -125,7 +119,6 @@ id_system() {
         SYSTEM="BIOS"
     fi
     BT="$DIST Installer - $SYSTEM (x86_64)"
-
 }
 
 check_errors() {
@@ -747,10 +740,6 @@ mount_parts() {
         confirm_mount $MNT/$EFI_MNT
     fi
 
-    if ! grep -q "shutdown" <<< "$HOOKS"; then
-        HOOKS="$HOOKS shutdown"
-    fi
-
     # remaining partitions
     while (( $NUM_PARTS > 0 )); do
         msg="$_ExtPartBody"
@@ -783,7 +772,7 @@ mount_parts() {
             log "Mounting $PART as $MOUNT"
             mnt_chosen
             if [[ $MOUNT == "/usr" ]]; then
-                ! grep -q "usr" <<< "$HOOKS" && HOOKS="$HOOKS usr"
+                ! grep -q "usr" <<< "$HOOKS" && HOOKS="usr $HOOKS"
             fi
             if [[ $MOUNT == "/boot" ]]; then
                 grep -q "lvm" <<< "$(lsblk -lno TYPE "$PART")" && SBOOT=2 || SBOOT=1
@@ -1139,7 +1128,7 @@ unpack_image() {
     sed -i '/keypack/d' $autostart
     sed -i '/welcome.sh/d' $autostart
     sed -i 's/#$HOME/$HOME/g' $autostart
-    sed -i '/archlabs-installer/ { N; N; d; }' $openb/rc.xml
+    sed -i '/installer/ { N; N; d; }' $openb/rc.xml
     sed -i 's|#$HOME/.config/setup &|$HOME/.config/setup &|g' $autostart
     sed -i '/al-hello/ c sleep 10; termite --exec=/usr/bin/al-hello &' $autostart
     sed -i '/item label="W e l c o m e"/ i\    <separator label="A r c h L a b s"/>' $menu
@@ -1253,7 +1242,7 @@ run_mkinitcpio() {
         chr "echo '$LUKS_PASSWD' | cryptsetup luksAddKey $dev /crypto_keyfile.bin"
         sed -i 's/FILES=()/FILES=(\/crypto_keyfile.bin)/g' $conf
     fi
-    [[ $HOOKS ]] && sed -i "s/keyboard fsck/keyboard ${HOOKS} fsck/g" $conf
+    sed -i "s/keyboard fsck/keyboard ${HOOKS} fsck/g" $conf
     chr "mkinitcpio -p linux" 2>$ERR
     check_errors
 }
@@ -1404,7 +1393,15 @@ edit_configs() {
     edit_configs
 }
 
-[[ $1 == "--debug" || $1 == "-d" ]] && DBG="True"
+# full debug mode
+if [[ $1 == "--debug" || $1 == "-d" ]]; then
+    echo "" >/tmp/log.txt
+    set -x
+    exec 3>| /tmp/log.txt
+    BASH_XTRACEFD=3
+    ( termite --exec="tail -f /tmp/log.txt" & )
+fi
+
 select_lang
 check_req
 id_system

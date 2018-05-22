@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.3.7"         # Version
+VER="1.3.8"         # Version
 MNT="/mnt"          # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -66,7 +66,7 @@ log() {
 
 select_lang() {
     dialog --backtitle "$BT" --title " Select Language " --menu \
-        "Language - sprache - taal - språk - lingua - idioma - nyelv - língua" 0 0 9 \
+        "Language - sprache - taal - språk - lingua - idioma - nyelv - língua" 20 60 9 \
         "1" "English            (en_**)" "2" "Español            (es_ES)" \
         "3" "Português [Brasil] (pt_BR)" "4" "Português          (pt_PT)" \
         "5" "Français           (fr_FR)" "6" "Russkiy            (ru_RU)" \
@@ -256,7 +256,7 @@ set_timezone() {
         manual="True"
         set_timezone
     fi
-    SET="True"
+    SETT="True"
     set_hw_clock
 }
 
@@ -302,7 +302,8 @@ root_password() {
         echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
         chr "passwd root" </tmp/.passwd >/dev/null 2>$ERR
         rm -f /tmp/.passwd
-        check_errors && RPASS="True"
+        check_errors
+        RPASS="True"
         return 0
     fi
     dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 0 0
@@ -369,13 +370,13 @@ create_user() {
         check_errors
     fi
     [[ -e /tmp/.passwd ]] && rm /tmp/.passwd
-    if [[ $UNPCK && $SET && $RPASS && $BOOTD ]]; then
+    if [[ $UNPCK && $SETT && $RPASS && $BOOTD ]]; then
         ttl="Installation Finished"
         msg="The install is now complete
         \n\n'Yes' to close the installer and reboot
         \n\n'No' to modify system config files"
         if dialog --backtitle "$BT" --title " $ttl " --yesno "$msg" 10 60; then
-            umount_parts ; clear ; reboot
+            umount_parts; clear; reboot
         else
             edit_configs
         fi
@@ -403,10 +404,10 @@ confirm_mount() {
         PARTS=$(sed "s~${PART} [0-9]*[G-M]~~" <<< "$PARTS")
         PARTS=$(sed "s~${PART} [0-9]*\.[0-9]*[G-M]~~" <<< "$PARTS" | sed s~${PART}$' -'~~)
         ((NUM_PARTS--))
-    else
-        dialog --backtitle "$BT" --title "$ttl" --infobox "$_MntStatusFail" 0 0 && sleep 2
-        prep_menu
+        return 0
     fi
+    dialog --backtitle "$BT" --title "$ttl" --infobox "$_MntStatusFail" 0 0 && sleep 2
+    prep_menu; return 1
 }
 
 select_device() {
@@ -419,7 +420,7 @@ select_device() {
     fi
     DEVS=$(lsblk -lno NAME,SIZE,TYPE | grep 'disk' | awk '{print "/dev/" $1 " " $2}' | sort -u)
     dialog --backtitle "$BT" --title " $_DevSelTitle " \
-        --menu "$msg" 0 0 4 $DEVS 2>$ANS || return
+        --menu "$msg" 0 0 4 $DEVS 2>$ANS || return 1
     DEVICE=$(cat $ANS)
 }
 
@@ -501,7 +502,7 @@ create_parts() {
         "$_PartOptAuto" "BIOS & UEFI" \
         "gparted"       "BIOS & UEFI" \
         "cfdisk"        "BIOS/MBR" \
-        "parted"        "UEFI/GPT" 2>$ANS || return
+        "parted"        "UEFI/GPT" 2>$ANS
     RET=$(cat $ANS)
     if [[ $RET ]]; then
         if [[ $RET != "$_PartOptWipe" && $RET != "$_PartOptAuto" ]]; then
@@ -1200,7 +1201,7 @@ install_boot() {
     }
 
     chr "export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/bin/core_perl"
-    if [[ $BOOTD ]]; then
+    if ! [[ $BOOTD ]]; then
         mkdir -p $MNT/run/udev && mount -o bind /run/udev $MNT/run/udev
         [[ $SYSTEM == "BIOS" ]] && bios_bootloader || uefi_bootloader
         BOOTD="True"
@@ -1263,7 +1264,8 @@ main_menu() {
     elif (( MH < 5 )); then
         ((MH++))
     fi
-    dialog --backtitle "$BT" --title " $_MMTitle " --default-item $MH --menu "$_MMBody" 20 60 5 \
+    dialog --backtitle "$BT" --title " $_MMTitle " --default-item $MH \
+        --menu "$_MMBody" 20 60 5 \
         "1" "$_PrepMenuTitle" \
         "2" "$_InstBseMenuTitle" \
         "3" "$_ConfBseMenuTitle" \
@@ -1299,9 +1301,10 @@ prep_menu() {
         MENU="prep"
     elif (( HL < 7 )); then
         ((HL++))
+        (( HL == 7 )) && return 0
     fi
-    (( HL == 7 )) && { main_menu; return 0; }
-    dialog --backtitle "$BT" --title " $_PrepMenuTitle " --default-item $HL --menu "$_PrepMenuBody" 17 60 7 \
+    dialog --backtitle "$BT" --title " $_PrepMenuTitle " --default-item $HL \
+        --menu "$_PrepMenuBody" 20 60 7 \
         "1" "$_PrepKBLayout" \
         "2" "$_DevShowOpt" \
         "3" "$_PrepPartDisk" \
@@ -1329,10 +1332,11 @@ config_menu() {
         MENU="config"
     elif (( HL < 5 )); then
         ((HL++))
+        (( HL == 5 )) && return 0
     fi
-    (( HL == 5 )) && { main_menu; return 0; }
     local ttl=" $_ConfBseMenuTitle "
-    dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 14 60 5 \
+    dialog --backtitle "$BT" --title "$ttl" --default-item $HL \
+        --menu "$_ConfBseBody" 20 60 5 \
         "1" "$_ConfBseHost" \
         "2" "$_ConfBseSysLoc" \
         "3" "$_ConfUsrRoot" \
@@ -1355,6 +1359,7 @@ edit_configs() {
         MENU="edit"
     elif (( HL < 11 )); then
         ((HL++))
+        (( HL == 11 )) && return 0
     fi
     dialog --backtitle "$BT" --title " $_SeeConfOptTitle " --default-item $HL \
         --menu "$_SeeConfOptBody" 21 60 11 \

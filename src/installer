@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.3.6"         # Version
+VER="1.3.7"         # Version
 MNT="/mnt"          # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options

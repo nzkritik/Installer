@@ -1304,7 +1304,7 @@ prep_menu() {
         (( HL == 7 )) && return 0
     fi
     dialog --backtitle "$BT" --title " $_PrepMenuTitle " --default-item $HL \
-        --menu "$_PrepMenuBody" 20 60 7 \
+        --menu "$_PrepMenuBody" 15 60 7 \
         "1" "$_PrepKBLayout" \
         "2" "$_DevShowOpt" \
         "3" "$_PrepPartDisk" \

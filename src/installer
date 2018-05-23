@@ -1276,8 +1276,7 @@ config_menu() {
         (( HL == 5 )) && return 0
     fi
     local ttl=" $_ConfBseMenuTitle "
-    dialog --backtitle "$BT" --title "$ttl" --default-item $HL \
-        --menu "$_ConfBseBody" 20 60 5 \
+    dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 20 60 5 \
         "1" "$_ConfBseHost" \
         "2" "$_ConfBseSysLoc" \
         "3" "$_ConfUsrRoot" \

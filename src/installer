@@ -463,8 +463,6 @@ create_parts() {
             check_errors || return 1
             lsblk "$DEVICE" -o NAME,TYPE,FSTYPE,SIZE >/tmp/.devlist
             dialog --backtitle "$BT" --title "" --textbox /tmp/.devlist 0 0
-        else
-            return
         fi
     }
     dialog --backtitle "$BT" --title "$_PartToolTitle" --menu "$_PartToolBody" 0 0 5 \
@@ -473,7 +471,7 @@ create_parts() {
         "gparted"       "BIOS & UEFI" \
         "cfdisk"        "BIOS/MBR" \
         "parted"        "UEFI/GPT" 2>$ANS
-    RET=$(cat $ANS)
+    RET="$(cat $ANS)"
     if [[ $RET ]]; then
         if [[ $RET != "$_PartOptWipe" && $RET != "$_PartOptAuto" ]]; then
             $RET "$DEVICE"
@@ -1242,7 +1240,11 @@ prep_menu() {
         MENU="prep"
     elif (( HL < 7 )); then
         ((HL++))
-        (( HL == 7 )) && return 0
+        if (( HL == 7 )) && [[ $ROOT_PART ]]; then
+            if [[ $SYSTEM == "UEFI" && $EFI_PART ]] || [[ $SYSTEM != "UEFI" ]]; then
+                return 0
+            fi
+        fi
     fi
     dialog --backtitle "$BT" --title " $_PrepMenuTitle " --default-item $HL \
         --menu "$_PrepMenuBody" 15 60 7 \
@@ -1257,7 +1259,7 @@ prep_menu() {
     case $HL in
         1) set_keymap ;;
         2) show_devices ;;
-        3) umount_parts; select_device; create_parts ;;
+        3) umount_parts && select_device && create_parts ;;
         4) luks_menu ;;
         5) lvm_menu ;;
         6) mount_parts ;;

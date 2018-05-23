@@ -97,11 +97,11 @@ _MntConfBody="\nConfirm the following mount options:\n\n"
 
 # Select Device
 _DevSelTitle="Select Device"
-_DevSelBody="Devices (/dev/) are the available drives on the system. The first is /sda, the second /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
+_DevSelBody="Devices (/dev/) are the available drives on the system. /sda, /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
 
 # Extra Partitions
-_ExtPartBody="Select additional partitions you want mounted (you will be prompted to enter mountpoint).\nSelect 'Done' to finish and continue."
-_ExtPartBody1="Specify where you want the partition mounted.\n\nEnsure the name begins with a forward slash (/).\nSome examples would be:\n\n"
+_ExtPartBody="Select additional partitions to mount, you will be prompted for mountpoint.\nSelect 'Done' to finish and continue."
+_ExtPartBody1="Where do you want the partition mounted?\n\nEnsure the name begins with a forward slash (/).\nSome examples include:\n\n"
 
 # Auto partition
 _AutoPartBody1="\nWARNING: ALL data on"

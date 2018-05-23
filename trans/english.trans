@@ -14,7 +14,7 @@ _PassErrBody="\nThe passwords entered do not match.\n\nPlease try again."
 
 # Welcome
 _WelTitle="Welcome to"
-_WelBody="This will unpack and setup $DIST on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys. Switch between buttons using [Tab] or the arrow keys. Long lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse [Space] to select/deselect options and [Enter] to confirm. [Ctrl]-[Shift]-+ and [Ctrl]-- to increase/decrease font size"
+_WelBody="This will unpack and setup $DIST on your system\n\nMenu Navigation:\nSelect by pressing the option number or using the arrow keys. Switch between buttons using [Tab] or the arrow keys. Long lists can be navigated using [pg up] and [pg down], or by pressing the first letter of the desired option.\n\nUse [Space] to select/deselect options and [Enter] to confirm. [Ctrl][Shift]+ and [Ctrl]- to increase/decrease font size"
 
 # Requirements
 _RtFailBody="\nThe installer must be run as root.\n\nExiting."
@@ -22,11 +22,11 @@ _ConFailBody="\nThe installer must be run\nwith an active internet connection.\n
 
 # Preparation Menu
 _PrepMenuTitle="Prepare System"
-_PrepMenuBody="Configure settings used during installation"
+_PrepMenuBody="Configure settings before install"
 _VCKeymapTitle="Virtual Console Keymap"
 _PrepKBLayout="Keyboard Layout"
 _DevShowOpt="List Devices (optional)"
-_PrepPartDisk="Partition Device"
+_PrepPartDisk="Partition Drive"
 _PrepLUKS="LUKS Encryption (optional)"
 _PrepLVM="Logical Volume Management (optional)"
 _PrepMntPart="Mount Partitions"
@@ -38,7 +38,7 @@ _InstBootldr="Install Bootloader"
 
 # Configure Menu
 _ConfBseMenuTitle="Configure Installation"
-_ConfBseBody="Configure basic settings for the newly installed system"
+_ConfBseBody="Configure settings for the new installed system"
 _ConfBseHost="System Hostname"
 _ConfBseSysLoc="Language and Timezone"
 _ConfUsrRoot="Root Password"
@@ -121,7 +121,7 @@ _PartOptWipe="Secure Wipe Device (optional)"
 _FSTitle="Choose Filesystem"
 _FSBody="If unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
 _SelRootBody="Select ROOT (/) Partition.\n\nThis is where $DIST will be installed."
-_SelSwpBody="Do you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after being picked."
+_SelSwpBody="Do you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after picking."
 _SelSwpFile="Swapfile"
 _SelUefiBody="Select EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
 _FormUefiBody="[IMPORTANT]\nThe EFI partition"

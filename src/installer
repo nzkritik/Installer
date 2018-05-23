@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4"           # Version
+VER="1.4.2"         # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -1278,7 +1278,7 @@ config_menu() {
         (( HL == 5 )) && return 0
     fi
     local ttl=" $_ConfBseMenuTitle "
-    dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 20 60 5 \
+    dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 15 50 5 \
         "1" "$_ConfBseHost" \
         "2" "$_ConfBseSysLoc" \
         "3" "$_ConfUsrRoot" \

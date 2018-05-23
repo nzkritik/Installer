@@ -1212,7 +1212,7 @@ main_menu() {
     elif (( MH < 5 )); then
         ((MH++))
     fi
-    dialog --backtitle "$BT" --title " $_MMTitle " --default-item $MH --menu "$_MMBody" 20 60 5 \
+    dialog --backtitle "$BT" --title " $_MMTitle " --default-item $MH --menu "$_MMBody" 18 60 5 \
         "1" "$_PrepMenuTitle" \
         "2" "$_InstBseMenuTitle" \
         "3" "$_ConfBseMenuTitle" \
@@ -1231,7 +1231,7 @@ main_menu() {
         2) install_system ;;
         3) config_menu ;;
         4) edit_configs ;;
-        *) dialog --backtitle "$BT" --yesno "$_CloseInstBody" 8 45 && { umount_parts; clear; exit 0 } || return 0
+        *) dialog --backtitle "$BT" --yesno "$_CloseInstBody" 8 45 && { umount_parts; clear; exit 0; } || return 0
     esac
     return 0
 }

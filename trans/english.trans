@@ -37,8 +37,8 @@ _InstBseMenuTitle="Install $DIST"
 _InstBootldr="Install Bootloader"
 
 # Configure Menu
-_ConfBseMenuTitle="Configure Installation"
-_ConfBseBody="Configure settings for the new installed system"
+_ConfBseMenuTitle="Configure Install"
+_ConfBseBody="Configure settings for the new system"
 _ConfBseHost="System Hostname"
 _ConfBseSysLoc="Language and Timezone"
 _ConfUsrRoot="Root Password"
@@ -46,8 +46,7 @@ _ConfUsrNew="Create New User"
 
 # Main Menu
 _MMTitle="Main Menu"
-_MMBody="Follow each step IN ORDER, steps labeled (optional) are not required.\n\nAfter Installation you will be automatically taken to the configuration menu\n\nOnce complete select 'Done' to finalize the installation."
-_SecMenuTitle="System Tweaks (optional)"
+_MMBody="Follow the steps in order.\n\nAfter unpacking you will be automatically taken to the configure menu.\n"
 _SeeConfOptTitle="Edit Files (optional)"
 
 # Select Config Files

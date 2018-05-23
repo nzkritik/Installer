@@ -531,7 +531,7 @@ choose_fs() {
         local msg=""
         if dialog --backtitle "$BT" --title " $_FSTitle " --yesno "\nFormat $PART as $select?\n\n" 0 0; then
             msg="\nFormatting $PART as $select.\n$_PlsWaitBody"
-            dialog --backtitle "$BT" --title " $_FSTitle " --infobox "$msg" 8 45
+            dialog --backtitle "$BT" --title " $_FSTitle " --infobox "$msg" 0 0
             $FS $PART >/dev/null 2>$ERR
             check_errors || return 1
         else
@@ -556,7 +556,7 @@ mount_parts() {
         if [[ $MOUNT_OPTS ]]; then
             msg="${_MntConfBody}$MOUNT_OPTS\n"
             ttl=" $_MntStatusTitle "
-            dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 8 50 && return 0 || opts
+            dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 10 50 && return 0 || opts
         fi
     }
 

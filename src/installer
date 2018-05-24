@@ -220,10 +220,10 @@ set_locale() {
 
 set_timezone() {
     local zone sub local ttl msg
-    if [[ $manual != "True" ]]; then
+    if [[ -z $manual ]]; then
         if grep -q "$GEOLC" <<< "$TZONES"; then
-            zone=${GEOLC%/*}
-            sub=${GEOLC#*/}
+            zone="${GEOLC%/*}"
+            sub="${GEOLC#*/}"
         fi
     else
         ttl=" $_ConfBseTimeHC "
@@ -238,7 +238,7 @@ set_timezone() {
         sub=$(cat $ANS)
     fi
 
-    if [[ $zone && $sub ]]; then
+    if [[ ! -z $zone && ! -z $sub ]]; then
         ttl=" $_ConfBseTimeHC "
         msg="$_TimeZQ $zone/$sub?\n\n"
         if dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0; then
@@ -286,11 +286,11 @@ EOF
 
 root_password() {
     local ttl=" $_ConfUsrRoot "
-    dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$_PassRtBody" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_PassRtBody" 8 40 2>$ANS || return 1
     PASSWD="$(cat $ANS)"
-    dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$_PassRtBody2" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_PassRtBody2" 8 40 2>$ANS || return 1
     PASSWD2="$(cat $ANS)"
-    if [[ $PASSWD == "$PASSWD2" ]]; then
+    if [[ "$PASSWD" == "$PASSWD2" ]]; then
         echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
         chr "passwd root" </tmp/.passwd >/dev/null 2>$ERR
         rm -f /tmp/.passwd
@@ -303,25 +303,25 @@ root_password() {
 }
 
 create_user() {
-    dialog --backtitle "$BT" --title " $_NUsrTitle " --inputbox "$_NUsrBody" 10 40 "" 2>$ANS || return
+    dialog --backtitle "$BT" --title " $_NUsrTitle " --inputbox "$_NUsrBody" 10 40 "" 2>$ANS || return 1
     usr="$(cat $ANS)"
     while [[ ${#usr} -eq 0 || $usr =~ \ |\' || $usr =~ [^a-z0-9\ ] ]]; do
-        dialog --backtitle "$BT" --title " $_NUsrTitle " --inputbox "$_NUsrErrBody" 10 40 "" 2>$ANS || break; return
+        dialog --backtitle "$BT" --title " $_NUsrTitle " --inputbox "$_NUsrErrBody" 10 40 "" 2>$ANS || { break; return 1; }
         usr="$(cat $ANS)"
     done
     local msg1="$_PassNUsrBody $usr"
     local ttl=" $_ConfUsrNew "
-    dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$msg1" 8 40 2>$ANS || return
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || return 1
     PASSWD=$(cat $ANS)
     local msg2="$_PassNUsrBody2 $usr"
-    dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$msg2" 8 40 2>$ANS || return
-    PASSWD2=$(cat $ANS)
-    while [[ $PASSWD != "$PASSWD2" ]]; do
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || return 1
+    PASSWD2="$(cat $ANS)"
+    while [[ "$PASSWD" != "$PASSWD2" ]]; do
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 8 60
-        dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$msg1" 8 40 2>$ANS || break; return
-        PASSWD=$(cat $ANS)
-        dialog --backtitle "$BT" --title "$ttl" --clear --insecure --passwordbox "$msg2" 8 40 2>$ANS || break; return
-        PASSWD2=$(cat $ANS)
+        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || { break; return 1; }
+        PASSWD="$(cat $ANS)"
+        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || { break; return 1; }
+        PASSWD2="$(cat $ANS)"
     done
     dialog --backtitle "$BT" --title "$ttl" --infobox "$_NUsrSetBody" 0 0
     sleep 2 && echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
@@ -330,11 +330,12 @@ create_user() {
     if [[ -e $MNT/home/$LUSER ]]; then
         chr "passwd $LUSER" </tmp/.passwd >/dev/null 2>$ERR
         check_errors || return 1
-        local files wheel
+        local files wheel autostart
         wheel="%wheel ALL=(ALL) ALL"
-        files=(etc/systemd/system/autologin@.service home/$LUSER/.config/openbox/autostart etc/group etc/gshadow etc/passwd etc/shadow)
+        autostart="home/$LUSER/.config/openbox/autostart"
+        files=(etc/systemd/system/autologin@.service $autostart etc/group etc/gshadow etc/passwd etc/shadow)
         for f in "${files[@]}"; do
-            sed -i "s/${LUSER}/${usr}/g" $MNT/$f
+            sed -i "s/${LUSER}/${usr}/g" "$MNT/$f"
         done
         chr "mv /home/$LUSER /home/$usr" 2>$ERR
         chr "chown -R $usr:users /home/$usr" 2>>$ERR
@@ -352,7 +353,7 @@ create_user() {
     if [[ $UNPCK && $SETT && $RPASS && $BOOTD ]]; then
         ttl="Installation Finished"
         msg="The install is now complete\n\n'Yes' to close the installer and reboot\n'No' to modify system config files"
-        dialog --backtitle "$BT" --title " $ttl " --yesno "$msg" 10 60 && { umount_parts; clear; reboot; } || edit_configs
+        dialog --backtitle "$BT" --title " $ttl " --yesno "$msg" 10 60 && { umount_parts; reboot; } || return 0
     fi
 }
 
@@ -745,9 +746,9 @@ luks_password() {
     local msg msg2
     msg="$_LuksPassBody"
     msg2="$_PassNUsrBody2 $LUKS_ROOT_NAME"
-    dialog --backtitle "$BT" --title " $_PrepLUKS " --clear --insecure --passwordbox "$msg" 10 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title " $_PrepLUKS " --insecure --passwordbox "$msg" 10 40 2>$ANS || return 1
     PASSWD=$(cat $ANS)
-    dialog --backtitle "$BT" --title " $_PrepLUKS " --clear --insecure --passwordbox "$msg2" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title " $_PrepLUKS " --insecure --passwordbox "$msg2" 8 40 2>$ANS || return 1
     PASSWD2=$(cat $ANS)
     if [[ $PASSWD != "$PASSWD2" ]]; then
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$_PassErrBody" 10 40
@@ -1057,7 +1058,7 @@ install_system() {
     [[ -f $MNT/swapfile ]] && sed -i "s/\\${MNT}//" $MNT/etc/fstab
     run_mkinitcpio
     install_boot
-    config_menu
+    config_menu || edit_configs
 }
 
 unpack_image() {
@@ -1197,14 +1198,11 @@ main_menu() {
     if [[ $MENU == "prep" && $HL -eq 7 ]]; then
         MH=3
         MENU="main"
-        if [[ $SYSTEM == "UEFI" ]]; then
-            [[ $ROOT_PART && $EFI_PART ]] && check_mount && install_system
-        else
-            [[ $ROOT_PART ]] && check_mount && install_system
-        fi
+        # when returning from prep, bail from install if we aren't ready yet
+        ([[ -z $ROOT_PART ]] || [[ $SYSTEM == "UEFI" && -z $EFI_PART ]]) && return 0
+        check_mount && install_system
         return 0
-    fi
-    if [[ ! -e $MNT/etc && $MENU != "main" ]]; then
+    elif [[ ! -e $MNT/etc && $MENU != "main" ]]; then
         MH=1
         MENU="main"
     elif (( MH < 5 )); then
@@ -1240,8 +1238,9 @@ prep_menu() {
         MENU="prep"
     elif (( HL < 7 )); then
         ((HL++))
-        if (( HL == 7 )) && [[ $ROOT_PART ]]; then
-            if [[ $SYSTEM == "UEFI" && $EFI_PART ]] || [[ $SYSTEM != "UEFI" ]]; then
+        if (( HL == 7 )) && [[ -z $ROOT_PART ]]; then
+            # return to main menu and begin install if everything is set
+            if [[ $SYSTEM == "UEFI" && ! -z $EFI_PART ]] || [[ $SYSTEM != "UEFI" ]]; then
                 return 0
             fi
         fi
@@ -1275,7 +1274,6 @@ config_menu() {
         MENU="config"
     elif (( HL < 5 )); then
         ((HL++))
-        (( HL == 5 )) && return 0
     fi
     local ttl=" $_ConfBseMenuTitle "
     dialog --backtitle "$BT" --title "$ttl" --default-item $HL --menu "$_ConfBseBody" 15 50 5 \
@@ -1301,7 +1299,6 @@ edit_configs() {
         MENU="edit"
     elif (( HL < 11 )); then
         ((HL++))
-        (( HL == 11 )) && return 0
     fi
     dialog --backtitle "$BT" --title " $_SeeConfOptTitle " --default-item $HL \
         --menu "$_SeeConfOptBody" 21 60 11 \

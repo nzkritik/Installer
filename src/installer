@@ -1035,9 +1035,7 @@ install_system() {
         if [[ $SYSTEM == "UEFI" ]]; then
             msg="$msg\n\nThe bootloader will be written to the system EFI partition:\n$EFI_PART"
         else
-            msg="$msg\n\nBIOS (legacy boot) systems like this can install the bootloader on any of the available partitions.
-            \nDuring the unpack you will be asked which partition to install it on.
-            \nThe recommended and simple approach is to choose the root (/) partition:\n$ROOT_PART"
+            msg="$msg\n\nBIOS (legacy boot) systems can install the bootloader on any available partition.\n\nDuring the unpack you will be asked which partition to use.\n\nThe recommended and simple approach is to choose the root (/) partition:\n$ROOT_PART"
         fi
         msg="$msg\n\nDo you want to continue?"
         if dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0; then

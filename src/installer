@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.4"         # Version
+VER="1.4.5"         # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -531,6 +531,7 @@ choose_fs() {
         if dialog --backtitle "$BT" --title " $_FSTitle " --yesno "\nFormat $PART as $select?\n\n" 0 0; then
             msg="\nFormatting $PART as $select.\n$_PlsWaitBody"
             dialog --backtitle "$BT" --title " $_FSTitle " --infobox "$msg" 0 0
+            sleep 1
             $FS $PART >/dev/null 2>$ERR
             check_errors || return 1
         else
@@ -927,7 +928,7 @@ lvm_create() {
     msg="${_LvmPvConfBody1}: ${LV_VG}\n\n$_LvmPvConfBody2${VG_PARTS}"
 
     dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0 || return 1
-    msg="$_LvmPvActBody1${LV_VG}.$_PlsWaitBody"
+    msg="$_LvmPvActBody1${LV_VG}.\n$_PlsWaitBody"
     dialog --backtitle "$BT" --title "$ttl" --infobox "$msg" 10 50
     sleep 1 && vgcreate -f "$LV_VG" "$VG_PARTS" >/dev/null 2>$ERR
     check_errors || return 1
@@ -1008,9 +1009,8 @@ lvm_del_all() {
 }
 
 lvm_menu() {
-    dialog --backtitle "$BT" --title " $_PrepLVM " --infobox "$_PlsWaitBody" 0 0
-    sleep 1
-    lvm_detect
+    dialog --backtitle "$BT" --title " $_PrepLVM " --infobox "\nDetecting LVM's.\n$_PlsWaitBody" 0 0
+    sleep 1 && lvm_detect
     dialog --backtitle "$BT" --title " $_PrepLVM " --menu "$_LvmMenu" 0 0 4 \
         "$_LvmCreateVG" "vgcreate -f, lvcreate -L -n" \
         "$_LvmDelVG"    "vgremove -f" \
@@ -1051,8 +1051,8 @@ install_system() {
 }
 
 unpack_image() {
-    clear
-    rsync -a --progress /run/archiso/sfs/airootfs/ $MNT/ 2>$ERR
+    clear && echo -e "\nUnpacking the system\n$_PlsWaitBody\n\n"
+    rsync -a --info=progress2 /run/archiso/sfs/airootfs/ $MNT/ 2>$ERR
     check_errors || return 1
     local autostart files menu openb
     openb="$MNT/home/$LUSER/.config/openbox"
@@ -1081,14 +1081,11 @@ unpack_image() {
     cp -f /tmp/vconsole.conf $MNT/etc/
     cp -f /tmp/01-keyboard.conf $MNT/etc/X11/xorg.conf.d/
     cp -f /etc/resolv.conf $MNT/etc/
-    for f in /etc/NetworkManager/system-connections/*; do
-        [[ -e "${MNT}$f" ]] && continue || cp -rf "$f" ${MNT}$f
-    done
-
-    reflector --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist --verbose
-    chr "pacman -Syu --noconfirm"
-    chr "pacman -S iputils --noconfirm"
-    chr "pacman -S base-devel git --needed --noconfirm"
+    cp -rf /etc/NetworkManager/system-connections $MNT/etc/NetworkManager/
+    reflector --verbose --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist
+    chr "pacman -Syu --noconfirm" 2>$ERR
+    chr "pacman -S iputils --noconfirm" 2>$ERR
+    chr "pacman -S base-devel git --needed --noconfirm" 2>$ERR
     UNPCK="True"
 }
 
@@ -1096,7 +1093,7 @@ install_boot() {
     grub_configuration() {
         local CFG="$MNT/etc/default/grub"
         sed -i "s/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"${DIST}\"/g" $CFG
-        if [[ $LUKS -eq 1 ]]; then
+        if (( LUKS == 1 )); then
             if [[ $LUKS_DEV ]]; then
                 sed -i "s~GRUB_CMDLINE_LINUX=\"\"~GRUB_CMDLINE_LINUX=\"${LUKS_DEV}\"~g" $CFG 2>$ERR
                 check_errors || return 1
@@ -1105,7 +1102,7 @@ install_boot() {
             check_errors || return 1
         fi
         if [[ $SYSTEM == "BIOS" ]]; then
-            if ([[ $LVM -eq 1 ]] && [[ $SBOOT -eq 0 ]]) || [[ $SBOOT -eq 2 ]]; then
+            if (( LVM == 1 && SBOOT == 0 )) || (( SBOOT == 2 )); then
                 sed -i "s/GRUB_PRELOAD_MODULES=.*/GRUB_PRELOAD_MODULES=\"lvm\"/g" $CFG 2>$ERR
                 check_errors || return 1
             fi
@@ -1114,11 +1111,11 @@ install_boot() {
 
     bios_bootloader() {
         select_device "grub" || return 1
-        dialog --backtitle "$BT" --title "$_InstBootldr" --infobox "\nInstalling grub on: ${DEVICE}${_PlsWaitBody}" 0 0
-        sleep 1
-        grub_configuration
+        local msg="\nInstalling bootloader to: ${DEVICE}\n${_PlsWaitBody}"
+        dialog --backtitle "$BT" --title "$_InstBootldr" --infobox "$msg" 0 0
         chr "grub-install --bootloader-id=$DIST --recheck --force $DEVICE" 2>$ERR
         check_errors || return 1
+        grub_configuration || return 1
     }
 
     uefi_bootloader() {
@@ -1126,14 +1123,14 @@ install_boot() {
             mount -t efivarfs efivarfs /sys/firmware/efi/efivars &>/dev/null
             chr "mount -t efivarfs efivarfs /sys/firmware/efi/efivars" &>/dev/null
         fi
-        grub_configuration
         chr "grub-install --bootloader-id=$DIST --recheck --force" 2>$ERR
         check_errors || return 1
+        grub_configuration || return 1
         local bd drs
         bd="Boot"
-        drs="$(find $MNT/$EFI_MNT/EFI -maxdepth 1 -mindepth 1 -type d)"
+        drs="$(find "$MNT/$EFI_MNT/EFI" -maxdepth 1 -mindepth 1 -type d)"
         for i in $drs; do
-            n="$(basename $i)"
+            n="$(basename "$i")"
             grep -qi "boot" <<< "$n" && { bd="$n"; break; }
         done
         mkdir -p "$MNT/$EFI_MNT/EFI/$bd"
@@ -1154,18 +1151,18 @@ install_boot() {
     chr "os-prober" &>/dev/null
     chr "grub-mkconfig -o /boot/grub/grub.cfg" 2>$ERR
     check_errors || return 1
-    msg="\nBootloader installation completed successfully"
+    msg="\nBootloader install complete"
     [[ $SYSTEM == "BIOS" ]] && dialog --backtitle "$BT" --title " $_InstBootldr " --msgbox "$msg" 0 0
 }
 
 run_mkinitcpio() {
     clear
     local conf="$MNT/etc/mkinitcpio.conf"
-    if [[ $LVM -eq 1 && $LUKS -eq 0 ]]; then
+    if (( LVM == 1 && LUKS == 0 )); then
         sed -i 's/block filesystems/block lvm2 filesystems/g' $conf 2>$ERR
-    elif [[ $LVM -eq 1 && $LUKS -eq 1 ]]; then
+    elif (( LVM == 1 && LUKS == 1 )); then
         sed -i 's/block filesystems/block encrypt lvm2 filesystems/g' $conf 2>$ERR
-    elif [[ $LVM -eq 0 && $LUKS -eq 1 ]]; then
+    elif (( LVM == 0 && LUKS == 1 )); then
         sed -i 's/block filesystems/block encrypt filesystems/g' $conf 2>$ERR
     fi
     check_errors || return 1

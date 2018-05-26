@@ -123,7 +123,7 @@ id_system() {
 check_errors() {
     if (( $? == 1 )) && grep -wqi "${errmsg:-error}" "$ERR"; then
         local msg
-        msg="$(cat "$ERR")"
+        msg="$(sed 's/[^[:print:]]//g' "$ERR" | sed 's/\[[0-9\;:]*\?m//g' | sed 's/==> //g' | sed 's/] ERROR:/]\nERROR:/g')"
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "$msg" 0 0
         msg="An error was encountered during install\n\n'Yes' to keep install"
         msg="$msg intact and fix manually\n'No' to wipe install (preserves /boot)"

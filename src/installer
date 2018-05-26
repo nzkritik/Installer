@@ -213,7 +213,7 @@ set_locale() {
     sed -i "s/#en_US.UTF-8/en_US.UTF-8/g" $MNT/etc/locale.gen
     sed -i "s/#${loc}/${loc}/g" $MNT/etc/locale.gen
     sed -i "s/en_US.UTF-8/${loc}/g" $MNT/etc/default/locale
-    dialog --backtitle "$BT" --title "$ttl" --infobox "\nGenerating locale for: ${loc}${_PlsWaitBody}" 0 0
+    dialog --backtitle "$BT" --title "$ttl" --infobox "\nGenerating locale for: $loc\n$_PlsWaitBody" 0 0
     sleep 1
     chr "locale-gen" >/dev/null 2>$ERR
     check_errors || return 1

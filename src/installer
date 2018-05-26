@@ -1036,7 +1036,7 @@ install_system() {
         if [[ $SYSTEM == "UEFI" ]]; then
             msg="$msg\n\nThe bootloader will be written to the system EFI partition:\n$EFI_PART"
         else
-            msg="$msg\n\nBIOS (legacy boot) systems can install the bootloader on any available partition.\n\nDuring the unpack you will be asked which partition to use.\n\nThe recommended and simple approach is to choose the root (/) partition:\n$ROOT_PART"
+            msg="$msg\n\nBIOS (legacy boot) systems can install the bootloader on any available partition.\n\nDuring unpacking you'll be asked which partition to use.\n\nThe recommended and simple approach is to choose the root (/) partition:\n$ROOT_PART"
         fi
         msg="$msg\n\nDo you want to continue?"
         dialog --backtitle "$BT" --title "$ttl" --yesno "$msg" 0 0 && unpack_image || return 1
@@ -1185,7 +1185,7 @@ run_mkinitcpio() {
 ######################################################################
 
 main_menu() {
-    if [[ $MENU == "prep" && $HL -eq 7 ]]; then
+    if [[ $MENU == "prep" && $HL -eq 7 && -z $UNPCK ]]; then
         MH=3
         MENU="main"
         # when returning from prep, bail from install if we aren't ready yet

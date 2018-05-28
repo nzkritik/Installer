@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.5"         # Version
+VER="1.4.6"         # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -402,27 +402,16 @@ find_parts() {
     PARTS="$(awk '{print $3$1 " " $2}' <<< "$LBLK" | sort -u)"
     for i in $PARTS; do ((NUM++)); done
     NUM=$((NUM / 2))
-    local ttl=" $_ErrTitle "
     case "$INC_PART" in
-        'part\|lvm\|crypt')
-            if [[ $SYSTEM == "UEFI" && $NUM -lt 2 ]]; then
-                dialog --backtitle "$BT" --title "$ttl" --msgbox "$_PartErrBody" 0 0
-                create_parts
-            elif [[ $SYSTEM == "BIOS" && $NUM -eq 0 ]]; then
-                dialog --backtitle "$BT" --title "$ttl" --msgbox "$_PartErrBody" 0 0
-                create_parts
-            fi ;;
-        'part\|crypt')
-            if (( NUM == 0 )); then
-                dialog --backtitle "$BT" --title "$ttl" --msgbox "$_LvmPartErrBody" 0 0
-                create_parts
-            fi ;;
-        'part\|lvm')
-            if (( NUM < 2 )); then
-                dialog --backtitle "$BT" --title "$ttl" --msgbox "$_LuksPartErrBody" 0 0
-                create_parts
-            fi
+        'part\|lvm\|crypt') [[ $NUM -eq 0 || ($SYSTEM == "UEFI" && $NUM -lt 2) ]] && ERRMSG="$_PartErrBody" ;;
+        'part\|crypt') (( NUM == 0 )) && ERRMSG="$_LvmPartErrBody" ;;
+        'part\|lvm') (( NUM < 2 )) && ERRMSG="$_LuksPartErrBody"
     esac
+    if [[ $ERRMSG ]]; then
+        local ttl=" $_ErrTitle "
+        dialog --backtitle "$BT" --title "$ttl" --msgbox "$ERRMSG" 0 0
+        select_device && create_parts
+    fi
 }
 
 create_parts() {
@@ -473,14 +462,13 @@ create_parts() {
         "cfdisk"        "BIOS/MBR" \
         "parted"        "UEFI/GPT" 2>$ANS
     RET="$(cat $ANS)"
-    if [[ $RET ]]; then
-        if [[ $RET != "$_PartOptWipe" && $RET != "$_PartOptAuto" ]]; then
-            $RET "$DEVICE"
-        elif [[ $RET == "$_PartOptWipe" ]]; then
-            secure_wipe && create_parts
-        else
-            auto_partition
-        fi
+    [[ -z $RET ]] && return 1
+    if [[ $RET != "$_PartOptWipe" && $RET != "$_PartOptAuto" ]]; then
+        $RET "$DEVICE"
+    elif [[ $RET == "$_PartOptWipe" ]]; then
+        secure_wipe && create_parts
+    else
+        auto_partition
     fi
 }
 
@@ -519,11 +507,15 @@ choose_fs() {
             modprobe f2fs
             ;;
         jfs) FS="mkfs.jfs -q" FS_OPTS=(discard "errors=continue" "errors=panic" nointegrity) ;;
-        nilfs2) FS="mkfs.nilfs2 -q" FS_OPTS=(discard nobarrier "errors=continue" "errors=panic" "order=relaxed" "order=strict" norecovery) ;;
+        nilfs2) FS="mkfs.nilfs2 -q"
+            FS_OPTS=(discard nobarrier "errors=continue" "errors=panic" "order=relaxed" "order=strict" norecovery)
+            ;;
         ntfs) FS="mkfs.ntfs -q" ;;
         reiserfs) FS="mkfs.reiserfs -q" FS_OPTS=(acl nolog notail replayonly user_xattr) ;;
         vfat) FS="mkfs.vfat -F32" ;;
-        xfs) FS="mkfs.xfs -f" FS_OPTS=(discard filestreams ikeep largeio noalign nobarrier norecovery noquota wsync) ;;
+        xfs) FS="mkfs.xfs -f"
+            FS_OPTS=(discard filestreams ikeep largeio noalign nobarrier norecovery noquota wsync)
+            ;;
         *) return 1
     esac
     if [[ $FS != "$_Skip" ]]; then
@@ -710,15 +702,11 @@ mount_parts() {
         dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 "$_Done" "-" $PARTS 2>$ANS || { break; return 1; }
         PART="$(cat $ANS)"
         if [[ $PART == "$_Done" ]]; then
-            break; return
+            break; return 0
         else
             MOUNT=""
             choose_fs
-            if [[ $SYSTEM == "UEFI" ]]; then
-                MNT_EXAMPLES="/home /var"
-            else
-                MNT_EXAMPLES="/boot /home /var"
-            fi
+            [[ $SYSTEM == "UEFI" ]] && MNT_EXAMPLES="/home /var" || MNT_EXAMPLES="/boot /home /var"
             ttl=" $_PrepMntPart $PARTITON "
             msg="${_ExtPartBody1}$MNT_EXAMPLES\n"
             dialog --backtitle "$BT" --title "$ttl" --inputbox "$msg" 0 0 "/" 2>$ANS || { break; return 1; }
@@ -732,8 +720,7 @@ mount_parts() {
             mnt || return 1
             if [[ $MOUNT == "/usr" ]]; then
                 ! grep -q "usr" <<< "$HOOKS" && HOOKS="usr $HOOKS"
-            fi
-            if [[ $MOUNT == "/boot" ]]; then
+            elif [[ $MOUNT == "/boot" ]]; then
                 grep -q "lvm" <<< "$(lsblk -lno TYPE "$PART")" && SBOOT=2 || SBOOT=1
             fi
             ((NUM--))
@@ -1082,10 +1069,11 @@ unpack_image() {
     cp -f /tmp/01-keyboard.conf $MNT/etc/X11/xorg.conf.d/
     cp -f /etc/resolv.conf $MNT/etc/
     cp -rf /etc/NetworkManager/system-connections $MNT/etc/NetworkManager/
-    reflector --verbose --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist
-    chr "pacman -Syu --noconfirm" 2>$ERR
-    chr "pacman -S iputils --noconfirm" 2>$ERR
-    chr "pacman -S base-devel git --needed --noconfirm" 2>$ERR
+    clear && echo -e "\nOptimizing Mirrorlist\n$_PlsWaitBody\n\n"
+    reflector --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist
+    chr "pacman -Syyu --color always --noconfirm" 2>$ERR
+    chr "pacman -S iputils --color always --noconfirm" 2>$ERR
+    chr "pacman -S base-devel git --color always --needed --noconfirm" 2>$ERR
     UNPCK="True"
 }
 

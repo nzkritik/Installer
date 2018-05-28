@@ -391,7 +391,7 @@ select_device() {
     [[ $1 == "grub" ]] && msg="$_DevSelTitle for Bootloader\n\n$_DevSelBody" || msg="$_DevSelBody"
     DEVS="$(lsblk -lno NAME,SIZE,TYPE | grep 'disk' | awk '{print "/dev/" $1 " " $2}' | sort -u)"
     dialog --backtitle "$BT" --title " $_DevSelTitle " --menu "$msg" 0 0 4 $DEVS 2>$ANS || return 1
-    DEVICE="$(cat $ANS)"
+    [[ $(cat $ANS) != "" ]] && DEVICE="$(cat $ANS)" || return 1
 }
 
 find_parts() {
@@ -410,8 +410,9 @@ find_parts() {
     if [[ $ERRMSG ]]; then
         local ttl=" $_ErrTitle "
         dialog --backtitle "$BT" --title "$ttl" --msgbox "$ERRMSG" 0 0
-        select_device && create_parts
+        select_device && create_parts || return 1
     fi
+    return 0
 }
 
 create_parts() {
@@ -470,6 +471,7 @@ create_parts() {
     else
         auto_partition
     fi
+    return 0
 }
 
 choose_fs() {
@@ -667,7 +669,7 @@ mount_parts() {
     lvm_detect
     INC_PART='part\|lvm\|crypt'
     umount_parts
-    find_parts
+    find_parts || return 1
     msg="$_SelRootBody"
     dialog --backtitle "$BT" --title "$ttl" --menu "$msg" 0 0 7 $PARTS 2>$ANS || return 1
     PART="$(cat $ANS)"

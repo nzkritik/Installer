@@ -60,7 +60,7 @@ _CloseInstBody="\nClose the Installer?\n\n"
 _ErrNoMount="\nPartition(s) must be mounted first.\n\n"
 _ErrNoBase="\nThe base system must be unpacked first.\n\n"
 _ExtErrBody="\nPartition cannot be mounted due to a problem with the mountpoint name.\n\nA name must be given after a forward slash.\n\n"
-_PartErrBody="\nBIOS systems require at least one partition (ROOT).\n\nUEFI systems require at least two partitions (ROOT and EFI).\n\n"
+_PartErrBody="\nBIOS systems require at least one partition (ROOT).\n\nUEFI systems require at least two (ROOT and EFI).\n\n"
 _NUsrErrTitle="User Name Error"
 _NUsrErrBody="\nIncorrect user name.\n\nPlease try again.\n\n"
 

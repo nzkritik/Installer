@@ -1,0 +1,176 @@
+## Chinese Translation File
+## Written zqh.me@qq.com (May-2018)
+
+# Generic
+_All="全部"
+_Done="完成"
+_Skip="跳过/否"
+_Disable="禁用"
+_Edit="编辑配置文件"
+_ErrTitle="安装错误"
+_AlreadyInst="安装完成:"
+_PlsWaitBody="\n请稍候...\n\n"
+_PassErrBody="\n输入的密码不匹配.\n\n请重新输入."
+
+# Welcome
+_WelTitle="欢迎来到"
+_WelBody="这将在您的系统上解压并设置$DIST \n\n菜单导航：\n通过按选项编号或使用箭头键选择。 使用[Tab]或箭头键在按钮之间切换。 长列表可以使用[上一页]和[下一页]进行导航，或者按下所需选项的第一个字母。\n\n使用[空格]选择/取消选择选项并按[Enter]确认。 [Ctrl] [Shift] +和[Ctrl] - 增加/减小字体大小。
+
+# Requirements
+_RtFailBody="\n安装程序必须使用root权限.\n\n正在退出.\n\n"
+_ConFailBody="\n安装程序必须在有效连接的网络中运行.\n\n正在退出.\n\n"
+
+# Preparation Menu
+_PrepMenuTitle="准备启动系统"
+_PrepMenuBody="安装前的配置项"
+_VCKeymapTitle="虚拟控制台键盘映射"
+_PrepKBLayout="键盘布局"
+_DevShowOpt="列出设备 (可选)"
+_PrepPartDisk="格式化分区"
+_PrepLUKS="LUKS硬盘加密 (可选)"
+_PrepLVM="逻辑分区管理 (可选)"
+_PrepMntPart="挂载分区"
+_Back="返回"
+
+# Install Base
+_InstBseMenuTitle="安装到 $DIST"
+_InstBootldr="安装引导程序"
+
+# Configure Menu
+_ConfBseMenuTitle="安装配置项"
+_ConfBseBody="新系统配置项"
+_ConfBseHost="主机名"
+_ConfBseSysLoc="语言和时区"
+_ConfUsrRoot="管理员密码"
+_ConfUsrNew="创建新用户"
+
+# Main Menu
+_MMTitle="主菜单"
+_MMBody="请按顺序执行。\n\n解包后，您将自动进入配置菜单。\n"
+_SeeConfOptTitle="修改文件 (可选)"
+
+# Select Config Files
+_SeeConfOptBody="查看或修改以下文件.\n"
+_SeeConfErrBody="\n文件不存在.\n\n"
+
+# Close Installer
+_CloseInstBody="\n是否关闭安装程序?\n\n"
+
+# Error Messages
+_ErrNoMount="\n必须先挂载分区.\n\n"
+_ErrNoBase="\n必须先解压基础系统.\n\n"
+_ExtErrBody="\n由于挂载点名称出错导致挂载失败.\n\n挂载点名称必须以斜线开头.\n\n"
+_PartErrBody="\nBIOS启动必须有至少一个分区 (来挂载根路径).\n\nUEFI启动必须要有至少2个分区(来挂载根分区和EFI分区).\n\n"
+_NUsrErrTitle="用户名错误"
+_NUsrErrBody="\n用户名不正确.\n\n请重新输入.\n\n"
+
+# Set Keymap, Clock, Local and Timezone
+_VCKeymapBody="设置虚拟控制台键盘映射.\n\n虚拟控制台是一个在非图形界面下的命令提示符号.\n\n此键盘映射与桌面环境是独立的, 默认值是 'us'\n"
+_XkbmapBody="设置系统 xorg 键盘映射.\n\n此键盘映射是用于桌面环境,默认值通常是'us'\n"
+_localeBody="本地化设置对日期、时间、货币、语言起作用.\n\n使用格式是 language_COUNTRY 例如.\n\nen_US 是英语(美国)\nen_GB 是英语(英国)"
+_TimeZBody="时区是用于设置时间和硬件时钟."
+_TimeSubZBody="选择离你最近的城市."
+_TimeZQ="\n设置时区为:"
+
+# Set Hostname
+_HostNameBody="hostname是用于在网络中标记主机身份的名称.\n\nhostname由大小写字母和数字组成.\n可以包含连字符 (-) 但不能用于开头和结尾\n\n也不能超过63个字符."
+
+# Set Root Password
+_PassRtBody="输入管理员密码 "
+_PassRtBody2="再次输入管理员密码"
+
+# Create New User and set password
+_NUsrTitle="创建新用户"
+_NUsrBody="输入用户名.\n\n字母必须是小写."
+_PassNUsrBody="输入用户密码"
+_PassNUsrBody2="再次输入用户密码"
+_NUsrSetBody="\n正在创建用户和设置用户组..\n\n"
+
+# Mounting (Partitions)
+_MntStatusTitle="挂载状态"
+_MntStatusSucc="\n挂载成功!\n\n"
+_MntStatusFail="\n挂载失败!\n\n"
+_WarnMount1="重要: 在挂载和格式化的过程中请小心.\n\n分区可以不格式而挂载."
+_WarnMount2="选中项在菜单顶部，选中分区将被格式化\n\n确保安装和格式化的选项正确直到没有警告提示，不能选择EFI启动分区."
+_MntBody="使用空格键确定选择/取消选择.\n同一个选择项不要使用多个值.\n\n如果使用ext4格式则推荐'noatime',另外，如果使用SSD/固态硬盘则推荐'discard'以便激活SSD的TRIM支持."
+_MntConfBody="\n确定使用如下挂载设置:\n\n"
+
+# Select Device
+_DevSelTitle="选择设备"
+_DevSelBody="系统中存在设备驱动器 (/dev/). /sda, /sdb, 之类.\n\n在使用U盘启动系统时也请注意，U盘也会展示在设备列表中!"
+
+# Extra Partitions
+_ExtPartBody="选择额外的分区进行挂载, 这将会提示你选择或输入挂载点.\n选择‘完成’将完成操作并继续下一步."
+_ExtPartBody1="将分区挂载在扫描位置.\n\n请确保挂载点是以斜线开头(/).\n这些是例子:\n\n"
+
+# Auto partition
+_AutoPartBody1="\n警告:所有在此分区下的数据"
+_AutoPartBody2="将丢失.\n\n将创建一个500M的EFI启动分区,\n剩下的全部剩余空间将分配给主分区."
+_AutoPartBody3="\n\n如果想启用交换分区，在挂载时请选择'Swapfile'选项.\n\n要继续吗?"
+_AutoPartWipeBody1="\n警告:所有在此分区下的数据"
+_AutoPartWipeBody2="将被'wipe -Ifre'命令删除.\n\n这过程花费的时间取决于启动器的空间大小.\n\n要继续吗?"
+
+# Partitioning Menu
+_PartToolTitle="分区工具"
+_PartToolBody="是新手的话将启用自动分区.\n如果不是则推荐使用gparted分区工具.\n\n不要对BIOS/MBR格式的硬盘使用 UEFI/GPT-only 分区工具，这将造成严重的后果.\n\nUEFI格式的硬盘需要创建一个100-500M大小的vfat格式的分区用于安装启动引导程序."
+_PartOptAuto="自动分区中"
+_PartOptWipe="安全移除磁盘(可选)"
+
+# File System
+_FSTitle="选择文件系统"
+_FSBody="如果不确定的话建议使用ext4.\n\n并不是所有格式类型的分区都能用作根路径 (/)或启动路径 (/boot) ,所有的分区都有各自的特点和限制."
+_SelRootBody="选择根分区 (/).\n\n这是 $DIST 安装的位置."
+_SelSwpBody="是否启用交换分区? (可选)\n\n选择使用交换文件还是交换分区n\n\n交换文件的大小默认为内存容量，也可以在接下来的步骤中修改."
+_SelSwpFile="交换文件"
+_SelUefiBody="选择EFI分区.\n\n这是一个用于启动较新系统的特殊分区. 通常位于硬盘第一个分区，大小100-500M,分区格式为vfat."
+_FormUefiBody="[重要]\nEFI分区"
+_FormUefiBody2="已经被正确地格式化.\n\n要跳过吗?\n\n选择'no'将清除分区所有数据(即引导程序).\n\n如果不确定请选择'Yes'.\n"
+
+# LUKS / DM-Crypt / Encryption
+_LuksMenuBody="通过dm_crypt加密的分区如果不通过密码来解锁，将不能写入甚至不能去读取."
+_LuksMenuBody2="\n\n除非使用GRUB引导程序，则必须有一个单独的未加密的启动分区或逻辑卷管理(LVM)程序A seperate boot partition without encryption or logical volume management (LVM - unless using BIOS Grub) is required."
+_LuksMenuBody3="\n\n对新手推荐使用默认的加密设置.\n否则, 密码和密钥大小参数可以手动输入."
+_LuksOpen="打开已加密的分区"
+_LuksOpenBody="为加密块设备指定一个名称。\n\n无需在/dev/mapper/中添加前缀。\n\n已提供示例名称。"
+_LuksEncrypt="自动LUKS加密"
+_LuksEncryptAdv="定义密钥大小和密码"
+_LuksEncryptBody="选择要加密的分区."
+_LuksEncryptSucc="完成!加密分区已经打开并准备进行挂载.\n\n"
+_LuksPartErrBody="加密需要至少两个分区:\n\n1.根分区(/)-标准或lvm分区类型.\n\n2. 引导分区(/boot或/boot/efi) - 仅限于标准分区类型(使用BIOS时除外lvm)."
+_SelLuksRootBody="选择根分区(/)进行加密.\n\n即$DIST安装的位置."
+_LuksPassBody="输入用于加密/解密的密码.\n\n避免使用和用户账户相同的密码."
+_LuksWaitBody="\n创建加密分区:"
+_LuksWaitBody2="\n\n设备或卷已经被使用:"
+_LuksCipherKey="一旦修改了指定标志，它们将自动与'cryptsetup -q luksFormat/dev/ ...'命令一起使用。\n\n注意：密钥文件不受支持; 他们可以在安装后手动添加。 不要指定任何其他标志，例如-v(--verbose)或-y(--verify-passphrase)."
+
+# Logical Volume Management
+_LvmMenu="逻辑卷管理(LVM)允许从现有驱动器和分区创建"虚拟"硬盘驱动器(卷组)和分区(逻辑卷)。 必须首先创建一个卷组，然后再创建一个或多个逻辑卷。\n\nLVM还可以与加密分区一起使用，以在其中创建多个逻辑卷(例如，根目录和主目录)。"
+_LvmCreateVG="创建卷组和逻辑卷."
+_LvmDelVG="删除卷组"
+_LvMDelAll="删除全部卷组、逻辑分区、主分区."
+_LvmDetBody ="检测到现有的逻辑卷管理(LVM)。\n\n正在激活，请稍候..."
+_LvmNameVgBody ="输入要创建的卷组(VG)的名称。\n\n VG是在下一个选定分区之外创建的新"虚拟设备/硬盘"。\n"
+_LvmPvSelBody ="选择用于物理卷(PV)的分区。"
+_LvmPvConfBody1 ="确认创建卷组"
+_LvmPvConfBody2 ="包含以下分区：\n\n"
+_LvmPvActBody1 ="创建和激活卷组"
+_LvmPvDoneBody1 ="卷组"
+_LvmPvDoneBody2 ="已创建"
+_LvmLvNumBody1 ="使用[空格键]选择要创建的逻辑卷(LV)的数量为"
+_LvmLvNumBody2 ="\n最后(或唯一)LV将自动使用卷组中剩余空间的100％。"
+_LvmLvNameBody1 ="输入要创建的逻辑卷(LV)的名称。\n\n这类似于为分区设置名称/标签。\n"
+_LvmLvNameBody2 ="\n注意：此LV将自动用尽卷组上剩余的所有空间"
+_LvmLvSizeBody1 = "剩余的"
+_LvmLvSizeBody2 ="\n\n输入以兆字节(M)或千兆字节(G)为单位的逻辑卷(LV)大小。例如，100M将创建100兆字节LV，10G将创建10千兆字节LV。\n"
+_LvmCompBody ="\n完成！已为卷组创建所有逻辑卷。\n\n是否希望查看新的LVM方案？\n\n"
+_LvmDelQ ="\n确认删除卷组和逻辑卷。\n\n如果删除某个卷组，则其中的所有逻辑卷也将被删除。"
+_LvmSelVGBody ="选择要删除的卷组。\n\n卷组内的所有逻辑卷也将被删除。"
+
+# LVM Errors
+_LvmVGErr =“\n没有找到卷组”。
+_LvmNameVgErr =“输入的名称无效。\n\n卷组名称可能是字母数字，但可能不包含空格，以'/'开头或已被使用。\n\n”
+_LvmPartErrBody =“没有可用于逻辑卷管理的可用分区，至少需要一个分区。\n\n如果LVM已在使用中，取消激活它将允许用于其物理卷的分区， 再次使用。“
+_LvmLvNameErrBody =“输入的名称无效。逻辑卷（LV）名称可能是字母数字，但不能包含空格或以'/'开头。\n\n”
+_LvmLvSizeErrBody =“\n输入的值无效。\n\n必须是最后以'M'（兆字节）或'G'（千兆字节）表示的数值。\n\n示例包括100M，10G或250M。\n值 也可能不等于或大于VG的剩余尺寸。“
+
+# vim:ft=sh:tw=0:syntax=off:nospell

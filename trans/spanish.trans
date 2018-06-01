@@ -1,39 +1,34 @@
-## ArchLabsivo de traducción al español
-## Texto original de Carl Duff (27-Feb-2016)
-## Traducción al español por Juanjo Jiménez (xXJuAnJi05Xx) (28-Feb-2016)
-
 # Genérico
-_UseSpaceBar="Utilice la [BarraEspaciadora] para de/seleccionar las opciones de la lista."
-_AlreadyInst="Ya instalado/s pero no habilitado/s:"
 _All="Todos"
 _Done="Finalizar"
 _Skip="Saltar/Ninguno"
-_PlsWaitBody="\nPor favor espere...\n\n"
 _ErrTitle="Error"
-_PassErrBody="\nLas contraseñas introducidas no coinciden. Vuelva a intentarlo.\n\n"
+_NoFileErr="\nEl archivo no existe.\n\n"
+_PlsWait="\nPor favor espere...\n\n"
+_PassErr="\nLas contraseñas introducidas no coinciden.\n\n"
+_TryAgain="Vuelva a intentarlo.\n\n"
+_Exit="Saliendo.\n\n"
+_Edit="Editar archivo de configuración"
+_Disable="Deshabilitar"
+_Back="Atrás"
 
 _MntBody="Utilice la [BarraEspaciadora] para de/seleccionar las opciones de montaje deseadas y revisarlas cuidadosamente. No seleccione varias versiones de la misma opción."
 _MntConfBody="Confirme las siguientes opciones de montaje:\n\n"
 
-_Edit="Editar archivo de configuración"
-_Disable="Deshabilitar"
-
 # Autopartición
-_AutoPartBody1="Aviso: TODA la información en "
-_AutoPartBody2="será eliminada por completo.\n\nPrimero se creará una partición de arranque de 512MB, seguida por una segunda partición (raíz o '/') que utilizará todo el espacio restante."
-_AutoPartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción archivo SWAP durante el montaje.\n\n¿Desea continuar?"
+_PartBody1="Aviso: TODA la información en "
+_PartBody2="será eliminada por completo.\n\nPrimero se creará una partición de arranque de 512MB, seguida por una segunda partición (raíz o '/') que utilizará todo el espacio restante."
+_PartBody3="Si tiene pensado utilizar memoria SWAP, seleccione la opción archivo SWAP durante el montaje.\n\n¿Desea continuar?"
 
 # Mensajes de Error. Todos los demás son generados por BASH.
 _ErrNoMount="\nPrimero se debe/n montar la/s partición/es.\n\n"
 _ErrNoBase="\nPrimero se debe instalar el sistema base de $DIST.\n\n"
 
 # Seleccionar archivos de configuración
-_SeeConfOptTitle="Revisar archivos de configuración"
-_SeeConfOptBody="\nSeleccione cualquier archivo de la lista para revisarlo o modificarlo.\n"
-_SeeConfErrBody="\nEl archivo no existe.\n\n"
+_EditTitle="Revisar archivos de configuración"
+_EditBody="\nSeleccione cualquier archivo de la lista para revisarlo o modificarlo.\n"
 
 # LUKS / DM-Crypt / Encriptación
-_PrepLUKS="Encriptación LUKS (opcional)"
 _LuksMenuBody="\nLos dispositivos y volúmenes encriptados mediante 'dm_crypt' no son accesibles o incluso visibles sin antes desbloquearlos mediante una llave o contraseña."
 _LuksMenuBody2="\n\nSe requiere una partición de arranque separada del resto, sin encriptación o gestión de volúmenes lógicos (LVM - a menos que se use Grub BIOS)."
 _LuksMenuBody3="\n\nLa opción 'Automático' utiliza opciones de encriptación predeterminadas, y es recomendable para principiantes. En cualquier caso, se puede ajustar manualmente el cifrado y el tamaño de la clave."
@@ -51,7 +46,6 @@ _LuksWaitBody2="Dispositivo o volumen en uso:"
 _LuksCipherKey="\nUna vez que se hayan ajustado los flags especificados, se utilizarán de forma automática con el comando 'cryptsetup -q luksFormat /dev/...'\n\nNOTA: los archivos de claves no están soportados; se pueden añadir manualmente después de la instalación. No especifique flags adicionales tales como -v (--verbose) o -y (--verify-passphrase).\n"
 
 # Gestión de volúmenes lógicos
-_PrepLVM="Gestión de volúmenes lógicos (LVM) (opcional)"
 _LvmMenu="\nLa gestión de volúmenes lógicos (LVM) permite crear discos duros (grupos de volúmenes) y particiones (volúmenes lógicos) 'virtuales' a partir de dispositivos y particiones existentes. Primero se debe crear un grupo de volúmenes, y después uno o más volúmenes lógicos dentro de éste.\n\nTambién se puede usar LVM con una partición encriptada para crear varios volúmenes lógicos (e.g raíz y home) dentro de ésta."
 _LvmCreateVG="Crear grupos de volúmenes y volúmenes lógicos"
 _LvmDelVG="Borrar grupos de volúmenes"
@@ -79,26 +73,19 @@ _LvmDelQ="\nConirmar eliminación de grupo/s de volúmenes y volúmen/es lógico
 _LvmSelVGBody="\nSelecciona el grupo de volúmenes a eliminar. Todos los volúmenes lógicos serán eliminados también.\n"
 _LvmVGErr="\nNo se han encontrado grupos de volúmenes.\n\n"
 
-# Mostrar los dispositivos y particiones
-_DevShowOpt="Listar dispositivos (opcional)"
-
 # Comprobar requisitos
-_ChkTitle="Comprobando requisitos"
-_ChkBody="\nVerificando que el instalador ha sido ejecutado como superusuario (usuario root) y que hay conexión a internet. Por favor espere...\n\n"
-_RtFailBody="\nEl instalador debe ser ejecutado como superusuario (usuario root). Saliendo.\n\n"
-_ConFailBody="\nFallo de la prueba de conexión a internet. Saliendo.\n\n"
-_ReqMetTitle="Requisitos cumplidos"
-_ReqMetBody="\n¡Todas las pruebas superadas!\n\n"
+_NotRoot="\nEl instalador debe ser ejecutado como superusuario (usuario root).\n"
+_NoNetwork="\nFallo de la prueba de conexión a internet.\n"
 
 # Seleccionar distribución de teclado de la consola virtual (vconsole)
-_VCKeymapTitle="Seleccionar distribución de teclado de la consola virtual"
-_VCKeymapBody="\nUna consola virtual es un intérprete de comandos en un entorno no gráfico. Su distribución de teclado es independiente de un entorno de escritorio o terminal."
+_CMapTitle="Seleccionar distribución de teclado de la consola virtual"
+_CMapBody="\nUna consola virtual es un intérprete de comandos en un entorno no gráfico. Su distribución de teclado es independiente de un entorno de escritorio o terminal."
 
 # Seleccionar Xkbmap (entorno)
-_XkbmapBody="\nSeleccionar distribución de teclado del entorno de escritorio."
+_XMapBody="\nSeleccionar distribución de teclado del entorno de escritorio."
 
 # Seleccionar localización
-_localeBody="La localización (locale) determina los idiomas para mostrar, los formatos de fecha y hora, etc.\n\nEl formato es idioma_PAÍS (e.g es_ES significa español, España; es_MX significa español, México)."
+_LocaleBody="La localización (locale) determina los idiomas para mostrar, los formatos de fecha y hora, etc.\n\nEl formato es idioma_PAÍS (e.g es_ES significa español, España; es_MX significa español, México)."
 
 # Establecer zona horaria
 _TimeZBody="\nLa zona horaria es usada para ajustar el reloj del sistema correctamente."
@@ -109,26 +96,26 @@ _TimeZQ="\nEstablecer zona horaria como"
 _HostNameBody="\nEl nombre del equipo se usa para identificar al sistema dentro de una red.\n\nEstá restringido a carcteres alfanuméricos, y puede contener guiones (-) pero no al principio o al final del nombre, y no puede exceder los 63 caracteres de longitud.\n"
 
 # Establecer contraseña de superusuario
-_PassRtBody="Escriba la contraseña de superusuario"
-_PassRtBody2="Vuelva a escribir la contraseña de superusuario"
+_RootBody="Escriba la contraseña de superusuario"
+_RootBody2="Vuelva a escribir la contraseña de superusuario"
 
 # Crear nuevo usuario
-_NUsrTitle="Crear un nuevo usuario"
-_NUsrBody="\nEscriba el nombre de usuario. Las letras DEBEN estar en minúsculas.\n"
+_UserTitle="Crear un nuevo usuario"
+_UserBody="\nEscriba el nombre de usuario. Las letras DEBEN estar en minúsculas.\n"
 
 # Error de nombre de usuario
-_NUsrErrTitle="Error de nombre de usuario"
-_NUsrErrBody="\nSe ha introducido un nombre de usuario incorrecto. Vuelva a intentarlo.\n\n"
+_UserErrTitle="Error de nombre de usuario"
+_UserErrBody="\nSe ha introducido un nombre de usuario incorrecto. Vuelva a intentarlo.\n\n"
 
 # Establecer usuario
-_PassNUsrBody="Escriba la contraseña para"
-_PassNUsrBody2="Vuelva a escribir la contraseña para"
-_NUsrSetBody="\nCreando usuario y ajustando grupos...\n\n"
+_UserBody="Escriba la contraseña para"
+_UserBody2="Vuelva a escribir la contraseña para"
+_UserSetBody="\nCreando usuario y ajustando grupos...\n\n"
 
 # Montaje (particiones)
-_MntStatusTitle="Estado de montaje"
-_MntStatusSucc="\n¡Montaje realizado con éxito!\n\n"
-_MntStatusFail="\n¡Montaje fallido!\n\n"
+_MntTitle="Estado de montaje"
+_MntSucc="\n¡Montaje realizado con éxito!\n\n"
+_MntFail="\n¡Montaje fallido!\n\n"
 _WarnMount1="\nIMPORTANTE: las particiones se pueden montar sin formatearlas seleccionando la opción"
 _WarnMount2="listada al principio del menú de sistemas de archivos.\n\nAsegúrese de que se eligen correctamente los ajustes de montaje y formateo ya que no se darán avisos, con la excepción de la partición de arranque UEFI.\n\n"
 
@@ -137,12 +124,12 @@ _DevSelTitle="Seleccionar dispositivo"
 _DevSelBody="\nLos dispositivos (/dev) son los discos duros y unidades USB disponibles para la instalación. El primero es /sda, el segundo es /sdb, y así sucesivamente.\n\nSi se está utilizando una memoria USB para ejecutar $DIST, ¡tenga cuidado porque también saldrá en la lista!"
 
 # Herramienta de particionado
-_PartToolTitle="Herramienta de particionado"
-_PartToolBody="\nHay disponible una opción de particionado automático para principiantes. Si decide realizar el particionado manualmente, 'cfdisk' es recomendado para BIOS, y 'parted' para UEFI.\n\nNO seleccione una herramienta de particionado sólo para UEFI/GPT para un sistema BIOS/MBR ya que podría causar serios problemas, incluyendo una instalación no arrancable."
-_PartOptAuto="Particionado automático"
-_PartOptWipe="Borrar dispositivo de forma segura (opcional)"
-_AutoPartWipeBody1="\nAVISO: TODOS los datos en"
-_AutoPartWipeBody2="serán eliminados por completo mediante el comando 'wipe -Ifre'. Este proceso puede llevar mucho tiempo dependiendo del tamaño del dispositivo.\n\n¿Desea continuar?\n"
+_PartTitle="Herramienta de particionado"
+_PartBody="\nHay disponible una opción de particionado automático para principiantes. Si decide realizar el particionado manualmente, 'cfdisk' es recomendado para BIOS, y 'parted' para UEFI.\n\nNO seleccione una herramienta de particionado sólo para UEFI/GPT para un sistema BIOS/MBR ya que podría causar serios problemas, incluyendo una instalación no arrancable."
+_PartAuto="Particionado automático"
+_PartWipe="Borrar dispositivo de forma segura (opcional)"
+_PartWipeBody1="\nAVISO: TODOS los datos en"
+_PartWipeBody2="serán eliminados por completo mediante el comando 'wipe -Ifre'. Este proceso puede llevar mucho tiempo dependiendo del tamaño del dispositivo.\n\n¿Desea continuar?\n"
 
 # Error de particionado
 _PartErrBody="\nLos sistemas BIOS requieren un mínimo de una partición (RAÍZ).\n\nLos sistemas UEFI requieren un mínimo de dos particiones (RAÍZ y UEFI).\n\n"
@@ -160,13 +147,8 @@ _SelSwpFile="Archivo SWAP"
 
 # Seleccionar UEFI
 _SelUefiBody="\nSeleccione la partición UEFI. Ésta es una partición especial para arrancar los sistemas UEFI."
-
-# Formatear UEFI
 _FormUefiBody="[IMPORTANTE]\nLa partición EFI"
 _FormUefiBody2="ya está formateado correctamente.\n\n¿Quieres omitir el formateo? Elegir 'No' borrará TODOS los datos (cargadores de arranque) en la partición.\n\nSi no está seguro, elija 'Sí'.\n"
-
-# Punto de montaje UEFI
-_MntUefiBody="\nSeleccione el punto de montaje UEFI.\n\nsystemd-boot requiere /boot. Grub funcionará en cualquier punto de montaje."
 
 # Particiones extra
 _ExtPartBody="\nSeleccione particiones adicionales en cualquier orden, o 'Finalizar' para terminar el proceso."
@@ -174,45 +156,35 @@ _ExtPartBody1="\nPunto de montaje de partición específica. Asegúrese de que e
 _ExtErrBody="\nLa partición no se puede montar debido a un problema con el nombre del punto de montaje. Se debe indicar un nombre después de una barra inclinada (/).\n\n"
 
 # Instalar sistema base
-_InstBseTitle="Instalar sistema base"
-
-# Archivo EFI ajustado para GRUB
-_SetDefDoneBody="ha sido definido como el gestor de arranque predeterminado.\n\n"
+_InstTitle="Instalar sistema base"
+_BootLdr="Instalar gestor de arranque"
 
 # Bienvenido
 _WelTitle="Bienvenido a"
 _WelBody="\nEste instalador descargará los paquetes más recientes de los repositorios de $DIST. Sólo se realiza la configuración mínima necesaria.\n\nOPCIONES DE MENÚ: Seleccione pulsando el número de opción o usando las teclas flecha arriba/flecha abajo antes de pulsar [Intro] para confirmar. Cambie entre distintos botones con la tecla [Tabulador] o las teclas flecha izquierda/derecha antes de pulsar [Intro] para confirmar. Se puede navegar por listas largas utilizando las teclas [Re Pág] y [Av Pág], o bien pulsando la primera letra de la opción deseada.\n\nOPCIONES DE CONFIGURACIÓN Y PAQUETES: Los paquetes por defecto en las listas de verificación estarán premarcados. Utilice la tecla [BarraEspaciadora] para des/marcar."
 
 # Menú de preparación
-_PrepMenuTitle="Preparar instalación"
-_PrepMenuBody="\nLa distribución de teclado de la consola se utilizará tanto para el instalador como para el sistema instalado.\n"
-_PrepKBLayout="Establecer distribución de teclado del escritorio."
-_PrepMirror="Configurar lista de mirrors del instalador"
-_PrepPartDisk="Particionar disco"
-_PrepMntPart="Montar particiones"
-_Back="Atrás"
-
-# Menú de instalación del sistema base
-_InstBseMenuTitle="Instalar sistema base"
-_InstBseMenuBody="\nInstalar sistema $DIST base"
-_InstBse="Instalar paquetes base"
-_InstBootldr="Instalar gestor de arranque"
+_PrepTitle="Preparar instalación"
+_PrepBody="\nLa distribución de teclado de la consola se utilizará tanto para el instalador como para el sistema instalado.\n"
+_PrepLayout="Establecer distribución de teclado del escritorio."
+_PrepParts="Particionar disco"
+_PrepShowDev="Listar dispositivos (opcional)"
+_PrepLUKS="Encriptación LUKS (opcional)"
+_PrepLVM="Gestión de volúmenes lógicos (LVM) (opcional)"
+_PrepMount="Montar particiones"
 
 # Menú de configuración del sistema base
-_ConfBseMenuTitle="Configurar sistema base"
-_ConfBseBody="\nConfiguración básica del sistema base."
-_ConfBseFstab="Generar FSTAB"
-_ConfBseHost="Establecer nombre del equipo"
-_ConfBseTimeHC="Establecer zona horaria y reloj"
-_ConfBseSysLoc="Establecer idioma del sistema"
-
-# Menú de usuario
-_ConfUsrRoot="Establecer contraseña de superusuario"
-_ConfUsrNew="Añadir nuevo/s usuario/s"
+_ConfTitle="Configurar sistema base"
+_ConfBody="\nConfiguración básica del sistema base."
+_ConfHost="Establecer nombre del equipo"
+_ConfTimeHC="Establecer zona horaria y reloj"
+_ConfLocale="Establecer idioma del sistema"
+_ConfRoot="Establecer contraseña de superusuario"
+_ConfUser="Añadir nuevo/s usuario/s"
 
 # Menú principal
-_MMTitle="Menú principal"
-_MMBody="\nCada paso se ha de seguir en ESTRICTO ORDEN. Una vez que haya terminado, seleccione 'Finalizar' para terminar la instalación correctamente.\n"
+_MainTitle="Menú principal"
+_MainBody="\nCada paso se ha de seguir en ESTRICTO ORDEN. Una vez que haya terminado, seleccione 'Finalizar' para terminar la instalación correctamente.\n"
 
 # Cerrar instalador
 _CloseInstBody="¿Desea cerrar el instalador?"

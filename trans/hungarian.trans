@@ -1,41 +1,34 @@
-## Angol nyelvi fájl
-## Írta Carl Duff (27-Feb-2016)
-## Fordító : Istju
-
 # Általános
-_UseSpaceBar="Használd a [szóköz] billentyűt a felsorolt lehetőségek kijelöléséhez, illetve a kijelölés megszüntetéséhez."
-_AlreadyInst="Már telepítve van, de nincs engedélyezve."
 _All="Összes"
 _Done="Kész"
 _Skip="Kihagyás/egyik sem"
-_PlsWaitBody="\nKérlek várj...\n\n"
 _ErrTitle="Hiba"
-_PassErrBody="\nA megadott jelszavak nem egyeznek. Kérlek próbáld újra.\n\n"
+_NoFileErr="\nA fájl nem létezik.\n\n"
+_PlsWait="\nKérlek várj...\n\n"
+_PassErr="\nA megadott jelszavak nem egyeznek.\n\n"
+_TryAgain="Kérlek próbáld újra.\n\n"
+_Exit="Kilépés.\n\n"
+_Edit="Konfigurációs fájl szerkesztése"
+_Disable="Letiltás"
+_Back="Vissza"
 
 _MntBody="Használd a  [Szóköz] billentyűt a csatolni kívánt meghajtó kijelöléséhez, illetve a kijelölés törléséhez és nézd át újra gondosan. Kérjük ne válassz több változatot ugyanahhoz a lehetőséghez."
 _MntConfBody="Erősítsd meg a következő csatolási lehetőségeket:\n\n"
 
-# Biztonság és furmányos kiegészítések
-_Edit="Konfigurációs fájl szerkesztése"
-_Disable="Letiltás"
-
 # Automata partícionálás
-_AutoPartBody1="Figyelmeztetés: Az összes adat a"
-_AutoPartBody2="törölve lesz.\n\nAz 512MB-os boot partíciótkell először létrehoznod, következö a  (root vagy '/') partíció az összes fennmaradó hely használatba vételével."
-_AutoPartBody3="Ha használni akarsz cserefájlt, válaszd a 'Swap File' lehetőséget csatolásnál.\n\nFolytatni akarod?"
+_PartBody1="Figyelmeztetés: Az összes adat a"
+_PartBody2="törölve lesz.\n\nAz 512MB-os boot partíciótkell először létrehoznod, következö a  (root vagy '/') partíció az összes fennmaradó hely használatba vételével."
+_PartBody3="Ha használni akarsz cserefájlt, válaszd a 'Swap File' lehetőséget csatolásnál.\n\nFolytatni akarod?"
 
 # Hibaüzenetek. Az összes többi létre lesz hozva a BASH által.
 _ErrNoMount="\nA partíciót (partíciókat) csatold először.\n\n"
 _ErrNoBase="\nAz '$DIST base'-t kell először telepíteni.\n\n"
-_ErrNoKernel="\nLegalább egy kernelt (linux vagy linux-lts) kell választanod.\n\n"
 
 # Konfigurációs fájlok kiválasztása
-_SeeConfOptTitle="Konfigurációs fájlok áttekintése"
-_SeeConfOptBody="\nA felsorolt listából jelöld ki bármelyik fájlt felülvizsgálatra, vagy módosításra.\n"
-_SeeConfErrBody="\nA fájl nem létezik.\n\n"
+_EditTitle="Konfigurációs fájlok áttekintése"
+_EditBody="\nA felsorolt listából jelöld ki bármelyik fájlt felülvizsgálatra, vagy módosításra.\n"
 
 # LUKS / DM-Crypt / Titkosítás
-_PrepLUKS="LUKS Titkosítás (választható)"
 _LuksMenuBody="\nEszközök és kötetek titkosítása 'dm_crypt' használatával. Kulcs vagy jelszó használata nélkül nincs hozzáférés vagy akár nem láthatóak az adatok."
 _LuksMenuBody2="\n\nTitkosítatlan , különálló boot partíció, vagy logikai kötetkezelő (LVM - hacsak BIOS Grub-ot használsz) szükséges."
 _LuksMenuBody3="\n\nAz automatikus lehetőség az alapértelmezett titkosítási beállításokat használja, ez a kezdőknek ajánlott. Egyébként van lehetőség a rejtjel és a kulcs méret paraméterjeinek kézi megadására."
@@ -53,7 +46,6 @@ _LuksWaitBody2="Használt eszköz vagy kötet:"
 _LuksCipherKey="\nHa a megadott zászlókat módosítod, ezt automatikusan használva lesz a  'cryptsetup -q luksFormat /dev/...' parancssal.\n\nMegjegyzés: Kulcs fájlok nem támogatottak; ezeket manuálisan kell hozzáadni telepítés után. Ne add meg a további zászlókat, mint a  -v (--verbose) vagy -y (--verify-passphrase).\n"
 
 # Logikai kötetkezelés
-_PrepLVM="Logikai kötetkezelés (választható)"
 _LvmMenu="\nA logikai kötetkezelő (LVM) lehetővé teszi 'virtuális' merevlemezek (Kötetcsoportok) és partíciók (logikai kötetek) létrehozását  a meglévő meghajtóra és partícióra A kötetcsoportot kell létrehozni először, majd ebben egy vagy több logikai kötetet.\n\nAz LVM is használható titkosított partíciónál, ha több logikai kötete hozol létre benne. (pl. root és home) "
 _LvmCreateVG="Kötetcsoport és logikai kötet(ek) létrehozása"
 _LvmDelVG="Kötetcsoport törlése"
@@ -81,26 +73,19 @@ _LvmDelQ="\nKötetcsoport(ok) és logikai kötet(ek) törlésének megerősíté
 _LvmSelVGBody="\nVálassz kötetcsoportot a törlésre. Az összes logikai kötet ezen belül törlődni fog\n"
 _LvmVGErr="\nKötetcsoport nem található\n\n"
 
-# Eszközök és partíciók áttekintése
-_DevShowOpt="Eszközök listája (választható)"
-
 # Követelmények ellenőrzése
-_ChkTitle="Követelmények újraellenőrzése"
-_ChkBody="\nA telepítő újraellenőrzi a rendszergazdai jogog meglétét, és aaz aktív internet kapcsolatot. Kérlek várj...\n\n"
-_RtFailBody="\nA telepítőnek rendszergazdai jogok szükségesek. Kilépés.\n\n"
-_ConFailBody="\nNincs aktív internet kapcsolat. Kilépés.\n\n"
-_ReqMetTitle="Követelmények teljesítve"
-_ReqMetBody="\nÖsszes ellenőrzés rendben!\n\n"
+_NotRoot="\nA telepítőnek rendszergazdai jogok szükségesek.\n"
+_NoNetwork="\nNincs aktív internet kapcsolat.\n"
 
 # Konzolos billentyűzetkiosztás beállítása
-_VCKeymapTitle="Virtuális konzol beállítása"
-_VCKeymapBody="\nA virtuális konzol egy 'shell prompt' nem grafikus környezetben. Ez a billentyűzetkiosztás független az asztali környezettől."
+_CMapTitle="Virtuális konzol beállítása"
+_CMapBody="\nA virtuális konzol egy 'shell prompt' nem grafikus környezetben. Ez a billentyűzetkiosztás független az asztali környezettől."
 
 # Billentyűzet beállítása asztali környezetben
-_XkbmapBody="\nVálassz billentyűzetkiosztást az asztali környezetbe."
+_XMapBody="\nVálassz billentyűzetkiosztást az asztali környezetbe."
 
 # Tartózkodási hely beállítása
-_localeBody="A tartózkodási hely beállítása meghatározza a megjelenítebdő nyelvet, időt és dátum formátumot stb\n\nA nyelv formátum ország alapján kerül beállításra. (pl. en_US az angol, hu_Hu az magyar)."
+_LocaleBody="A tartózkodási hely beállítása meghatározza a megjelenítebdő nyelvet, időt és dátum formátumot stb\n\nA nyelv formátum ország alapján kerül beállításra. (pl. en_US az angol, hu_Hu az magyar)."
 
 # Időzóna beállítása
 _TimeZBody="\nAz időzónát a rendszeróra helyes beállítására használják"
@@ -111,26 +96,26 @@ _TimeZQ="\nIdőzóna beállítása mint"
 _HostNameBody="\n\A házigazda nevének azonosítására használja rendszer a hálózaton keresztül.n\nEz a név alfanumerikus karakterekből állhat és tartalmazhat kötőjelet (-), de nem az elején és a végén, és nem lehet hosszabb 63 karakternél.\n"
 
 # Rendszergazda jelszó beállítása
-_PassRtBody="Add meg a rendszergazda jelszavát"
-_PassRtBody2="Ismételd meg a rendszergazda jelszavát"
+_RootBody="Add meg a rendszergazda jelszavát"
+_RootBody2="Ismételd meg a rendszergazda jelszavát"
 
 # Új felhasználó létrehozása
-_NUsrTitle="Új felhasználó létrehozása"
-_NUsrBody="\nAdd meg a felhasználónevet. Csak kisbetűket használhatsz.\n"
+_UserTitle="Új felhasználó létrehozása"
+_UserBody="\nAdd meg a felhasználónevet. Csak kisbetűket használhatsz.\n"
 
 # Felhasználónév hiba
-_NUsrErrTitle="Felhasználónév hiba"
-_NUsrErrBody="\nHelytelen felhasználónevet adtál meg. Kérlek próbáld újra.\n\n"
+_UserErrTitle="Felhasználónév hiba"
+_UserErrBody="\nHelytelen felhasználónevet adtál meg. Kérlek próbáld újra.\n\n"
 
 # A felhasználó beállítása
-_PassNUsrBody="Add meg a jelszót"
-_PassNUsrBody2="Ismételd meg a jelszót."
-_NUsrSetBody="\nFelhasználó létrehozása és csoportok beállítása...\n\n"
+_UserBody="Add meg a jelszót"
+_UserBody2="Ismételd meg a jelszót."
+_UserSetBody="\nFelhasználó létrehozása és csoportok beállítása...\n\n"
 
 # Csatolás (Partíciók)
-_MntStatusTitle="Csatolási állapot"
-_MntStatusSucc="\nCsatolás sikeres!\n\n"
-_MntStatusFail="\nCsatolási hiba!\n\n"
+_MntTitle="Csatolási állapot"
+_MntSucc="\nCsatolás sikeres!\n\n"
+_MntFail="\nCsatolási hiba!\n\n"
 _WarnMount1="\nFontos: Partíciók csatolhatóak formázás nélkül is, válaszd ki ezeket"
 _WarnMount2="a lehetőségek listázva vannak a fájl rendszer menüben felül.\n\nBiztosítsd a helyes választást a csatoláshoz és formázáshoz, ezek biztosítják a figyelmeztetés nélküli folyamatot., az UEFI boot partíció kivételével.\n\n"
 
@@ -139,12 +124,12 @@ _DevSelTitle="Válassz eszközt"
 _DevSelBody="\nRendelkezésre álló eszközök, (/dev) merevlemezek és usb kulcsok a telepítéshez. Az első a /sda, a második a /sdb, ás így tovább.\n\nLégy óvatos, az usb kulcs, amiről  bebootolt az Arcitect, az is szerepel ezen a listán!"
 
 # Particionáló eszköz
-_PartToolTitle="Particionáló eszközl"
-_PartToolBody="\nAutomatikus particíonálási lehetőség elérhető a kezdőknek. Egyébként, a 'cfdisk' az ajánlott a BIOS-hoz, 'parted' az UEFI-hez.\n\nNe válassz csak UEFI/GPT partícionáló eszközt a BIOS/MBR rendszerhez mivel ez súlyos problémákhoz vezethet, beleérte a nem bootoló telepítést."
-_PartOptAuto="Automata partícionálás"
-_PartOptWipe="Biztos eszköz törlés (választható)"
-_AutoPartWipeBody1="\nFigyelmeztetés: Minden adat"
-_AutoPartWipeBody2="meg fog semmisülni a 'wipe -Ifre' parancs használatával. Ez a folyamat hosszú időt vesz igénybe és ez az idő függ a készülék méretétől. Folytatni szeretnéd?\n"
+_PartTitle="Particionáló eszközl"
+_PartBody="\nAutomatikus particíonálási lehetőség elérhető a kezdőknek. Egyébként, a 'cfdisk' az ajánlott a BIOS-hoz, 'parted' az UEFI-hez.\n\nNe válassz csak UEFI/GPT partícionáló eszközt a BIOS/MBR rendszerhez mivel ez súlyos problémákhoz vezethet, beleérte a nem bootoló telepítést."
+_PartAuto="Automata partícionálás"
+_PartWipe="Biztos eszköz törlés (választható)"
+_PartWipeBody1="\nFigyelmeztetés: Minden adat"
+_PartWipeBody2="meg fog semmisülni a 'wipe -Ifre' parancs használatával. Ez a folyamat hosszú időt vesz igénybe és ez az idő függ a készülék méretétől. Folytatni szeretnéd?\n"
 
 # Partícionálási hiba
 _PartErrBody="\nBIOS rendszereknél a minimális követelmény egy partíció (ROOT).\n\nUEFI rendszernél a minimális követelmény kettő partíció (ROOT and UEFI).\n\n"
@@ -162,8 +147,6 @@ _SelSwpFile="Cserefájl"
 
 # UEFI kiválasztása
 _SelUefiBody="\nVálassz UEFI partíciót. Ez egy speciális partíció az UEFI rendszerek indítása számára."
-
-# UEFI formázása
 _FormUefiBody="[FONTOS]\nAz EFI partíció"
 _FormUefiBody2="már formázott.\n\nÁt akarja hagyni a formázást? A 'Nem' kiválasztása törli az összes adatot (bootloader) a partíción.\n\nHa bizonytalan, válassza az 'Igen' lehetőséget.\n"
 
@@ -172,44 +155,37 @@ _ExtPartBody="\nVálassz a további partíciók közül bármilyen sorrendben, v
 _ExtPartBody1="\nAdj meg partíció csatolási pontot. Biztosítsd, hogy a név per (/) jellel kezdődjön. Például:\n\n"
 _ExtErrBody="\nA partíció nem csatolható a csatolási pont nevének hibája miatt.. A nevet per '/' jel után add meg.\n\n"
 
-# 'efi' fájl beállítása a 'grub' számára
-_SetDefDoneBody="beállítva alapértelmezett rendszertöltőnek.\n\n"
-
 # Üdvözöllek
 _WelTitle="Üdvözöllek az"
 _WelBody="\nEz a telepítő letölti a legújabb csomagokat az $DIST tárolókból. Csak minimálisan szükséges beállítás vállalt.\n\nMENÜ OPCIÓK: Válassz az opciók számának  beütésével, vagy használd a fel/le nyilakat mielőtt [enter]t nyomnál a kiválasztáshoz. A gombok közötti váltáshoz használd a [Tab] billentyűt  vagy használd a bal/jobb nyilakat mielőtt [enter]t nyomnál a megerősítéshez. A hosszú listában navigálhatsz a [pg up] és [pg down] billentyűkkel, és/vagy nyomd le az első betűjét a kiválasztani kívánt opciónak.\n\nKonfiguráció és csomag opciók: Az alapértelmezett csomagok a csekklistán elleőrizve lesznek. Használd a [szóköz] billentyűt a kiválasztásoz illetve a kiválasztás törléséhez."
 
 # Előkészületek menü
-_PrepMenuTitle="Telepítés előkészítése"
-_PrepMenuBody="\nA konzol billentyűzetkiosztást használja mind a telepítő, mind a telepített rendszer.\n"
-_PrepKBLayout="Asztali billentyűzetkiosztás beállítása"
-_PrepMirror="Telepítő tükörlista beállítása"
-_PrepPartDisk="Lemez partícionálás"
-_PrepMntPart="Partíciók csatolása"
-_Back="Vissza"
+_PrepTitle="Telepítés előkészítése"
+_PrepBody="\nA konzol billentyűzetkiosztást használja mind a telepítő, mind a telepített rendszer.\n"
+_PrepParts="Lemez partícionálás"
+_PrepShowDev="Eszközök listája (választható)"
+_PrepLayout="Asztali billentyűzetkiosztás beállítása"
+_PrepLUKS="LUKS Titkosítás (választható)"
+_PrepLVM="Logikai kötetkezelés (választható)"
+_PrepMount="Partíciók csatolása"
 
 # Alaptelepítés menü
-_InstBseMenuTitle="Alaptelepítés"
-_InstBseMenuBody="\nA telepítendő csomagokat le kell tölteni a tükörszerverekről. A 'pacstrap' script telepíti az alaprendszert. Csomagkészítéshez az AUR-ból, vagy az ABS segítségével a 'base-devel' csomag telepítése szükséges."
-_InstBse="Alapcsomagok telepítése"
-_InstBootldr="Rendszertöltő telepítése"
+_InstTitle="Alaptelepítés"
+_BootLdr="Rendszertöltő telepítése"
 
 # Alapbeállítás menü
-_ConfBseMenuTitle="Alaptelepítés beállítása"
-_ConfBseBody="\nAlaptelepítés bázis beállítása."
-_ConfBseFstab="FSTAB generálása"
-_ConfBseHost="Gazdagépnév beállítása"
-_ConfBseTimeHC="Időzóna és óra beállítása"
-_ConfBseSysLoc="Rendszer tartózkodási hely beállítása"
-_MMRunMkinit="Mkinitcpio futtatása"
-
-# Felhasználó menü
-_ConfUsrRoot="Rendszergazda jelszó beállítása"
-_ConfUsrNew="Új felhasználó(k) hozzáadása"
+_ConfTitle="Alaptelepítés beállítása"
+_ConfBody="\nAlaptelepítés bázis beállítása."
+_ConfFstab="FSTAB generálása"
+_ConfHost="Gazdagépnév beállítása"
+_ConfTimeHC="Időzóna és óra beállítása"
+_ConfLocale="Rendszer tartózkodási hely beállítása"
+_ConfRoot="Rendszergazda jelszó beállítása"
+_ConfUser="Új felhasználó(k) hozzáadása"
 
 # Főmenü
-_MMTitle="Főmenü"
-_MMBody="\nMinden szükséges lépést követned kell a telepítés érdekében. Miután elkészültél, válaszd a 'Kész' gombot a telepítés befejezéséhez.\n"
+_MainTitle="Főmenü"
+_MainBody="\nMinden szükséges lépést követned kell a telepítés érdekében. Miután elkészültél, válaszd a 'Kész' gombot a telepítés befejezéséhez.\n"
 
 # Telepítő bezárása
 _CloseInstBody="Bezárod a telepítőt?"

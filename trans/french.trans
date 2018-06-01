@@ -1,41 +1,34 @@
-## French Translation File
-## Écrit par Carl Duff (27-02-2016)
-## Traduction française par Charles Monzat (27-02-2016)
-
 # Générique
-_UseSpaceBar="Utiliser [barre espace] pour sélectionner/désélectionner les options référencées."
-_AlreadyInst="Déjà installé mais pas activé :"
 _All="Tous"
 _Done="Terminé"
 _Skip="Passer/Aucun"
-_PlsWaitBody="\nVeuillez patienter...\n\n"
 _ErrTitle="Erreur"
-_PassErrBody="\nLes mots de passe entrés ne correspondent pas. Veuillez réessayer.\n\n"
+_NoFileErr="\nLe fichier n'existe pas.\n\n"
+_PlsWait="\nVeuillez patienter...\n\n"
+_PassErr="\nLes mots de passe entrés ne correspondent pas.\n\n"
+_TryAgain="Veuillez réessayer.\n\n"
+_Exit="Sortie.\n\n"
+_Back="Retour"
+_Edit="Éditer le fichier de configuration"
+_Disable="Désactiver"
 
 _MntBody="Utiliser [Espace] pour sélectionner/désélectionner les options de montage désirées. Veuillez ne pas sélectionner plusieurs versions de la même option."
 _MntConfBody="Confirmer les options de montage suivantes :\n\n"
 
-# Sécurité et réglages
-_Edit="Éditer le fichier de configuration"
-_Disable="Désactiver"
-
 # Partition auto
-_AutoPartBody1="AVERTISSEMENT : TOUTES les données sur"
-_AutoPartBody2="vont être effacées.\n\nUne partition de démarrage (boot) de 512MB va être créée en premier, suivie par une seconde partition (root ou '/') utilisant tout l'espace restant."
-_AutoPartBody3="Si vous avez l'intention d'utiliser un fichier d'échange (SWAP), sélectionnez l'option 'Fichier d'échange' pendant le montage.\n\nSouhaitez-vous continuer ?"
+_PartBody1="AVERTISSEMENT : TOUTES les données sur"
+_PartBody2="vont être effacées.\n\nUne partition de démarrage (boot) de 512MB va être créée en premier, suivie par une seconde partition (root ou '/') utilisant tout l'espace restant."
+_PartBody3="Si vous avez l'intention d'utiliser un fichier d'échange (SWAP), sélectionnez l'option 'Fichier d'échange' pendant le montage.\n\nSouhaitez-vous continuer ?"
 
 # Messages d'erreur. Tous les autres messages sont générés par BASH.
 _ErrNoMount="\nLa ou les partitions doivent être montées en premier.\n\n"
 _ErrNoBase="\nLa base de $DIST doit être installée en premier.\n\n"
-_ErrNoKernel="\nAu moins un noyau (linux ou linux-lts) doit être sélectionné.\n\n"
 
 # Sélectionner les fichiers de configuration
-_SeeConfOptTitle="Vérifier les fichiers de configuration"
-_SeeConfOptBody="\nSélectionner un fichier référencé ci-dessous pour être vérifié ou modifié.\n"
-_SeeConfErrBody="\nLe fichier n'existe pas.\n\n"
+_EditTitle="Vérifier les fichiers de configuration"
+_EditBody="\nSélectionner un fichier référencé ci-dessous pour être vérifié ou modifié.\n"
 
 # Cryptage / DM-Crypt / LUKS
-_PrepLUKS="Cryptage LUKS (optionnel)"
 _LuksMenuBody="\nLes volumes et périphériques cryptés utilisant dm_crypt ne peuvent pas être accessibles ou visibles sans être débloqués par une clé de chiffrement ou un mot de passe."
 _LuksMenuBody2="\n\nUne partition de démarrage (boot) séparée sans cryptage ou un gestionnaire de volume logique (LVM - sauf si vous utilisez BIOS Grub) est nécessaire."
 _LuksMenuBody3="\n\nL'option automatique utilise les paramètres d'encryptage par défaut, et elle est recommandé pour les débutants. Toutefois, il est possible de préciser manuellement les paramètres de chiffrement ainsi que la longueur de clé."
@@ -47,13 +40,12 @@ _LuksEncryptBody="\nSélectionner une partition à crypter."
 _LuksEncryptSucc="\nTerminé ! Ouvert et prêt pour LVM (recommandé) ou montage direct.\n"
 _LuksPartErrBody="\nUn minimum de deux partitions est nécessaire pour le cryptage :\n\n1. Root (/) - partition standard ou lvm.\n\n2. Boot (/boot ou /boot/efi) - partition standard uniquement (excepté lvm utilisant BIOS Grub).\n"
 _SelLuksRootBody="\nSélectionner la partition ROOT (/) à crypter. $DIST sera installé dans cette partition.\n\n"
-_SelLuksRootBody="\nEntrer un mot de passe pour crypter/décrypter la partition. Le mot de passe ne doit pas être le même que celui du compte utilisateur ou administrateur.\n"
+_LuksPassBody="\nEntrer un mot de passe pour crypter/décrypter la partition. Le mot de passe ne doit pas être le même que celui du compte utilisateur ou administrateur.\n"
 _LuksWaitBody="\nCréation d'une partition Root crypté :"
 _LuksWaitBody2="Périphérique ou volume utilisé :"
 _LuksCipherKey="\nDès que les drapeaux spécifiés sont modifiés, ils peuvent être automatiquement utilisés avec la commande 'cryptsetup -q luksFormat /dev/...'.\n\nNOTE : Les fichiers de clé ne sont pas supportés ; Ils peuvent être ajoutés manuellement après l'installation. Ne spécifier aucuns drapeaux additionnels du genre -v (--verbose) ou -y (verify-passphrase).\n"
 
 # Gestionnaire de volume logique (LVM)
-_PrepLVM="Gestionnaire de volume logique (optionnel)"
 _LvmMenu="\nLe gestionnaire de volume logique (LVM) permet aux disque durs 'virtuels' (groupes de volume) et aux partitions (volumes logiques) d'être créer à partir de volumes et partitions qui existent déjà. Un groupe de volume peut être créé en premier, avec un ou plusieurs volumes logiques à l'intérieur.\n\nLVM peut également être utilisé avec une partition cryptée pour créer de multiples volumes logiques (ex : root et home) à l'intérieur."
 _LvmCreateVG="Créer des LV(s) et VG"
 _LvmDelVG="Supprimer des groupes de volume"
@@ -81,26 +73,19 @@ _LvmDelQ="\nConfirmer la suppression des volumes logiques et des groupes de volu
 _LvmSelVGBody="\nSélectionner un groupe de volume à supprimer. Tous les volumes logiques contenus à l'intérieur seront également supprimés.\n"
 _LvmVGErr="\nAucuns groupes de volume trouvés.\n\n"
 
-# Afficher les périphériques et partitions
-_DevShowOpt="Liste des périphériques (optionnel)"
-
 # Vérifier les conditions requises
-_ChkTitle="Vérification des conditions requises"
-_ChkBody="\nVérification des conditions requises (installateur exécuté en tant qu'administrateur et connexion internet active). Veuillez patienter... \n\n"
-_RtFailBody="\nL'installateur doit être exécuté en tant qu'administrateur. Sortie.\n\n"
-_ConFailBody="\nLe test de connexion internet a échoué. Sortie.\n\n"
-_ReqMetTitle="Conditions requises effectuées"
-_ReqMetBody="\nTests réalisés avec succès !\n\n"
+_NotRoot="\nL'installateur doit être exécuté en tant qu'administrateur.\n"
+_NoNetwork="\nLe test de connexion internet a échoué.\n"
 
 # Configurer l'agencement du clavier (vconsole)
-_VCKeymapTitle="Configurer la console virtuelle"
-_VCKeymapBody="\nUne console virtuelle est une invite de commande (shell prompt) dans un environnement non graphique. Son agencement clavier est indépendant du terminal / environnement de bureau."
+_CMapTitle="Configurer la console virtuelle"
+_CMapBody="\nUne console virtuelle est une invite de commande (shell prompt) dans un environnement non graphique. Son agencement clavier est indépendant du terminal / environnement de bureau."
 
 # Configurer Xkbmap (environnement)
-_XkbmapBody="\nSélectionner l'agencement de l'environnement de bureau."
+_XMapBody="\nSélectionner l'agencement de l'environnement de bureau."
 
 # Définir les paramètres régionaux
-_localeBody="Les locales déterminent les langages affichées, les formats de date et heure, etc....\n\nLe format de langue se présente ainsi : langage_PAYS (ex : fr_FR pour la France ; fr_BE pour la Belgique ; fr_CA pour le Canada ; fr_LU pour le Luxembourg, etc...)."
+_LocaleBody="Les locales déterminent les langages affichées, les formats de date et heure, etc....\n\nLe format de langue se présente ainsi : langage_PAYS (ex : fr_FR pour la France ; fr_BE pour la Belgique ; fr_CA pour le Canada ; fr_LU pour le Luxembourg, etc...)."
 
 # Définir le fuseau horaire
 _TimeZBody="\nLe fuseau horaire est utilisé pour configurer correctement votre horloge système."
@@ -111,26 +96,26 @@ _TimeZQ="\nDéfinir le fuseau horaire sous"
 _HostNameBody="\nLe nom d'hôte est utilisé pour identifier le système sur un réseau.\n\nIl est limité aux caractères alphanumériques, peut contenir un trait d'union (-) - mais pas au début ni à la fin - et ne doit pas être plus long que 63 caractères.\n"
 
 # Définir le mot de passe administrateur
-_PassRtBody="Entrer le mot de passe administrateur"
-_PassRtBody2="Entrer à nouveau le mot de passe administrateur"
+_RootBody="Entrer le mot de passe administrateur"
+_RootBody2="Entrer à nouveau le mot de passe administrateur"
 
 # Créer un nouvel utilisateur
-_NUsrTitle="Créer un nouvel utilisateur"
-_NUsrBody="\nEntrer le nom de l'utilisateur. Les lettres DOIVENT être entrées en minuscule.\n"
+_UserTitle="Créer un nouvel utilisateur"
+_UserBody="\nEntrer le nom de l'utilisateur. Les lettres DOIVENT être entrées en minuscule.\n"
 
 # Erreur de nom utilisateur
-_NUsrErrTitle="Erreur de nom utilisateur"
-_NUsrErrBody="\nNom d'utilisateur incorrect. Veuillez réessayer.\n\n"
+_UserErrTitle="Erreur de nom utilisateur"
+_UserErrBody="\nNom d'utilisateur incorrect. Veuillez réessayer.\n\n"
 
 # Définir l'utilisateur
-_PassNUsrBody="Entrer le mot de passe pour"
-_PassNUsrBody2="Entrer à nouveau le mot de passe."
-_NUsrSetBody="\nCréation de l'utilisateur et paramétrage des groupes...\n\n"
+_UserBody="Entrer le mot de passe pour"
+_UserBody2="Entrer à nouveau le mot de passe."
+_UserSetBody="\nCréation de l'utilisateur et paramétrage des groupes...\n\n"
 
 # Montage (Partitions)
-_MntStatusTitle="État de montage"
-_MntStatusSucc="\nMontage réussi !\n\n"
-_MntStatusFail="\nÉchec de montage !\n\n"
+_MntTitle="État de montage"
+_MntSucc="\nMontage réussi !\n\n"
+_MntFail="\nÉchec de montage !\n\n"
 _WarnMount1="\nIMPORTANT : Les partitions peuvent être montées sans les formater en sélectionnant l'option"
 _WarnMount2="référencée tout en haut du menu du système de fichiers.\n\nAssurez-vous de faire les bons choix concernant le montage et le formatage car aucun avertissement n'est prévu, à l'exception de la partition de démarrage UEFI.\n\n"
 
@@ -139,12 +124,12 @@ _DevSelTitle="Sélectionner un périphérique"
 _DevSelBody="\nLes périphériques (/dev) sont des disques durs et des clés USB disponibles pour une installation. Le premier se nomme /sda, le second /sdb, etc....\n\nSi vous utilisez une clé USB pour démarrer $DIST, soyez prudent car elle sera également référencée !"
 
 # Outil de partitionnement
-_PartToolTitle="Outil de partitionnement"
-_PartToolBody="\nUne option 'partitionnement automatique' est disponible (et recommandée) pour les débutants. Autrement, cfdisk est recommandé pour BIOS, parted pour UEFI.\n\nNE PAS sélectionner un outil de partitionnement réservé à l'UEFI/GPT pour un système BIOS/MBR, car cela pourrait causer de sérieux problèmes, incluant une installation inutilisable."
-_PartOptAuto="Partitionnement automatique"
-_PartOptWipe="Effacement sécurisé du périphérique (optionnel)"
-_AutoPartWipeBody1="\nAVERTISSEMENT : TOUTES les données sur"
-_AutoPartWipeBody2="vont être détruites en utilisant la commande 'wipe -Ifre'. Cette opération peut prendre un certain temps, en fonction de la taille du périphérique.\n\nSouhaitez-vous continuer ?\n"
+_PartTitle="Outil de partitionnement"
+_PartBody="\nUne option 'partitionnement automatique' est disponible (et recommandée) pour les débutants. Autrement, cfdisk est recommandé pour BIOS, parted pour UEFI.\n\nNE PAS sélectionner un outil de partitionnement réservé à l'UEFI/GPT pour un système BIOS/MBR, car cela pourrait causer de sérieux problèmes, incluant une installation inutilisable."
+_PartAuto="Partitionnement automatique"
+_PartWipe="Effacement sécurisé du périphérique (optionnel)"
+_PartWipeBody1="\nAVERTISSEMENT : TOUTES les données sur"
+_PartWipeBody2="vont être détruites en utilisant la commande 'wipe -Ifre'. Cette opération peut prendre un certain temps, en fonction de la taille du périphérique.\n\nSouhaitez-vous continuer ?\n"
 
 # Erreur de partitionnement
 _PartErrBody="\nLes systèmes BIOS requièrent une partition minimum (ROOT).\n\nLes systèmes UEFI requièrent 2 partitions minimum (ROOT et UEFI).\n\n"
@@ -163,54 +148,44 @@ _SelSwpFile="Fichier d'échange"
 # Formater UEFI
 _FormUefiBody="[IMPORTANT]\nLa partition EFI"
 _FormUefiBody2="est déjà correctement formaté.\n\nVoulez-vous passer la mise en forme? Choisir 'Non' effacera TOUTES les données (bootloaders) sur la partition.\n\nEn cas de doute, choisissez 'Oui'\n"
-
-# Point de montage UEFI
 _SelUefiBody="\nSélectionner une partition UEFI. C'est une partition spéciale permettant le démarrage sur des systèmes UEFI."
-_MntUefiBody="\nSélectionner un point de montage UEFI.\n\nsystemd-boot requiert /boot. Grub n'a pas de préférence de point de montage."
 
 # Partitions supplémentaires
 _ExtPartBody="\nSélectionner des partitions additionnelles dans n'importe quel ordre, ou cliquer sur « Terminé » afin de poursuivre."
 _ExtPartBody1="\nSpécifier le point de montage de la partition. Assurez-vous que le nom débute par une barre oblique (/). Exemples inclus :\n\n"
 _ExtErrBody="\nLa partition ne peut être montée, cela est dû à un problème avec le nom du point de montage. Un nom doit être déterminé après la barre oblique.\n\n"
 
-# fichier efi défini pour Grub
-_SetDefDoneBody="a été défini comme le chargeur d'amorçage par défaut.\n\n"
-
 # Bienvenue
 _WelTitle="Bienvenue dans"
 _WelBody="\nCet installateur va télécharger les derniers paquets provenant des dépôts $DIST. Seule la configuration minimale nécessaire sera téléchargée.\n\nOPTIONS du MENU : Sélectionner en appuyant sur le numéro de l'option, ou en utilisant les flèches haut/bas avant d'appuyer sur [entrée] pour confirmer. Basculer entre les boutons en utilisant [Tab] ou les flèches gauche/droite avant d'appuyer sur [entrée] pour confirmer.\n\nNaviguer dans la liste en utilisant les touches [page suivante] et [page précédente], et/ou en appuyant sur la première lettre de l'option souhaitée.\n\nOPTIONS & CONFIGURATION DES PAQUETS : Les paquets par défaut dans les listes vont être pré-vérifiés. Utiliser la [barre espace] pour sélectionner/désélectionner."
 
 # Menu de Préparation
-_PrepMenuTitle="Préparer l'installation"
-_PrepMenuBody="\nL'agencement du clavier sera utilisé pour l'installateur et pour le système installé.\n"
-_PrepKBLayout="Configurer l'agencement du clavier"
-_PrepMirror="Configurer la liste des miroirs"
-_PrepPartDisk="Partitionner le(s) disque(s)"
-_PrepMntPart="Monter les partitions"
-_Back="Retour"
+_PrepTitle="Préparer l'installation"
+_PrepBody="\nL'agencement du clavier sera utilisé pour l'installateur et pour le système installé.\n"
+_PrepLayout="Configurer l'agencement du clavier"
+_PrepShowDev="Liste des périphériques (optionnel)"
+_PrepLUKS="Cryptage LUKS (optionnel)"
+_PrepLVM="Gestionnaire de volume logique (optionnel)"
+_PrepParts="Partitionner le(s) disque(s)"
+_PrepMount="Monter les partitions"
 
 # Menu d'installation de Base
-_InstBseMenuTitle="Installer Base"
-_InstBseMenuBody="\nLes paquets à installer doivent être téléchargés à partir des serveurs miroirs. Le script pacstrap installe le système de base. Pour construire des paquets à partir d'AUR ou avec ABS, le groupe base-devel est également nécessaire."
-_InstBse="Installer les paquets de Base"
-_InstBootldr="Installer le chargeur d'amorçage"
+_InstTitle="Installer les paquets de Base"
+_BootLdr="Installer le chargeur d'amorçage"
 
 # Configurer le menu de Base
-_ConfBseMenuTitle="Configurer Base"
-_ConfBseBody="\nConfiguration simple de la base."
-_ConfBseFstab="Générer FSTAB"
-_ConfBseHost="Définir le nom d'hôte"
-_ConfBseTimeHC="Définir l'heure et le fuseau horaire"
-_ConfBseSysLoc="Définir les paramètres régionaux"
-_MMRunMkinit="Exécuter Mkinitcpio"
-
-# Menu utilisateur
-_ConfUsrRoot="Définir le mot de passe administrateur"
-_ConfUsrNew="Ajouter un ou plusieurs utilisateurs"
+_ConfTitle="Configurer Base"
+_ConfBody="\nConfiguration simple de la base."
+_ConfFstab="Générer FSTAB"
+_ConfHost="Définir le nom d'hôte"
+_ConfTimeHC="Définir l'heure et le fuseau horaire"
+_ConfLocale="Définir les paramètres régionaux"
+_ConfRoot="Définir le mot de passe administrateur"
+_ConfUser="Ajouter un ou plusieurs utilisateurs"
 
 # Menu principal
-_MMTitle="Menu principal"
-_MMBody="\nChaque étape doit être suivie DANS L'ORDRE. Une fois effectué, sélectionner « Terminé » pour finaliser correctement l'installation.\n"
+_MainTitle="Menu principal"
+_MainBody="\nChaque étape doit être suivie DANS L'ORDRE. Une fois effectué, sélectionner « Terminé » pour finaliser correctement l'installation.\n"
 
 # Fermer l'installateur
 _CloseInstBody="Fermer l'installateur ?"

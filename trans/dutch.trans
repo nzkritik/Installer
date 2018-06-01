@@ -1,47 +1,41 @@
-## Nederlands Vertaalbestand (ArchLabs 2.0)
-## Ontwerp: Carl Duff (27-Feb-2016)
-## Vertalers: Erwin Crepieux
-
 # Generic
 _All="Alle"
 _Done="Klaar"
 _Skip="Sla over/Geen"
 _ErrTitle="Fout"
-_PlsWaitBody="\nEven geduld aub...\n\n"
-_PassErrBody="\nDe ingegeven wachtwoorden zijn niet identiek. Probeer opnieuw aub.\n\n"
+_NoFileErr="\nBestand bestaat niet.\n\n"
+_PlsWait="\nEven geduld aub...\n\n"
+_PassErr="\nDe ingegeven wachtwoorden zijn niet identiek.\n\n"
+_TryAgain="Probeer opnieuw aub.\n\n"
+_Exit="Afsluiten.\n\n"
+_Edit="Pas het configuratiebestand aan"
+_Back="Terug"
 
 # Welkom
 _WelTitle="Welkom bij"
 _WelBody="\nDit installatieprogramma zal de nieuwste pakketten downloaden van de $DIST repositories. Enkel de hoogstnodige configuratie wordt uitgevoerd\n\nMENU OPTIES: Selecteer de gewenste optie door haar nummer in te tikken of door de pijljestoetsen [op]/[neer] te gebruiken. Bevestig door op [enter] te drukken. Schakel tussen de knoppen door de [Tab] toets of de pijltjestoets [links]/[rechts] te gebruiken. Bevestig door op [enter] te drukken. U kunt navigeren in de lange lijsten door de [pg up] en [pg down] toetsen te gebruiken, en/of door op de eerste letter van de gewenste optie te drukken.\n\nCONFIGURATIE & PAKKET OPTIES: Standaard pakketten in checklists worden vooraf geselecteerd. Gebruik de [Spatiebar] om te (de)selecteren"
 
 # Requirements Voorwaarden
-_RtFailBody="\nHet installatieprogramma moet worden uitgevoerd als root. Afsluiten.\n\n"
-_ConFailBody="\nGeen internetverbinding. Afsluiten.\n\n"
+_NotRoot="\nHet installatieprogramma moet worden uitgevoerd als root.\n"
+_NoNetwork="\nGeen internetverbinding.\n"
 
 _MntConfBody="Bevestig volgende aankoppelopties:\n\n"
 _MntBody="Gebuik [Spatie] om de gewenste aankoppel-opties te (de)selecteren en controleer deze nauwkeurig. Vermijd de selectie van meerdere versies van de zelfde optie, aub."
 
-# Veiligheid en aanpassingen
-_Edit="Pas het configuratiebestand aan"
-_Disable="Uitschakelen"
-
 # Autopartitionering
-_AutoPartBody1="Opgelet: ALLE data op"
-_AutoPartBody2="zal worden gewist.\n\nEr wordt eerst een boot partitie van 512MB aangemaakt,  de rest van de ruimte wordt ingenomen door een tweede (root of '/') partitie."
-_AutoPartBody3="Indien je SWAP wenst te gebruiken, selecteer de 'Swap File' optie bij het aankoppelen.\n\nWil je verder gaan?"
+_PartBody1="Opgelet: ALLE data op"
+_PartBody2="zal worden gewist.\n\nEr wordt eerst een boot partitie van 512MB aangemaakt,  de rest van de ruimte wordt ingenomen door een tweede (root of '/') partitie."
+_PartBody3="Indien je SWAP wenst te gebruiken, selecteer de 'Swap File' optie bij het aankoppelen.\n\nWil je verder gaan?"
 
 #Foutmeldingen. Alle andere worden door BASH gegenereerd.
 _ErrNoMount="\nPartitie(s) moet(en) eerst worden aangekoppeld\n\n"
 _ErrNoBase="\nHet $DIST basissysteem moet eerst worden geïnstalleerd.\n\n"
-_ErrNoKernel="\nEr moet ten minste één kernel (linux of linux-lts) worden geselecteer.\n\n"
 
 # Selecteer Configuratiebestanden
-_SeeConfOptTitle="Controle van Configuratiebestanden"
-_SeeConfOptBody="\nSelecteer een hieronder vermeld bestand dat moet worden herzien of gewijzigd.\n"
-_SeeConfErrBody="\nBestand bestaat niet.\n\n"
+_EditTitle="Controle van Configuratiebestanden"
+_EditBody="\nSelecteer een hieronder vermeld bestand dat moet worden herzien of gewijzigd.\n"
 
 # LUKS / DM-Crypt / Versleuteling
-_PrepLUKS="LUKS Versleuteling (optioneel)"
 _LuksMenuBody="\nOpslagmedia en volumes die versleuteld werden met dm_crypt kunnen niet  geopend of gelezen worden zonder deze te deblokkeren met een sleutel of wachtwoord."
 _LuksMenuBody2="\n\nEen aparte niet-versleutelde boot partitie zonder logisch volume management (LVM - tenzij bij gebruik van BIOS Grub) is vereist."
 _LuksMenuBody3="\n\nStandaard wordt de automatische versleuteloptie gebruikt, en dit is aanbevolen voor beginners. Het is ook mogelijk om de code en de sleutelgrootte-parameters manueel in te geven."
@@ -59,7 +53,6 @@ _LuksWaitBody2="Gebruikt opslagmedium of volume:"
 _LuksCipherKey="\nZodra de opgegeven vlaggen zijn gewijzigd, zullen ze automatisch worden gebruikt met de opdracht 'cryptsetup q luksFormat/dev/...'\n\nOpmerking: Sleutelbestanden worden niet ondersteund; ze kunnen na de installatie handmatig worden toegevoegd. Geef geen extra vlaggen op, zoals -v (--verbose) of -y (--verify-passphrase).\n"
 
 # Logisch Volume Management
-_PrepLVM="Logisch Volume Management (optioneel)"
 _LvmMenu="\nLogisch Volume Management (LVM) laat ons toe 'virtuele' harde schijven (Volume Groepen) en partities (Logische Volumes) te maken op bestaande schijven en partities. Eerst moet een Volume Groep worden aangemaakt met daarin één of meerdere Logische Volumes.\n\nLVM kan ook worden gebruikt om in een versleutelde partitie meerdere logische volumes aan te maken (zoals root en home)."
 _LvmCreateVG="Aanmaken van VG en LV(s)"
 _LvmDelVG="Verwijder Volume Groepen"
@@ -87,18 +80,15 @@ _LvmDelQ="\n Bevestig het verwijderen van Volume Groep(en) en Logische Volume(s)
 _LvmSelVGBody="\nSelecteer de Volume Groep die moet worden verwijderd. Alle Logische Volumes daarin zullen ook vernietigd worden.\n"
 _LvmVGErr="\nGeen Volume Groepen gevonden.\n\n"
 
-# Toon opslagapparaten en partities
-_DevShowOpt="Lijst van Opslagmedia (optioneel)"
-
 # Stel het toetsenbord in (vconsole)
-_VCKeymapTitle="Stel de Virtuele Console in"
-_VCKeymapBody="\nEen virtuele console is een shell prompt in een niet-grafische omgeving. De toetsenbordindeling ervan is onafhankelijk van een desktop suite / terminal."
+_CMapTitle="Stel de Virtuele Console in"
+_CMapBody="\nEen virtuele console is een shell prompt in een niet-grafische omgeving. De toetsenbordindeling ervan is onafhankelijk van een desktop suite / terminal."
 
 # stel Xkbmap in (omgeving)
-_XkbmapBody="\nSelecteer de toetsenbordindeling voor Desktop Suite."
+_XMapBody="\nSelecteer de toetsenbordindeling voor Desktop Suite."
 
 # Stel de systeemtaal in
-_localeBody="Landinstellingen bepalen welke talen en hoe tijd en datum enz... worden weergegeven.\n\nHet formaat is taal_LAND (bijvoorbeeld nl_BE is nederlands, België; en_GB is engels, Groot-Brittannië). "
+_LocaleBody="Landinstellingen bepalen welke talen en hoe tijd en datum enz... worden weergegeven.\n\nHet formaat is taal_LAND (bijvoorbeeld nl_BE is nederlands, België; en_GB is engels, Groot-Brittannië). "
 
 # Stel de tijdzone in
 _TimeZBody="\nAan de hand van de tijdzone wordt uw systeemklok correct ingesteld."
@@ -109,26 +99,26 @@ _TimeZQ="\nStel als tijdzone in"
 _HostNameBody="\nAan de hand van de Host-Naam wordt een systeem in een netwerk geïdentificeerd.\n\nDe Host-Naam mag enkel uit alfa-numerieke karakters bestaan maar kan ook een streepje (-) bevatten - doch niet in het begin of op het einde - en mag uit maximum 63 karakters bestaan.\n"
 
 # Stel het Root wachtwoord in
-_PassRtBody="\nStel een Root wachtwoord in\n\n"
-_PassRtBody2="\nHerhaal het Root wachtwoord\n\n"
+_RootBody="\nStel een Root wachtwoord in\n\n"
+_RootBody2="\nHerhaal het Root wachtwoord\n\n"
 
 # Aanmaken van een Nieuwe Gebruiker
-_NUsrTitle="Maak een nieuwe gebruiker aan"
-_NUsrBody="\nGeef een gebruikersnaam in. Met KLEINE letters!\n"
+_UserTitle="Maak een nieuwe gebruiker aan"
+_UserBody="\nGeef een gebruikersnaam in. Met KLEINE letters!\n"
 
 # Foute Gebruikersnaam
-_NUsrErrTitle="Foute gebruikersnaam"
-_NUsrErrBody="\nEen foute gebruikersnaam werd ingegeven. Probeer opnieuw aub.\n\n"
+_UserErrTitle="Foute gebruikersnaam"
+_UserErrBody="\nEen foute gebruikersnaam werd ingegeven. Probeer opnieuw aub.\n\n"
 
 # Stel Gebruiker in
-_PassNUsrBody="Geef wachtwoord in voor"
-_PassNUsrBody2="Herhaal het wachtwoord"
-_NUsrSetBody="\nMaak een Gebruiker aan en stel Groepen in...\n\n"
+_UserBody="Geef wachtwoord in voor"
+_UserBody2="Herhaal het wachtwoord"
+_UserSetBody="\nMaak een Gebruiker aan en stel Groepen in...\n\n"
 
 # Aankoppelen van Partities
-_MntStatusTitle="Aankoppelstatus"
-_MntStatusSucc="\nSuccesvol aangekoppeld!\n\n"
-_MntStatusFail="\nAankoppeling mislukt!\n\n"
+_MntTitle="Aankoppelstatus"
+_MntSucc="\nSuccesvol aangekoppeld!\n\n"
+_MntFail="\nAankoppeling mislukt!\n\n"
 _WarnMount1="\nBELANGRIJK: Partities kunnen worden aangekoppeld zonder ze te formatteren door het selecteren van de "
 _WarnMount2="optie te vinden bovenaan in het systeem menubestand.\n\nVerzeker u ervan dat u de juiste keuzes voor het aankoppelen en het formatteren maakt, er zullen geen waarschuwingen worden gegeven, met uitzondering van de UEFI boot partitie.\n\n "
 
@@ -137,12 +127,12 @@ _DevSelTitle="Selecteer Opslagmedium"
 _DevSelBody="\nOpslagmedia (/dev) zijn de beschikbare en beschrijfbare harde schijven en USB-sticks. De eerste is /sda, de tweede /sdb, en zo verder.\n\nWanneer er een USB-stick gebruikt wordt om $DIST op te starten zal deze ook op deze lijst voorkomen!"
 
 # Partitionering
-_PartToolTitle="Partities instellen"
-_PartToolBody="\nEen automatische partitioneringsoptie is beschikbaar voor beginners. Anderzijds is cfdisk aanbevolen voor BIOS, parted voor UEFI.\n\nSelecteer in GEEN GEVAL het  UEFI/GPT-only partitioneringstool voor een BIOS/MBR systeem omdat dit serieuze problemen kan veroorzaken, en zelf kan leiden tot een niet opstartbare installatie."
-_PartOptAuto="Automatische Partitionering"
-_PartOptWipe="Opslagmedium veilig wissen (optioneel)"
-_AutoPartWipeBody1="\nOPGELET: ALLE data op"
-_AutoPartWipeBody2="zal worden vernietigd bij gebruik van de opdracht 'wipe -Ifre'. Dit kan een tijdje duren afhankelijk van de grootte van het opslagmedium.\n\nWenst U verder te gaan?\n"
+_PartTitle="Partities instellen"
+_PartBody="\nEen automatische partitioneringsoptie is beschikbaar voor beginners. Anderzijds is cfdisk aanbevolen voor BIOS, parted voor UEFI.\n\nSelecteer in GEEN GEVAL het  UEFI/GPT-only partitioneringstool voor een BIOS/MBR systeem omdat dit serieuze problemen kan veroorzaken, en zelf kan leiden tot een niet opstartbare installatie."
+_PartAuto="Automatische Partitionering"
+_PartWipe="Opslagmedium veilig wissen (optioneel)"
+_PartWipeBody1="\nOPGELET: ALLE data op"
+_PartWipeBody2="zal worden vernietigd bij gebruik van de opdracht 'wipe -Ifre'. Dit kan een tijdje duren afhankelijk van de grootte van het opslagmedium.\n\nWenst U verder te gaan?\n"
 
 # Partitionering Fout
 _PartErrBody="\nDe installatie van BIOS systemen vereist minimum één partitie (ROOT).\n\nUEFI systemen vereisen een minimum van twee partities (ROOT and UEFI).\n\n"
@@ -160,61 +150,40 @@ _SelSwpFile="Swapbestand"
 
 # Selecteer UEFI
 _SelUefiBody="Selecteer een UEFI Partitie.\n\nDit is een speciale partitie voor het starten van UEFI systemen."
-
-# Formateer UEFI
 _FormUefiBody="[BELANGRIJK]\nDe EFI-partitie"
 _FormUefiBody2="is al correct geformatteerd.\n\nWilt u het formatteren overslaan? Als u 'Nee' kiest, worden ALLE gegevens (bootloaders) op de partitie gewist.\n\nKies 'Ja' als u niet zeker bent.\n"
 
-# UEFI aankoppelpunt
-_MntUefiBody="\nSelecteer een UEFI aankoppelpunt.\n\nsystemd-boot vereist /boot. Grub zal werken met willekeurig aankoppelpunt."
-
 # Extra Partities
 _ExtPartBody="\nSelecteer bijkomende partities in eender welke volgorde, of 'Klaar' om te eindigen."
-
-# Extra Partities
 _ExtPartBody1="\nBepaal een partitie aankoppelpunt. Verzeker je ervan dat de naam begint met een slash (/). Zie voorbeelden:\n\n"
-
-# Extra Partitie benoemen - Fout
 _ExtErrBody="\nPartitie kan niet worden aangekoppeld wegens een probleem met de aankoppelnaam. De naam moet achter een voorwaartse slash komen.\n\n"
 
-# Installeer Basissysteem
-_InstBseTitle="Installeer Basissysteem"
-
-#Stel efi bestand in voor Grub
-_SetDefDoneBody="werd ingesteld als standaard bootloader.\n\n"
-
-
 #Voorbereidings Menu
-_PrepMenuTitle="Voorbereiding  Installatieproces"
-_PrepMenuBody="\nDe console toetsenbord-layout zal worden gebruikt tijdens het installeren en bij het installeren van een Desktop-Suite.\n"
-_PrepKBLayout="Stel Desktop Toetsenbordindeling in"
-_PrepMirror="Configureer Installer Mirrorlijst (optioneel)"
-_PrepPartDisk="Partitioneer Schijf"
-_PrepMntPart="Koppel de Partities aan"
-_Back="Terug"
+_PrepTitle="Voorbereiding  Installatieproces"
+_PrepLayout="Stel Desktop Toetsenbordindeling in"
+_PrepParts="Partitioneer Schijf"
+_PrepShowDev="Lijst van Opslagmedia (optioneel)"
+_PrepLUKS="LUKS Versleuteling (optioneel)"
+_PrepLVM="Logisch Volume Management (optioneel)"
+_PrepMount="Koppel de Partities aan"
 
-# Menu: installeren van het Basissysteem
-_InstBseMenuTitle=" Installeer het Basissysteem"
-_InstBseMenuBody="Installeer het Basissysteem de $DIST."
-_InstBse="Installeer het Basissysteem"
-_InstBootldr="Installeer de Bootlader"
+# Installeer Basissysteem
+_InstTitle="Installeer Basissysteem"
+_BootLdr="Installeer de Bootlader"
 
 # Configureer het basissysteem
-_ConfBseMenuTitle=" Configureer het Basissysteem"
-_ConfBseBody="\nEenvoudige configuratie van het basissysteem."
-_ConfBseFstab="Genereer FSTAB"
-_ConfBseHost="Stel Host-naam in"
-_ConfBseTimeHC="Stel Tijdzone en klok in"
-_ConfBseSysLoc="Stel de Systeemtaal in"
-_MMRunMkinit="Voer Mkinitcpio uit"
-
-# Gebruikersmenu
-_ConfUsrRoot="Stel het Root wachtwoord in"
-_ConfUsrNew="Voeg nieuwe gebruiker(s) toe"
+_ConfTitle=" Configureer het Basissysteem"
+_ConfBody="\nEenvoudige configuratie van het basissysteem."
+_ConfFstab="Genereer FSTAB"
+_ConfHost="Stel Host-naam in"
+_ConfTimeHC="Stel Tijdzone en klok in"
+_ConfLocale="Stel de Systeemtaal in"
+_ConfRoot="Stel het Root wachtwoord in"
+_ConfUser="Voeg nieuwe gebruiker(s) toe"
 
 # Hoofd Menu
-_MMTitle="Hoofd Menu"
-_MMBody="\nElke stap moet IN VOLGORDE uitgevoerd worden. Eenmaal alles is afgewerkt, selecteer 'Klaar' om zo de installatie correct af te ronden.\n"
+_MainTitle="Hoofd Menu"
+_MainBody="\nElke stap moet IN VOLGORDE uitgevoerd worden. Eenmaal alles is afgewerkt, selecteer 'Klaar' om zo de installatie correct af te ronden.\n"
 
 # Sluit Installer
 _CloseInstBody="Installatieprogramma Afsluiten?"

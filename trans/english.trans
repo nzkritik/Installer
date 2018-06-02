@@ -29,7 +29,7 @@ _PrepLVM="Logical Volume Management (optional)"
 _PrepMount="Mount Partitions"
 
 # Install Base
-_InstBseMenuTitle="Install $DIST"
+_InstTitle="Install $DIST"
 _BootLdr="Install Bootloader"
 
 # Configure Menu

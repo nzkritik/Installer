@@ -115,9 +115,9 @@ id_sys() {
         if grep -q /sys/firmware/efi/efivars <<< "$(mount)"; then
             mount -t efivarfs efivarfs /sys/firmware/efi/efivars
         fi
-        SYSTEM="UEFI"
+        SYS="UEFI"
     else
-        SYSTEM="BIOS"
+        SYS="BIOS"
     fi
     BT="$DIST Installer - $SYS (x86_64)"
 }

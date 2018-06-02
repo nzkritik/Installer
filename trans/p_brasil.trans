@@ -102,14 +102,10 @@ _RootBody2="Re-digite a senha Root"
 # Criar Novo Usuário
 _UserTitle="Criar novo usuário"
 _UserBody="\nDigite o nome do usuário. As letras DEVEM ser minúsculas .\n"
-
-# Erro Nome de Usuário
 _UserErrTitle="Erro no nome do usuário"
 _UserErrBody="\nUm nome de usuário incorreto foi inserido. Por favor, tente novamente..\n\n"
-
-# Definir usuário
-_UserBody="Insira a senha para"
-_UserBody2="Digite novamente a senha para"
+_UserPass="Insira a senha para"
+_UserPass2="Digite novamente a senha para"
 _UserSetBody="\nCriando usuários e definindo grupos...\n\n"
 
 # Montando (Partições)

@@ -82,8 +82,8 @@ _RootBody2="再次输入管理员密码"
 # Create New User and set password
 _UserTitle="创建新用户"
 _UserBody="输入用户名.\n\n字母必须是小写."
-_UserBody="输入用户密码"
-_UserBody2="再次输入用户密码"
+_UserPass="输入用户密码"
+_UserPass2="再次输入用户密码"
 _UserSetBody="\n正在创建用户和设置用户组..\n\n"
 
 # Mounting (Partitions)

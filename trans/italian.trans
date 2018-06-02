@@ -102,14 +102,10 @@ _RootBody2="Immetti nuovamente la password di Root"
 # Crea un nuovo utente
 _UserTitle="Crea Nuovo Utente"
 _UserBody="\nImmetti il nome utente. Le lettere che lo compongono DEVONO essere minuscole.\n"
-
-# Errore del username
 _UserErrTitle="Errore Nome Utente"
 _UserErrBody="\nE' stato scelto un nome utente non valido. Provare nuovamente.\n\n"
-
-# Imposta Utente
-_UserBody="Immetti la password per"
-_UserBody2="Immettere nuovamente la password per"
+_UserPass="Immetti la password per"
+_UserPass2="Immettere nuovamente la password per"
 _UserSetBody="\nCreazione utente ed impostazioni gruppi\n\n"
 
 # Montaggio (Partizioni)

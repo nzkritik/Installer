@@ -102,14 +102,10 @@ _RootBody2="Ismételd meg a rendszergazda jelszavát"
 # Új felhasználó létrehozása
 _UserTitle="Új felhasználó létrehozása"
 _UserBody="\nAdd meg a felhasználónevet. Csak kisbetűket használhatsz.\n"
-
-# Felhasználónév hiba
 _UserErrTitle="Felhasználónév hiba"
 _UserErrBody="\nHelytelen felhasználónevet adtál meg. Kérlek próbáld újra.\n\n"
-
-# A felhasználó beállítása
-_UserBody="Add meg a jelszót"
-_UserBody2="Ismételd meg a jelszót."
+_UserPass="Add meg a jelszót"
+_UserPass2="Ismételd meg a jelszót."
 _UserSetBody="\nFelhasználó létrehozása és csoportok beállítása...\n\n"
 
 # Csatolás (Partíciók)

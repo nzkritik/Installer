@@ -7,7 +7,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.7"         # Version
+VER="1.4.9"         # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -313,13 +313,16 @@ create_user() {
         dialog --backtitle "$BT" --title " $_UserTitle " --inputbox "$_UserErrBody" 10 40 "" 2>$ANS || { break; return 1; }
         usr="$(cat $ANS)"
     done
+
     local msg1="$_UserBody $usr"
     local msg2="$_UserBody2 $usr"
     local ttl=" $_ConfUser "
     dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || return 1
     PASSWD="$(cat $ANS)"
+
     dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || return 1
     PASSWD2="$(cat $ANS)"
+
     while [[ "$PASSWD" != "$PASSWD2" ]]; do
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "${_PassErr}$_TryAgain" 8 60
         dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || { break; return 1; }
@@ -327,6 +330,7 @@ create_user() {
         dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || { break; return 1; }
         PASSWD2="$(cat $ANS)"
     done
+
     dialog --backtitle "$BT" --title "$ttl" --infobox "$_UserSetBody" 0 0
     sleep 2 && echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
     local group="rfkill,wheel,autologin,network,lp,storage,power,video,audio,lp"

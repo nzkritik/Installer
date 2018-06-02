@@ -102,14 +102,10 @@ _RootBody2="Entrer à nouveau le mot de passe administrateur"
 # Créer un nouvel utilisateur
 _UserTitle="Créer un nouvel utilisateur"
 _UserBody="\nEntrer le nom de l'utilisateur. Les lettres DOIVENT être entrées en minuscule.\n"
-
-# Erreur de nom utilisateur
 _UserErrTitle="Erreur de nom utilisateur"
 _UserErrBody="\nNom d'utilisateur incorrect. Veuillez réessayer.\n\n"
-
-# Définir l'utilisateur
-_UserBody="Entrer le mot de passe pour"
-_UserBody2="Entrer à nouveau le mot de passe."
+_UserPass="Entrer le mot de passe pour"
+_UserPass2="Entrer à nouveau le mot de passe."
 _UserSetBody="\nCréation de l'utilisateur et paramétrage des groupes...\n\n"
 
 # Montage (Partitions)

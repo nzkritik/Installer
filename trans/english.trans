@@ -78,8 +78,8 @@ _RootBody2="Re-enter Root password"
 # Create New User and set password
 _UserTitle="Create New User"
 _UserBody="Enter user name.\n\nLetters MUST be lower case."
-_UserBody="Enter password for"
-_UserBody2="Re-enter password for"
+_UserPass="Enter password for"
+_UserPass2="Re-enter password for"
 _UserSetBody="\nCreating User and setting groups..\n\n"
 
 # Mounting (Partitions)

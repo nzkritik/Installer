@@ -8,7 +8,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.11"        # Version
+VER="1.4.12"        # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -97,7 +97,7 @@ lang() {
 }
 
 req_chk() {
-    if [[ $(whoami) != "root" ]] || ! ping -c 1 www.google.com &>/dev/null; then
+    if [[ $(whoami) != "root" ]] || ! ping -c 1 www.github.com &>/dev/null; then
         [[ $(whoami) != "root" ]] && msg="${_NotRoot}$_Exit" || msg="$_NoNetwork"
         dialog --backtitle "$BT" --title " $_ErrTitle " --infobox "$msg" 0 0
         sleep 3
@@ -291,9 +291,9 @@ EOF
 
 root_password() {
     local ttl=" $_ConfRoot "
-    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_RootBody" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_RootBody" 10 40 2>$ANS || return 1
     PASSWD="$(cat $ANS)"
-    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_RootBody2" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$_RootBody2" 10 40 2>$ANS || return 1
     PASSWD2="$(cat $ANS)"
     if [[ "$PASSWD" == "$PASSWD2" ]]; then
         echo -e "$PASSWD\n$PASSWD" >/tmp/.passwd
@@ -308,7 +308,7 @@ root_password() {
 }
 
 create_user() {
-    dialog --backtitle "$BT" --title " $_UserTitle " --inputbox "$_UserBody" 10 40 "" 2>$ANS || return 1
+    dialog --backtitle "$BT" --title " $_UserTitle " --inputbox "$_UserBody" 11 40 "" 2>$ANS || return 1
     usr="$(cat $ANS)"
     while [[ ${#usr} -eq 0 || $usr =~ \ |\' || $usr =~ [^a-z0-9\ ] ]]; do
         dialog --backtitle "$BT" --title " $_UserTitle " --inputbox "$_UserErrBody" 10 40 "" 2>$ANS || { break; return 1; }
@@ -318,17 +318,17 @@ create_user() {
     local msg1="$_UserPass $usr"
     local msg2="$_UserPass2 $usr"
     local ttl=" $_ConfUser "
-    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 10 40 2>$ANS || return 1
     PASSWD="$(cat $ANS)"
 
-    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || return 1
+    dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 10 40 2>$ANS || return 1
     PASSWD2="$(cat $ANS)"
 
     while [[ "$PASSWD" != "$PASSWD2" ]]; do
         dialog --backtitle "$BT" --title " $_ErrTitle " --msgbox "${_PassErr}$_TryAgain" 8 60
-        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || { break; return 1; }
+        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 10 40 2>$ANS || { break; return 1; }
         PASSWD="$(cat $ANS)"
-        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 8 40 2>$ANS || { break; return 1; }
+        dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg2" 10 40 2>$ANS || { break; return 1; }
         PASSWD2="$(cat $ANS)"
     done
 

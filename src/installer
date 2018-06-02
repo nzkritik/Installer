@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # vim:ft=sh:fdm=marker:fmr={,}
 
 # Originally Written by Carl Duff for PacBang Linux
@@ -1110,6 +1111,7 @@ unpack() {
     chr "pacman -Syyu --color always --noconfirm" 2>$ERR
     chr "pacman -S iputils --color always --noconfirm" 2>$ERR
     chr "pacman -S base-devel git --color always --needed --noconfirm" 2>$ERR
+    chr "pacman -Rs archlabs-installer --color always --noconfirm" 2>$ERR
     UNPK="True"
 }
 

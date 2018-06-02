@@ -70,12 +70,12 @@ dbg() {
 
 lang() {
     dialog --backtitle "$BT" --title " Select Language " --menu \
-        "Language - sprache - taal - språk - lingua - idioma - nyelv - língua" 20 60 9 \
+        "Language - sprache - taal - språk - lingua - idioma - nyelv - língua" 20 60 10 \
         "1" "English            (en_**)" "2" "Español            (es_ES)" \
         "3" "Português [Brasil] (pt_BR)" "4" "Português          (pt_PT)" \
         "5" "Français           (fr_FR)" "6" "Russkiy            (ru_RU)" \
         "7" "Italiano           (it_IT)" "8" "Nederlands         (nl_NL)" \
-        "9" "Magyar             (hu_HU)" 2> $ANS
+        "9" "Magyar             (hu_HU)" "10" "Chinese            (zh_CN)" 2> $ANS
     case "$(cat $ANS)" in
         1) . /installer/english.trans ; LOC="en_US.UTF-8" ;;
         2) . /installer/spanish.trans ; LOC="es_ES.UTF-8" ;;
@@ -86,6 +86,7 @@ lang() {
         7) . /installer/italian.trans ; LOC="it_IT.UTF-8" ;;
         8) . /installer/dutch.trans ; LOC="nl_NL.UTF-8" ;;
         9) . /installer/hungarian.trans ; LOC="hu_HU.UTF-8" ;;
+        10) . /installer/chinese.trans ; LOC="zh_CN.UTF-8" ;;
         *) clear && exit 0
     esac
     sed -i "s/#en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen

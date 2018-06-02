@@ -5,53 +5,52 @@
 _All="全部"
 _Done="完成"
 _Skip="跳过/否"
-_Disable="禁用"
 _Edit="编辑配置文件"
 _ErrTitle="安装错误"
-_AlreadyInst="安装完成:"
-_PlsWaitBody="\n请稍候...\n\n"
-_PassErrBody="\n输入的密码不匹配.\n\n请重新输入."
+_PlsWait="\n请稍候...\n\n"
+_PassErr="\n输入的密码不匹配.\n\n"
+_TryAgain="请重新输入.\n\n"
+_NoFileErr="\n文件不存在.\n\n"
+_Back="返回"
+_Exit="正在退出.\n\n"
 
 # Welcome
 _WelTitle="欢迎来到"
 _WelBody="这将在您的系统上解压并设置$DIST \n\n菜单导航：\n通过按选项编号或使用箭头键选择。 使用[Tab]或箭头键在按钮之间切换。 长列表可以使用[上一页]和[下一页]进行导航，或者按下所需选项的第一个字母。\n\n使用[空格]选择/取消选择选项并按[Enter]确认。 [Ctrl] [Shift] +和[Ctrl] - 增加/减小字体大小。
 
 # Requirements
-_RtFailBody="\n安装程序必须使用root权限.\n\n正在退出.\n\n"
-_ConFailBody="\n安装程序必须在有效连接的网络中运行.\n\n正在退出.\n\n"
+_NotRoot="\n安装程序必须使用root权限.\n\n"
+_NoNetwork="\n安装程序必须在有效连接的网络中运行.\n\n"
 
 # Preparation Menu
-_PrepMenuTitle="准备启动系统"
-_PrepMenuBody="安装前的配置项"
-_VCKeymapTitle="虚拟控制台键盘映射"
+_PrepTitle="准备启动系统"
+_PrepBody="安装前的配置项"
 _PrepKBLayout="键盘布局"
-_DevShowOpt="列出设备 (可选)"
-_PrepPartDisk="格式化分区"
+_PrepShowDev="列出设备 (可选)"
+_PrepParts="格式化分区"
 _PrepLUKS="LUKS硬盘加密 (可选)"
 _PrepLVM="逻辑分区管理 (可选)"
-_PrepMntPart="挂载分区"
-_Back="返回"
+_PrepMount="挂载分区"
 
 # Install Base
-_InstBseMenuTitle="安装到 $DIST"
-_InstBootldr="安装引导程序"
+_InstTitle="安装到 $DIST"
+_BootLdr="安装引导程序"
 
 # Configure Menu
-_ConfBseMenuTitle="安装配置项"
-_ConfBseBody="新系统配置项"
-_ConfBseHost="主机名"
-_ConfBseSysLoc="语言和时区"
-_ConfUsrRoot="管理员密码"
-_ConfUsrNew="创建新用户"
+_ConfTitle="安装配置项"
+_ConfBody="新系统配置项"
+_ConfHost="主机名"
+_ConfLocale="语言和时区"
+_ConfRoot="管理员密码"
+_ConfUser="创建新用户"
 
 # Main Menu
-_MMTitle="主菜单"
-_MMBody="请按顺序执行。\n\n解包后，您将自动进入配置菜单。\n"
-_SeeConfOptTitle="修改文件 (可选)"
+_MainTitle="主菜单"
+_MainBody="请按顺序执行。\n\n解包后，您将自动进入配置菜单。\n"
+_EditTitle="修改文件 (可选)"
 
 # Select Config Files
-_SeeConfOptBody="查看或修改以下文件.\n"
-_SeeConfErrBody="\n文件不存在.\n\n"
+_EditBody="查看或修改以下文件.\n"
 
 # Close Installer
 _CloseInstBody="\n是否关闭安装程序?\n\n"
@@ -61,13 +60,14 @@ _ErrNoMount="\n必须先挂载分区.\n\n"
 _ErrNoBase="\n必须先解压基础系统.\n\n"
 _ExtErrBody="\n由于挂载点名称出错导致挂载失败.\n\n挂载点名称必须以斜线开头.\n\n"
 _PartErrBody="\nBIOS启动必须有至少一个分区 (来挂载根路径).\n\nUEFI启动必须要有至少2个分区(来挂载根分区和EFI分区).\n\n"
-_NUsrErrTitle="用户名错误"
-_NUsrErrBody="\n用户名不正确.\n\n请重新输入.\n\n"
+_UserErrTitle="用户名错误"
+_UserErrBody="\n用户名不正确.\n\n请重新输入.\n\n"
 
 # Set Keymap, Clock, Local and Timezone
-_VCKeymapBody="设置虚拟控制台键盘映射.\n\n虚拟控制台是一个在非图形界面下的命令提示符号.\n\n此键盘映射与桌面环境是独立的, 默认值是 'us'\n"
-_XkbmapBody="设置系统 xorg 键盘映射.\n\n此键盘映射是用于桌面环境,默认值通常是'us'\n"
-_localeBody="本地化设置对日期、时间、货币、语言起作用.\n\n使用格式是 language_COUNTRY 例如.\n\nen_US 是英语(美国)\nen_GB 是英语(英国)"
+_CMapTitle="虚拟控制台键盘映射"
+_CMapBody="设置虚拟控制台键盘映射.\n\n虚拟控制台是一个在非图形界面下的命令提示符号.\n\n此键盘映射与桌面环境是独立的, 默认值是 'us'\n"
+_XMapBody="设置系统 xorg 键盘映射.\n\n此键盘映射是用于桌面环境,默认值通常是'us'\n"
+_LocaleBody="本地化设置对日期、时间、货币、语言起作用.\n\n使用格式是 language_COUNTRY 例如.\n\nen_US 是英语(美国)\nen_GB 是英语(英国)"
 _TimeZBody="时区是用于设置时间和硬件时钟."
 _TimeSubZBody="选择离你最近的城市."
 _TimeZQ="\n设置时区为:"
@@ -76,20 +76,20 @@ _TimeZQ="\n设置时区为:"
 _HostNameBody="hostname是用于在网络中标记主机身份的名称.\n\nhostname由大小写字母和数字组成.\n可以包含连字符 (-) 但不能用于开头和结尾\n\n也不能超过63个字符."
 
 # Set Root Password
-_PassRtBody="输入管理员密码 "
-_PassRtBody2="再次输入管理员密码"
+_RootBody="输入管理员密码 "
+_RootBody2="再次输入管理员密码"
 
 # Create New User and set password
-_NUsrTitle="创建新用户"
-_NUsrBody="输入用户名.\n\n字母必须是小写."
-_PassNUsrBody="输入用户密码"
-_PassNUsrBody2="再次输入用户密码"
-_NUsrSetBody="\n正在创建用户和设置用户组..\n\n"
+_UserTitle="创建新用户"
+_UserBody="输入用户名.\n\n字母必须是小写."
+_UserBody="输入用户密码"
+_UserBody2="再次输入用户密码"
+_UserSetBody="\n正在创建用户和设置用户组..\n\n"
 
 # Mounting (Partitions)
-_MntStatusTitle="挂载状态"
-_MntStatusSucc="\n挂载成功!\n\n"
-_MntStatusFail="\n挂载失败!\n\n"
+_MntTitle="挂载状态"
+_MntSucc="\n挂载成功!\n\n"
+_MntFail="\n挂载失败!\n\n"
 _WarnMount1="重要: 在挂载和格式化的过程中请小心.\n\n分区可以不格式而挂载."
 _WarnMount2="选中项在菜单顶部，选中分区将被格式化\n\n确保安装和格式化的选项正确直到没有警告提示，不能选择EFI启动分区."
 _MntBody="使用空格键确定选择/取消选择.\n同一个选择项不要使用多个值.\n\n如果使用ext4格式则推荐'noatime',另外，如果使用SSD/固态硬盘则推荐'discard'以便激活SSD的TRIM支持."
@@ -104,17 +104,17 @@ _ExtPartBody="选择额外的分区进行挂载, 这将会提示你选择或输�
 _ExtPartBody1="将分区挂载在扫描位置.\n\n请确保挂载点是以斜线开头(/).\n这些是例子:\n\n"
 
 # Auto partition
-_AutoPartBody1="\n警告:所有在此分区下的数据"
-_AutoPartBody2="将丢失.\n\n将创建一个500M的EFI启动分区,\n剩下的全部剩余空间将分配给主分区."
-_AutoPartBody3="\n\n如果想启用交换分区，在挂载时请选择'Swapfile'选项.\n\n要继续吗?"
-_AutoPartWipeBody1="\n警告:所有在此分区下的数据"
-_AutoPartWipeBody2="将被'wipe -Ifre'命令删除.\n\n这过程花费的时间取决于启动器的空间大小.\n\n要继续吗?"
+_PartBody1="\n警告:所有在此分区下的数据"
+_PartBody2="将丢失.\n\n将创建一个500M的EFI启动分区,\n剩下的全部剩余空间将分配给主分区."
+_PartBody3="\n\n如果想启用交换分区，在挂载时请选择'Swapfile'选项.\n\n要继续吗?"
+_PartWipeBody1="\n警告:所有在此分区下的数据"
+_PartWipeBody2="将被'wipe -Ifre'命令删除.\n\n这过程花费的时间取决于启动器的空间大小.\n\n要继续吗?"
 
 # Partitioning Menu
-_PartToolTitle="分区工具"
-_PartToolBody="是新手的话将启用自动分区.\n如果不是则推荐使用gparted分区工具.\n\n不要对BIOS/MBR格式的硬盘使用 UEFI/GPT-only 分区工具，这将造成严重的后果.\n\nUEFI格式的硬盘需要创建一个100-500M大小的vfat格式的分区用于安装启动引导程序."
-_PartOptAuto="自动分区中"
-_PartOptWipe="安全移除磁盘(可选)"
+_PartTitle="分区工具"
+_PartBody="是新手的话将启用自动分区.\n如果不是则推荐使用gparted分区工具.\n\n不要对BIOS/MBR格式的硬盘使用 UEFI/GPT-only 分区工具，这将造成严重的后果.\n\nUEFI格式的硬盘需要创建一个100-500M大小的vfat格式的分区用于安装启动引导程序."
+_PartAuto="自动分区中"
+_PartWipe="安全移除磁盘(可选)"
 
 # File System
 _FSTitle="选择文件系统"

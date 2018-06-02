@@ -16,7 +16,7 @@ _Exit="正在退出.\n\n"
 
 # Welcome
 _WelTitle="欢迎来到"
-_WelBody="这将在您的系统上解压并设置$DIST \n\n菜单导航：\n通过按选项编号或使用箭头键选择。 使用[Tab]或箭头键在按钮之间切换。 长列表可以使用[上一页]和[下一页]进行导航，或者按下所需选项的第一个字母。\n\n使用[空格]选择/取消选择选项并按[Enter]确认。 [Ctrl] [Shift] +和[Ctrl] - 增加/减小字体大小。
+_WelBody="这将在您的系统上解压并设置$DIST \n\n菜单导航：\n通过按选项编号或使用箭头键选择。 使用[Tab]或箭头键在按钮之间切换。 长列表可以使用[上一页]和[下一页]进行导航，或者按下所需选项的第一个字母。\n\n使用[空格]选择/取消选择选项并按[Enter]确认。 [Ctrl] [Shift] +和[Ctrl] - 增加/减小字体大小。"
 
 # Requirements
 _NotRoot="\n安装程序必须使用root权限.\n\n"
@@ -25,11 +25,11 @@ _NoNetwork="\n安装程序必须在有效连接的网络中运行.\n\n"
 # Preparation Menu
 _PrepTitle="准备启动系统"
 _PrepBody="安装前的配置项"
-_PrepKBLayout="键盘布局"
-_PrepShowDev="列出设备 (可选)"
+_PrepLayout="键盘布局"
+_PrepShowDev='列出设备 (可选)'
 _PrepParts="格式化分区"
-_PrepLUKS="LUKS硬盘加密 (可选)"
-_PrepLVM="逻辑分区管理 (可选)"
+_PrepLUKS='LUKS硬盘加密 (可选)'
+_PrepLVM='逻辑分区管理 (可选)'
 _PrepMount="挂载分区"
 
 # Install Base
@@ -148,29 +148,29 @@ _LvmMenu="逻辑卷管理(LVM)允许从现有驱动器和分区创建"虚拟"硬
 _LvmCreateVG="创建卷组和逻辑卷."
 _LvmDelVG="删除卷组"
 _LvMDelAll="删除全部卷组、逻辑分区、主分区."
-_LvmDetBody ="检测到现有的逻辑卷管理(LVM)。\n\n正在激活，请稍候..."
-_LvmNameVgBody ="输入要创建的卷组(VG)的名称。\n\n VG是在下一个选定分区之外创建的新"虚拟设备/硬盘"。\n"
-_LvmPvSelBody ="选择用于物理卷(PV)的分区。"
-_LvmPvConfBody1 ="确认创建卷组"
-_LvmPvConfBody2 ="包含以下分区：\n\n"
-_LvmPvActBody1 ="创建和激活卷组"
-_LvmPvDoneBody1 ="卷组"
-_LvmPvDoneBody2 ="已创建"
-_LvmLvNumBody1 ="使用[空格键]选择要创建的逻辑卷(LV)的数量为"
-_LvmLvNumBody2 ="\n最后(或唯一)LV将自动使用卷组中剩余空间的100％。"
-_LvmLvNameBody1 ="输入要创建的逻辑卷(LV)的名称。\n\n这类似于为分区设置名称/标签。\n"
-_LvmLvNameBody2 ="\n注意：此LV将自动用尽卷组上剩余的所有空间"
-_LvmLvSizeBody1 = "剩余的"
-_LvmLvSizeBody2 ="\n\n输入以兆字节(M)或千兆字节(G)为单位的逻辑卷(LV)大小。例如，100M将创建100兆字节LV，10G将创建10千兆字节LV。\n"
-_LvmCompBody ="\n完成！已为卷组创建所有逻辑卷。\n\n是否希望查看新的LVM方案？\n\n"
-_LvmDelQ ="\n确认删除卷组和逻辑卷。\n\n如果删除某个卷组，则其中的所有逻辑卷也将被删除。"
-_LvmSelVGBody ="选择要删除的卷组。\n\n卷组内的所有逻辑卷也将被删除。"
+_LvmDetBody="检测到现有的逻辑卷管理(LVM)。\n\n正在激活，请稍候..."
+_LvmNameVgBody="输入要创建的卷组(VG)的名称。\n\n VG是在下一个选定分区之外创建的新"虚拟设备/硬盘"。\n"
+_LvmPvSelBody="选择用于物理卷(PV)的分区。"
+_LvmPvConfBody1="确认创建卷组"
+_LvmPvConfBody2="包含以下分区：\n\n"
+_LvmPvActBody1="创建和激活卷组"
+_LvmPvDoneBody1="卷组"
+_LvmPvDoneBody2="已创建"
+_LvmLvNumBody1="使用[空格键]选择要创建的逻辑卷(LV)的数量为"
+_LvmLvNumBody2="\n最后(或唯一)LV将自动使用卷组中剩余空间的100％。"
+_LvmLvNameBody1="输入要创建的逻辑卷(LV)的名称。\n\n这类似于为分区设置名称/标签。\n"
+_LvmLvNameBody2="\n注意：此LV将自动用尽卷组上剩余的所有空间"
+_LvmLvSizeBody1="剩余的"
+_LvmLvSizeBody2="\n\n输入以兆字节(M)或千兆字节(G)为单位的逻辑卷(LV)大小。例如，100M将创建100兆字节LV，10G将创建10千兆字节LV。\n"
+_LvmCompBody="\n完成！已为卷组创建所有逻辑卷。\n\n是否希望查看新的LVM方案？\n\n"
+_LvmDelQ="\n确认删除卷组和逻辑卷。\n\n如果删除某个卷组，则其中的所有逻辑卷也将被删除。"
+_LvmSelVGBody="选择要删除的卷组。\n\n卷组内的所有逻辑卷也将被删除。"
 
 # LVM Errors
-_LvmVGErr =“\n没有找到卷组”。
-_LvmNameVgErr =“输入的名称无效。\n\n卷组名称可能是字母数字，但可能不包含空格，以'/'开头或已被使用。\n\n”
-_LvmPartErrBody =“没有可用于逻辑卷管理的可用分区，至少需要一个分区。\n\n如果LVM已在使用中，取消激活它将允许用于其物理卷的分区， 再次使用。“
-_LvmLvNameErrBody =“输入的名称无效。逻辑卷（LV）名称可能是字母数字，但不能包含空格或以'/'开头。\n\n”
-_LvmLvSizeErrBody =“\n输入的值无效。\n\n必须是最后以'M'（兆字节）或'G'（千兆字节）表示的数值。\n\n示例包括100M，10G或250M。\n值 也可能不等于或大于VG的剩余尺寸。“
+_LvmVGErr="\n没有找到卷组"。
+_LvmNameVgErr="输入的名称无效。\n\n卷组名称可能是字母数字，但可能不包含空格，以'/'开头或已被使用。\n\n"
+_LvmPartErrBody="没有可用于逻辑卷管理的可用分区，至少需要一个分区。\n\n如果LVM已在使用中，取消激活它将允许用于其物理卷的分区， 再次使用。"
+_LvmLvNameErrBody="输入的名称无效。逻辑卷（LV）名称可能是字母数字，但不能包含空格或以'/'开头。\n\n"
+_LvmLvSizeErrBody="\n输入的值无效。\n\n必须是最后以'M'（兆字节）或'G'（千兆字节）表示的数值。\n\n示例包括100M，10G或250M。\n值 也可能不等于或大于VG的剩余尺寸。"
 
 # vim:ft=sh:tw=0:syntax=off:nospell

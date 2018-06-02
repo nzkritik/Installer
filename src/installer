@@ -8,7 +8,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.10"        # Version
+VER="1.4.11"        # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -315,8 +315,8 @@ create_user() {
         usr="$(cat $ANS)"
     done
 
-    local msg1="$_UserBody $usr"
-    local msg2="$_UserBody2 $usr"
+    local msg1="$_UserPass $usr"
+    local msg2="$_UserPass2 $usr"
     local ttl=" $_ConfUser "
     dialog --backtitle "$BT" --title "$ttl" --insecure --passwordbox "$msg1" 8 40 2>$ANS || return 1
     PASSWD="$(cat $ANS)"

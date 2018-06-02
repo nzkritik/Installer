@@ -20,7 +20,7 @@ _NoNetwork="\nThe installer must be run with an active internet connection.\n"
 
 # Preparation Menu
 _PrepTitle="Prepare System"
-_PrepBody="Configure settings before install"
+_PrepBody="\nConfigure settings before install"
 _PrepLayout="Keyboard Layout"
 _PrepShowDev="List Devices (optional)"
 _PrepParts="Partition Drive"
@@ -34,7 +34,7 @@ _BootLdr="Install Bootloader"
 
 # Configure Menu
 _ConfTitle="Configure Install"
-_ConfBody="Configure settings for the new system"
+_ConfBody="\nConfigure settings for the new system"
 _ConfHost="System Hostname"
 _ConfLocale="Language and Timezone"
 _ConfRoot="Root Password"
@@ -42,10 +42,10 @@ _ConfUser="Create New User"
 
 # Main Menu
 _MainTitle="Main Menu"
-_MainBody="Follow the steps in order.\n\nAfter unpacking you will be automatically taken to the configure menu.\n"
+_MainBody="\nFollow the steps in order.\n\nAfter unpacking you will be automatically taken to the configure menu.\n"
 
 # Select Config Files
-_EditBody="Select files listed below to review or change.\n"
+_EditBody="\nSelect files listed below to review or change.\n"
 _EditTitle="Edit Files (optional)"
 
 # Close Installer
@@ -61,43 +61,43 @@ _UserErrBody="\nIncorrect user name.\n\nPlease try again.\n\n"
 
 # Set Keymap, Clock, Local and Timezone
 _CMapTitle="Virtual Console Keymap"
-_CMapBody="Set virtual console keymap.\n\nVirtual console is the shell prompt in a non-graphical environment.\n\nIts keymap is seperate from the desktops, default is usually 'us'\n"
-_XMapBody="Select system xorg keymap.\n\nThe keymap used within graphical environments, default is usually 'us'\n"
-_LocaleBody="Locale determines the date, time, currency, and language.\n\nThe format is language_COUNTRY eg.\n\nen_US is english United States\nen_GB is english Great Britain"
-_TimeZBody="The time zone is used to set the hardware and system clock."
-_TimeSubZBody="Select the city nearest to you."
+_CMapBody="\nSet virtual console keymap.\n\nVirtual console is the shell prompt in a non-graphical environment.\n\nIts keymap is seperate from the desktops, default is usually 'us'\n"
+_XMapBody="\nSelect system xorg keymap.\n\nThe keymap used within graphical environments, default is usually 'us'\n"
+_LocaleBody="\nLocale determines the date, time, currency, and language.\n\nThe format is language_COUNTRY eg.\n\nen_US is english United States\nen_GB is english Great Britain"
+_TimeZBody="\nThe time zone is used to set the hardware and system clock."
+_TimeSubZBody="\nSelect the city nearest to you."
 _TimeZQ="\nSet Time Zone as:"
 
 # Set Hostname
-_HostNameBody="The hostname is used to identify systems on the network.\n\nIt is restricted to alphanumeric characters.\nIt can contain a hyphen (-) but NOT at the start or end\n\nIt also can NOT be longer than 63 characters."
+_HostNameBody="\nThe hostname is used to identify systems on the network.\n\nIt is restricted to alphanumeric characters.\nIt can contain a hyphen (-) but NOT at the start or end\n\nIt also can NOT be longer than 63 characters."
 
 # Set Root Password
-_RootBody="Enter Root password"
-_RootBody2="Re-enter Root password"
+_RootBody="\nEnter Root password"
+_RootBody2="\nRe-enter Root password"
 
 # Create New User and set password
 _UserTitle="Create New User"
-_UserBody="Enter user name.\n\nLetters MUST be lower case."
-_UserPass="Enter password for"
-_UserPass2="Re-enter password for"
+_UserBody="\nEnter user name.\n\nLetters MUST be lower case."
+_UserPass="\nEnter password for"
+_UserPass2="\nRe-enter password for"
 _UserSetBody="\nCreating User and setting groups..\n\n"
 
 # Mounting (Partitions)
 _MntTitle="Mount Status"
 _MntSucc="\nMount Successful!\n\n"
 _MntFail="\nMount Failed!\n\n"
-_WarnMount1="IMPORTANT: Please choose carefully during mounting and formatting.\n\nPartitions can be mounted without formatting them by selecting the"
+_WarnMount1="\nIMPORTANT: Please choose carefully during mounting and formatting.\n\nPartitions can be mounted without formatting them by selecting the"
 _WarnMount2="option listed at the top of the menu, otherwise the partition will be formatted\n\nEnsure the correct choices for mounting and formatting are made as no further warnings will be given, besides the EFI boot partition."
 _MntBody="Use [Space] to de/select the desired mount options.\nDo not select multiple versions of the same option.\n\nIf using ext4 then 'noatime' is recommended, additionally if runnings a SSD then 'discard' is recommended for active TRIM support."
 _MntConfBody="\nConfirm the following mount options:\n\n"
 
 # Select Device
 _DevSelTitle="Select Device"
-_DevSelBody="Devices (/dev/) are the available drives on the system. /sda, /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
+_DevSelBody="\nDevices (/dev/) are the available drives on the system. /sda, /sdb, and so on.\n\nWhen using a USB-stick to boot the system, be careful it will also be listed!"
 
 # Extra Partitions
-_ExtPartBody="Select additional partitions to mount, you will be prompted for mountpoint.\nSelect 'Done' to finish and continue."
-_ExtPartBody1="Where do you want the partition mounted?\n\nEnsure the name begins with a forward slash (/).\nSome examples include:\n\n"
+_ExtPartBody="\nSelect additional partitions to mount, you will be prompted for mountpoint.\nSelect 'Done' to finish and continue."
+_ExtPartBody1="\nWhere do you want the partition mounted?\n\nEnsure the name begins with a forward slash (/).\nSome examples include:\n\n"
 
 # Auto partition
 _PartBody1="\nWARNING: ALL data on"
@@ -108,18 +108,18 @@ _PartWipeBody2="will be destroyed using 'wipe -Ifre'.\n\nThis process can take a
 
 # Partitioning Menu
 _PartTitle="Partitioning Tool"
-_PartBody="Auto partitioning is available for beginners.\nOtherwise gparted is recommended.\n\nDO NOT use UEFI/GPT-only partitioning tools for BIOS/MBR systems as this could cause serious problems.\n\nUEFI systems require a vfat partition between 100-500MB in size for the bootloader to be installed"
+_PartBody="\nAuto partitioning is available for beginners.\nOtherwise gparted is recommended.\n\nDO NOT use UEFI/GPT-only partitioning tools for BIOS/MBR systems as this could cause serious problems.\n\nUEFI systems require a vfat partition between 100-500MB in size for the bootloader to be installed"
 _PartAuto="Automatic Partitioning"
 _PartWipe="Secure Wipe Device (optional)"
 
 # File System
 _FSTitle="Choose Filesystem"
-_FSBody="If unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
-_SelRootBody="Select ROOT (/) Partition.\n\nThis is where $DIST will be installed."
-_SelSwpBody="Do you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after picking."
+_FSBody="\nIf unsure ext4 is recommended.\n\nNot all can be used for root (/) or boot (/boot) partitions and all have different features and limitations."
+_SelRootBody="\nSelect ROOT (/) Partition.\n\nThis is where $DIST will be installed."
+_SelSwpBody="\nDo you want to use swap? (optional)\n\nSelect whether to use swapfile or swap partition\n\nSwapfile is the size of system RAM by default, this can be changed after picking."
 _SelSwpFile="Swapfile"
-_SelUefiBody="Select EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
-_FormUefiBody="[IMPORTANT]\nThe EFI partition"
+_SelUefiBody="\nSelect EFI Partition.\n\nThis is a special partition used for booting newer UEFI systems. Usually the first partition on the drive, between 100-500 MB, and formatted as vfat."
+_FormUefiBody="\n[IMPORTANT]\nThe EFI partition"
 _FormUefiBody2="is already correctly formatted.\n\nDo you want to skip formatting it?\n\nChoosing 'No' will erase ALL data (bootloaders) on the partition.\n\nIf unsure pick 'Yes'.\n"
 
 # LUKS / DM-Crypt / Encryption

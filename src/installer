@@ -8,7 +8,7 @@
 
 LUSER="liveuser"    # Live user
 DIST="Archlabs"     # Distributor
-VER="1.4.9"         # Version
+VER="1.4.10"        # Version
 MNT="/mnt/install"  # Mountpoint
 ANS="/tmp/answer"   # Stores answers
 MOPTS="/tmp/mopts"  # Mount options
@@ -1108,10 +1108,10 @@ unpack() {
     cp -rf /etc/NetworkManager/system-connections $MNT/etc/NetworkManager/
     clear && echo -e "\nOptimizing Mirrorlist\n$_PlsWait\n\n"
     reflector --score 40 --fastest 10 --sort rate --save $MNT/etc/pacman.d/mirrorlist
-    chr "pacman -Syyu --color always --noconfirm" 2>$ERR
+    chr "pacman -Syu --color always --noconfirm" 2>$ERR
     chr "pacman -S iputils --color always --noconfirm" 2>$ERR
     chr "pacman -S base-devel git --color always --needed --noconfirm" 2>$ERR
-    chr "pacman -Rs archlabs-installer --color always --noconfirm" 2>$ERR
+    # chr "pacman -Rs archlabs-installer --color always --noconfirm" 2>$ERR
     UNPK="True"
 }
 
@@ -1178,7 +1178,7 @@ bootldr() {
     chr "grub-mkconfig -o /boot/grub/grub.cfg" 2>$ERR
     err_chk || return 1
     if [[ $SYS != "UEFI" ]]; then
-        msg="\nBootloader install complete"
+        msg="\nBootloader install complete\n\n"
         dialog --backtitle "$BT" --title " $_BootLdr " --msgbox "$msg" 0 0
     fi
 }
@@ -1228,7 +1228,7 @@ main() {
         ((MH++))
     fi
     dialog --backtitle "$BT" --title " $_MainTitle " --default-item $MH \
-        --menu "$_MainBody" 18 60 5 \
+        --menu "$_MainBody" 16 60 5 \
         "1" "$_PrepTitle" \
         "2" "$_InstTitle" \
         "3" "$_ConfTitle" \

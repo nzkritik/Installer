@@ -1076,7 +1076,6 @@ install() {
 unpack() {
     clear && echo -e "\nUnpacking the system\n$_PlsWait\n\n"
     rsync -a --info=progress2 /run/archiso/sfs/airootfs/ $MNT/ 2>$ERR
-    # dialog --title "Gauge" --gauge "gauge widget" 20 70
     err_chk || return 1
     local autostart files menu openb
     openb="$MNT/home/$LUSER/.config/openbox"

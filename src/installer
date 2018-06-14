@@ -114,16 +114,16 @@ lang() {
         "10" "Chinese            (zh_CN)" 2> $ANS
 
     case "$(cat $ANS)" in
-        1) source /installer/english.trans && LOC="en_US.UTF-8" ;;
-        2) source /installer/spanish.trans && LOC="es_ES.UTF-8" ;;
-        3) source /installer/p_brasil.trans && LOC="pt_BR.UTF-8" ;;
-        4) source /installer/portuguese.trans && LOC="pt_PT.UTF-8" ;;
-        5) source /installer/french.trans && LOC="fr_FR.UTF-8" ;;
-        6) source /installer/russian.trans && LOC="ru_RU.UTF-8" ;;
-        7) source /installer/italian.trans && LOC="it_IT.UTF-8" ;;
-        8) source /installer/dutch.trans && LOC="nl_NL.UTF-8" ;;
-        9) source /installer/hungarian.trans && LOC="hu_HU.UTF-8" ;;
-        10) source /installer/chinese.trans && LOC="zh_CN.UTF-8" ;;
+        1) source ../trans/english.trans && LOC="en_US.UTF-8" ;;
+        2) source ../trans/spanish.trans && LOC="es_ES.UTF-8" ;;
+        3) source ../trans/p_brasil.trans && LOC="pt_BR.UTF-8" ;;
+        4) source ../trans/portuguese.trans && LOC="pt_PT.UTF-8" ;;
+        5) source ../trans/french.trans && LOC="fr_FR.UTF-8" ;;
+        6) source ../trans/russian.trans && LOC="ru_RU.UTF-8" ;;
+        7) source ../trans/italian.trans && LOC="it_IT.UTF-8" ;;
+        8) source ../trans/dutch.trans && LOC="nl_NL.UTF-8" ;;
+        9) source ../trans/hungarian.trans && LOC="hu_HU.UTF-8" ;;
+        10) source ../trans/chinese.trans && LOC="zh_CN.UTF-8" ;;
         *) clear && exit 0
     esac
 
